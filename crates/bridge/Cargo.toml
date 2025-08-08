@@ -1,0 +1,32 @@
+[package]
+edition = "2021"
+name = "controller-c"
+version = "0.1.0"
+authors = ["Your Name"]
+description = "C bindings for the Controller SDK using Diplomat"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "rlib", "staticlib"]
+name = "controller_c"
+
+[dependencies]
+account_sdk = { git = "https://github.com/cartridge-gg/controller-rs", branch = "feat/add-signup" }
+account-wasm = { git = "https://github.com/cartridge-gg/controller-rs", branch = "feat/add-signup" }
+tokio = { version = "1.38", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+diplomat = { workspace = true }
+diplomat-runtime = { workspace = true }
+url = "2.5"
+starknet = "0.17.0-rc.2"
+starknet-crypto = { version = "0.7.4", features = ["pedersen_no_lookup"] }
+starknet-types-core = { version = "0.1", features = ["curve", "hash"] }
+async-trait = "0.1"
+lazy_static = "1.5.0"
+
+[dev-dependencies]
+cc = "1.0"
+
+[features]
+default = []

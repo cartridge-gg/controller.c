@@ -1,0 +1,10 @@
+[package]
+name = "generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+diplomat = { workspace = true }
+diplomat-runtime = { workspace = true }
+diplomat-tool = { workspace = true }
+diplomat_core = { workspace = true }
