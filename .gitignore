@@ -1,0 +1,7 @@
+target/
+.DS_Store
+.vscode/
+.idea/
+.cursorrules
+.cursor/
+examples/test_controller
