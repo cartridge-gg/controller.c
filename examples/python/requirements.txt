@@ -1,0 +1,12 @@
+# Python requirements for the Controller SDK examples
+
+# Core dependencies for nanobind bindings
+nanobind>=1.0.0
+pybind11>=2.6.0
+
+# Development and build tools
+setuptools>=45.0.0
+wheel>=0.37.0
+
+# Optional: For better error handling and debugging
+rich>=10.0.0
