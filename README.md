@@ -1,11 +1,50 @@
-# Generate bindings
+# Controller SDK C/Python Bindings
 
-`./scripts/build.sh`
+This project provides C and Python bindings for the Controller SDK using Diplomat.
 
-## Change from C to C++ Python bindings
+## Quick Start
 
-In [generator/main.rs](./crates/generator/src/main.rs) change the target-language from py-nanobind to c or vice-versa.
+### Build the library and generate bindings
 
-# Run example
+```bash
+./scripts/build.sh
+```
 
-`./examples/run.sh`
+### Run Examples
+
+#### C Example
+```bash
+./examples/run.sh
+```
+
+#### Python Example (Recommended)
+```bash
+# One-command setup and run
+./run_python_example.sh
+
+# Or manually
+cd examples/python
+./setup_and_run.sh
+```
+
+## Examples
+
+- **C Example**: `examples/test_controller.c` - Basic C usage demonstration
+- **Python Example**: `examples/python/` - Complete Python example with setup automation
+
+## Configuration
+
+### Change binding target language
+
+In [generator/main.rs](./crates/generator/src/main.rs) change the target-language from `py-nanobind` to `c` or vice-versa.
+
+### Python Bindings
+
+The Python bindings use nanobind and provide a comprehensive example that includes:
+- Automatic dependency installation
+- Library building and binding generation
+- Key pair generation for testing
+- Controller creation and management
+- Transaction execution examples
+
+See `examples/python/README.md` for detailed Python setup instructions.

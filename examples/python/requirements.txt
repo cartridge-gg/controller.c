@@ -1,0 +1,18 @@
+# Python requirements for the Controller SDK examples
+
+# Core dependencies for nanobind bindings
+nanobind>=2.0.0
+
+# Modern build system for nanobind
+scikit-build-core>=0.8.0
+
+# Development and build tools
+setuptools>=45.0.0
+wheel>=0.37.0
+
+# Optional: For better error handling and debugging
+rich>=10.0.0
+
+# Additional dependencies that may be needed
+cmake>=3.15.0
+ninja>=1.10.0
