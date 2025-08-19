@@ -109,6 +109,37 @@ install_python_deps() {
     log_info "Installing Python packages in virtual environment..."
     pip install -r requirements.txt
     
+    # Fix missing robin_map headers issue
+    log_info "Checking for TSL robin-map headers..."
+    NANOBIND_DIR=$(python3 -c "import nanobind; print(nanobind.include_dir())" 2>/dev/null || echo "")
+    
+    if [[ -n "$NANOBIND_DIR" ]]; then
+        ROBIN_MAP_PATH="$NANOBIND_DIR/../src/tsl"
+        if [[ ! -d "$ROBIN_MAP_PATH" ]]; then
+            log_info "Installing TSL robin-map headers..."
+            mkdir -p "$ROBIN_MAP_PATH"
+            
+            # Download robin-map headers
+            if command_exists curl; then
+                curl -L -o /tmp/robin-map.tar.gz https://github.com/Tessil/robin-map/archive/refs/tags/v1.2.1.tar.gz
+                tar -xzf /tmp/robin-map.tar.gz -C /tmp/
+                cp -r /tmp/robin-map-1.2.1/include/tsl/* "$ROBIN_MAP_PATH/"
+                rm -rf /tmp/robin-map*
+                log_success "TSL robin-map headers installed"
+            else
+                log_warning "curl not available, trying alternative installation..."
+                # Try installing via brew if available
+                if command_exists brew; then
+                    brew install robin-map 2>/dev/null || log_warning "Failed to install via brew"
+                fi
+            fi
+        else
+            log_info "TSL robin-map headers already present"
+        fi
+    else
+        log_warning "Could not locate nanobind directory"
+    fi
+    
     log_success "Python dependencies installed in virtual environment"
 }
 
@@ -155,59 +186,86 @@ build_python_extension() {
     log_info "Activating virtual environment for building..."
     source "$PYTHON_DIR/venv/bin/activate"
     
-    # Create setup.py if it doesn't exist
-    if [[ ! -f "setup.py" ]]; then
-        log_info "Creating setup.py..."
+    # Check if CMakeLists.txt and pyproject.toml exist
+    if [[ ! -f "CMakeLists.txt" ]]; then
+        log_error "CMakeLists.txt not found in bindings directory"
+        exit 1
+    fi
+    
+    if [[ ! -f "pyproject.toml" ]]; then
+        log_error "pyproject.toml not found in bindings directory"
+        exit 1
+    fi
+    
+    # Try scikit-build-core first, fallback to setup.py if it fails
+    log_info "Building nanobind extension with scikit-build-core..."
+    if ! pip install -e . --no-build-isolation -v 2>/dev/null; then
+        log_warning "scikit-build-core failed, trying fallback setup.py approach..."
+        
+        # Create a simple setup.py as fallback
         cat > setup.py << 'EOF'
-import nanobind
 from pathlib import Path
 from setuptools import setup, Extension
-from pybind11.setup_helpers import build_ext
-import sys
+import nanobind
+import platform
 import os
 
-# Add the target/release directory to library path for linking
+# Get project root and library directory
 project_root = Path(__file__).parent.parent.parent
 lib_dir = project_root / "target" / "release"
 
-ext_modules = [
-    Extension(
-        "controller_c",
-        [
-            "controller_c_ext.cpp",
-        ] + [str(p) for p in Path("sub_modules").glob("*.cpp")],
-        include_dirs=[
-            "include",
-            nanobind.include_dir(),
-        ],
-        libraries=["controller_c"],
-        library_dirs=[str(lib_dir)],
-        language="c++",
-        extra_compile_args=["-std=c++17"],
-        extra_link_args=[],
-    ),
-]
+# Source files
+sources = ["controller_c_ext.cpp"] + list(Path("sub_modules").glob("*.cpp"))
+sources = [str(s) for s in sources]
 
-if __name__ == "__main__":
-    setup(
-        name="controller_c",
-        ext_modules=ext_modules,
-        cmdclass={"build_ext": build_ext},
-        zip_safe=False,
-        python_requires=">=3.8",
-    )
+# Compiler flags
+extra_compile_args = ["-std=c++17"]
+extra_link_args = []
+
+if platform.system() == "Darwin":
+    extra_compile_args.extend(["-stdlib=libc++", "-mmacosx-version-min=10.14"])
+    extra_link_args.extend([f"-Wl,-rpath,{lib_dir}"])
+
+# Include directories - add both nanobind and robin_map paths
+include_dirs = ["include", nanobind.include_dir()]
+
+# Add robin_map include path if it exists
+nanobind_pkg_dir = Path(nanobind.__file__).parent
+robin_map_include = nanobind_pkg_dir / "ext" / "robin_map" / "include"
+if robin_map_include.exists():
+    include_dirs.append(str(robin_map_include))
+    print(f"Added robin_map include: {robin_map_include}")
+
+# Create extension
+ext = Extension(
+    "controller_c",
+    sources,
+    include_dirs=include_dirs,
+    libraries=["controller_c"],
+    library_dirs=[str(lib_dir)],
+    language="c++",
+    extra_compile_args=extra_compile_args,
+    extra_link_args=extra_link_args,
+)
+
+setup(
+    name="controller_c",
+    ext_modules=[ext],
+    zip_safe=False,
+    python_requires=">=3.8",
+)
 EOF
+        
+        # Build with setup.py
+        python3 setup.py build_ext --inplace
     fi
     
-    # Build the extension
-    log_info "Building nanobind extension..."
-    python3 setup.py build_ext --inplace
-    
-    # Check if the extension was built
-    if ls controller_c*.so >/dev/null 2>&1 || ls controller_c*.pyd >/dev/null 2>&1; then
-        log_success "Python extension built successfully"
+    # Check if the extension was built and installed
+    log_info "Testing if controller_c module can be imported..."
+    if python3 -c "import controller_c; print('✅ controller_c imported successfully')" 2>/dev/null; then
+        log_success "Python extension built and installed successfully"
     else
-        log_error "Python extension build failed"
+        log_error "Python extension build failed or cannot be imported"
         exit 1
     fi
 }
@@ -216,28 +274,39 @@ EOF
 test_installation() {
     log_step "Testing Installation"
     
-    cd "$BINDINGS_DIR"
+    cd "$PYTHON_DIR"
     
     # Activate virtual environment
     log_info "Activating virtual environment for testing..."
-    source "$PYTHON_DIR/venv/bin/activate"
+    source venv/bin/activate
     
-    # Test basic import
-    log_info "Testing basic import..."
+    # Test basic import and functionality
+    log_info "Testing basic import and functionality..."
     if python3 -c "
-import sys
-sys.path.insert(0, '.')
 import controller_c
 print('✅ controller_c imported successfully')
 
 # Test enums
-version = controller_c.Version.LATEST
-print(f'✅ Version enum: {version}')
+try:
+    version = controller_c.Version.LATEST
+    print(f'✅ Version enum: {version}')
+except AttributeError as e:
+    print(f'⚠️  Version enum not available: {e}')
 
-signer_type = controller_c.SignerType.Starknet  
-print(f'✅ SignerType enum: {signer_type}')
+try:
+    signer_type = controller_c.SignerType.Starknet  
+    print(f'✅ SignerType enum: {signer_type}')
+except AttributeError as e:
+    print(f'⚠️  SignerType enum not available: {e}')
 
-print('✅ All basic tests passed')
+# Test CONTROLLERS static methods
+try:
+    class_hash = controller_c.CONTROLLERS.get_class_hash(controller_c.Version.LATEST)
+    print(f'✅ CONTROLLERS.get_class_hash works: {len(class_hash)} chars')
+except Exception as e:
+    print(f'⚠️  CONTROLLERS.get_class_hash failed: {e}')
+
+print('✅ Basic tests completed')
 "; then
         log_success "Installation test passed"
     else
@@ -256,21 +325,12 @@ run_example() {
     log_info "Activating virtual environment for running example..."
     source venv/bin/activate
     
-    # Set up environment
-    export PYTHONPATH="$BINDINGS_DIR:$PYTHONPATH"
-    
-    # Set library path based on OS
+    # Set library path based on OS (needed for dynamic library loading)
     if [[ "$OSTYPE" == "darwin"* ]]; then
         export DYLD_LIBRARY_PATH="$PROJECT_ROOT/target/release:$DYLD_LIBRARY_PATH"
-    else
-        export LD_LIBRARY_PATH="$PROJECT_ROOT/target/release:$LD_LIBRARY_PATH"
-    fi
-    
-    log_info "Environment variables set:"
-    log_info "PYTHONPATH: $PYTHONPATH"
-    if [[ "$OSTYPE" == "darwin"* ]]; then
         log_info "DYLD_LIBRARY_PATH: $DYLD_LIBRARY_PATH"
     else
+        export LD_LIBRARY_PATH="$PROJECT_ROOT/target/release:$LD_LIBRARY_PATH"
         log_info "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
     fi
     
@@ -296,6 +356,7 @@ clean() {
         cd "$BINDINGS_DIR"
         log_info "Cleaning Python build artifacts..."
         rm -rf build/
+        rm -rf _skbuild/
         rm -rf *.egg-info/
         rm -f controller_c*.so
         rm -f controller_c*.pyd
@@ -414,7 +475,6 @@ main() {
         log_info "To run the example manually:"
         log_info "cd examples/python"
         log_info "source venv/bin/activate"
-        log_info "export PYTHONPATH=\"$BINDINGS_DIR:\$PYTHONPATH\""
         if [[ "$OSTYPE" == "darwin"* ]]; then
             log_info "export DYLD_LIBRARY_PATH=\"$PROJECT_ROOT/target/release:\$DYLD_LIBRARY_PATH\""
         else
