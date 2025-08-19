@@ -46,7 +46,7 @@ def main():
     # Configuration
     app_id = "test_app_python"
     username = "python_user"
-    rpc_url = "http://localhost:8001/x/starknet/mainnet"
+    rpc_url = "https://api.cartridge.gg/x/starknet/mainnet"
     address = "0x0"
     chain_id = "0x534e5f4d41494e"  # SN_SEPOLIA
     
@@ -99,7 +99,7 @@ def main():
             controller.signup(
                 signer_type=controller_c.SignerType.Starknet,
                 session_expiration=19999999999999,
-                cartridge_api_url="http://localhost:8000"
+                cartridge_api_url="https://api.cartridge.gg"
             )
             print("✅ Signup successful")
         except Exception as e:
@@ -109,12 +109,12 @@ def main():
         print("\n💸 Step 6: Creating transaction...")
         
         # Create call list
-        call_list = controller_c.DiplomatCallList()
+        call_list = controller_c.DiplomatCallList.new()
         
         # Create a transfer call
         # Using the transfer selector for ERC20 transfer
         transfer_selector = "0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e"
-        call = controller_c.DiplomatCall(ETH_CONTRACT_ADDRESS, transfer_selector)
+        call = controller_c.DiplomatCall.new(ETH_CONTRACT_ADDRESS, transfer_selector)
         
         # Add calldata (recipient, amount_low, amount_high)
         call.push_calldata_str(controller_address)  # Send to self
