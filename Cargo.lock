@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "account-wasm"
 version = "0.1.0"
-source = "git+https://github.com/cartridge-gg/controller-rs?branch=feat%2Fadd-signup#0b5a0f11c69990db070e786b169c7531dcd15a94"
+source = "git+https://github.com/cartridge-gg/controller-rs?branch=fix%2Fsignup-chain-id#9ed93732e1dace984b813e4c95c36560bb0108b2"
 dependencies = [
  "account_sdk",
  "alloy-signer",
@@ -40,7 +40,7 @@ dependencies = [
 [[package]]
 name = "account_sdk"
 version = "0.1.0"
-source = "git+https://github.com/cartridge-gg/controller-rs?branch=feat%2Fadd-signup#0b5a0f11c69990db070e786b169c7531dcd15a94"
+source = "git+https://github.com/cartridge-gg/controller-rs?branch=fix%2Fsignup-chain-id#9ed93732e1dace984b813e4c95c36560bb0108b2"
 dependencies = [
  "alloy-primitives",
  "alloy-signer",
