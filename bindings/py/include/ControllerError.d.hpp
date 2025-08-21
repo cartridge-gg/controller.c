@@ -11,8 +11,6 @@
 #include <cstdlib>
 #include "diplomat_runtime.hpp"
 
-class ErrorType;
-
 
 namespace diplomat {
 namespace capi {
@@ -22,6 +20,8 @@ namespace capi {
 
 /**
  * Error types for controller operations
+ *
+ * See the [Rust documentation for `Display`](https://docs.rs/std/latest/std/fmt/trait.Display.html) for more information.
  */
 class ControllerError {
 public:
@@ -34,9 +34,25 @@ public:
   inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> message_write(W& writeable_output) const;
 
   /**
-   * Gets the error type
+   * Gets the error message as a string (for Python bindings)
+   * This always returns Ok so the error message can be extracted
    */
-  inline ErrorType error_type() const;
+  inline std::string get_message_string() const;
+  template<typename W>
+  inline void get_message_string_write(W& writeable_output) const;
+
+  /**
+   * Get the last error message that occurred
+   * This is a workaround for Python bindings not properly extracting error messages
+   */
+  inline static std::string get_last_error_message();
+  template<typename W>
+  inline static void get_last_error_message_write(W& writeable_output);
+
+  /**
+   * Clear the last error message
+   */
+  inline static void clear_last_error();
 
   inline const diplomat::capi::ControllerError* AsFFI() const;
   inline diplomat::capi::ControllerError* AsFFI();

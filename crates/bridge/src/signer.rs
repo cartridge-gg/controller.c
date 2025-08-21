@@ -3,7 +3,7 @@ pub mod ffi {
     use starknet::signers::SigningKey;
     use starknet_crypto::Felt;
 
-    use crate::ffi::{ControllerError, ErrorType};
+    use crate::error::ffi::ControllerError;
 
     pub enum OwnerType {
         Signer,
@@ -47,10 +47,7 @@ pub mod ffi {
         ) -> Result<Box<DiplomatOwner>, Box<ControllerError>> {
             let starknet_signer = SigningKey::from_secret_scalar(
                 Felt::from_hex(std::str::from_utf8(starknet_pk).unwrap()).map_err(|e| {
-                    Box::new(ControllerError {
-                        error_type: ErrorType::InvalidInput,
-                        message: format!("Invalid private key: {e}"),
-                    })
+                    Box::new(ControllerError(format!("Invalid private key: {e}")))
                 })?,
             );
             let signer = account_sdk::signers::Signer::Starknet(starknet_signer);

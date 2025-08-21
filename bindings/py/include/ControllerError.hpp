@@ -11,7 +11,6 @@
 #include <functional>
 #include <optional>
 #include <cstdlib>
-#include "ErrorType.hpp"
 #include "diplomat_runtime.hpp"
 
 
@@ -22,7 +21,11 @@ namespace capi {
     typedef struct ControllerError_message_result {union { diplomat::capi::ControllerError* err;}; bool is_ok;} ControllerError_message_result;
     ControllerError_message_result ControllerError_message(const diplomat::capi::ControllerError* self, diplomat::capi::DiplomatWrite* write);
 
-    diplomat::capi::ErrorType ControllerError_error_type(const diplomat::capi::ControllerError* self);
+    void ControllerError_get_message_string(const diplomat::capi::ControllerError* self, diplomat::capi::DiplomatWrite* write);
+
+    void ControllerError_get_last_error_message(diplomat::capi::DiplomatWrite* write);
+
+    void ControllerError_clear_last_error(void);
 
     void ControllerError_destroy(ControllerError* self);
 
@@ -45,9 +48,34 @@ inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> Contro
   return result.is_ok ? diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Ok<std::monostate>()) : diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
 }
 
-inline ErrorType ControllerError::error_type() const {
-  auto result = diplomat::capi::ControllerError_error_type(this->AsFFI());
-  return ErrorType::FromFFI(result);
+inline std::string ControllerError::get_message_string() const {
+  std::string output;
+  diplomat::capi::DiplomatWrite write = diplomat::WriteFromString(output);
+  diplomat::capi::ControllerError_get_message_string(this->AsFFI(),
+    &write);
+  return output;
+}
+template<typename W>
+inline void ControllerError::get_message_string_write(W& writeable) const {
+  diplomat::capi::DiplomatWrite write = diplomat::WriteTrait<W>::Construct(writeable);
+  diplomat::capi::ControllerError_get_message_string(this->AsFFI(),
+    &write);
+}
+
+inline std::string ControllerError::get_last_error_message() {
+  std::string output;
+  diplomat::capi::DiplomatWrite write = diplomat::WriteFromString(output);
+  diplomat::capi::ControllerError_get_last_error_message(&write);
+  return output;
+}
+template<typename W>
+inline void ControllerError::get_last_error_message_write(W& writeable) {
+  diplomat::capi::DiplomatWrite write = diplomat::WriteTrait<W>::Construct(writeable);
+  diplomat::capi::ControllerError_get_last_error_message(&write);
+}
+
+inline void ControllerError::clear_last_error() {
+  diplomat::capi::ControllerError_clear_last_error();
 }
 
 inline const diplomat::capi::ControllerError* ControllerError::AsFFI() const {

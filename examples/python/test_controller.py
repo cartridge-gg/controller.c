@@ -44,11 +44,12 @@ def main():
     ETH_CONTRACT_ADDRESS = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
     
     # Configuration
+    cartridge_api_url = "https://api.cartridge.gg"
     app_id = "test_app_python"
-    username = "python_user"
-    rpc_url = "https://api.cartridge.gg/x/starknet/mainnet"
-    address = "0x0"
-    chain_id = "0x534e5f4d41494e"  # SN_SEPOLIA
+    username = "pythonuser5"
+    rpc_url = f"{cartridge_api_url}/x/starknet/sepolia"
+    chain_id = "0x534e5f5345504f4c4941"  # SN_SEPOLIA
+    # chain_id = "0x534e5f4d41494e"  # SN_MAIN
     
     # Generate or use a test private key
     # WARNING: This is for testing only - never use in production!
@@ -95,16 +96,13 @@ def main():
         
         # Step 5: Signup with controller
         print("\n✍️  Step 5: Signing up...")
-        try:
-            controller.signup(
-                signer_type=controller_c.SignerType.Starknet,
-                session_expiration=19999999999999,
-                cartridge_api_url="https://api.cartridge.gg"
-            )
-            print("✅ Signup successful")
-        except Exception as e:
-            print(f"⚠️  Signup failed (this might be expected): {e}")
-        
+        controller.signup(
+            signer_type=controller_c.SignerType.Starknet,
+            session_expiration=19999999999999,
+            cartridge_api_url=cartridge_api_url
+        )
+        print("✅ Signup successful")
+
         # Step 6: Create and execute a transaction
         print("\n💸 Step 6: Creating transaction...")
         
@@ -128,32 +126,24 @@ def main():
         
         # Execute the transaction
         print("\n🚀 Step 7: Executing transaction...")
-        try:
-            tx_hash = controller.execute(call_list)
-            print(f"✅ Transaction executed successfully!")
-            print(f"📍 Transaction hash: {tx_hash}")
-        except Exception as e:
-            print(f"❌ Transaction execution failed: {e}")
-            print("This might be expected if the account is not deployed or funded")
+        tx_hash = controller.execute(call_list)
+        print(f"✅ Transaction executed successfully!")
+        print(f"📍 Transaction hash: {tx_hash}")
         
         # Step 8: Try the simplified transfer method
         print("\n💰 Step 8: Testing simplified transfer...")
-        try:
-            recipient = controller_address  # Send to self
-            amount = "0x1"  # 1 wei
-            tx_hash = controller.transfer(recipient, amount)
-            print(f"✅ Transfer successful!")
-            print(f"📍 Transaction hash: {tx_hash}")
-        except Exception as e:
-            print(f"❌ Transfer failed: {e}")
-            print("This might be expected if the account is not deployed or funded")
+
+        recipient = controller_address  # Send to self
+        amount = "0x1"  # 1 wei
+        tx_hash = controller.transfer(recipient, amount)
+        print(f"✅ Transfer successful!")
+        print(f"📍 Transaction hash: {tx_hash}")
         
         print("\n🎉 Example completed successfully!")
         
-    except Exception as e:
-        print(f"❌ Error during execution: {e}")
-        import traceback
-        traceback.print_exc()
+    except Exception:
+        error_message = controller_c.ControllerError.get_last_error_message()
+        print(f"❌ Error during execution: {error_message}")
         return 1
     
     return 0

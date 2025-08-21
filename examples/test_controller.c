@@ -35,7 +35,7 @@ int main() {
   }
   const char *rpc_url = "http://localhost:8001/x/starknet/mainnet";
   const char *address = "0x0";
-  const char *chain_id = "0x534e5f4d41494e"; // SN_SEPOLIA
+  const char *chain_id = "0x534e5f4d41494e"; // SN_MAIN
   // Test private key - DO NOT USE IN PRODUCTION
   const char *private_key =
       "0x1234567890123456789012345678901234567890123456789012345678901234";

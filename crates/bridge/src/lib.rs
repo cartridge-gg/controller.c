@@ -1,4 +1,5 @@
 pub mod constants;
+pub mod error;
 pub mod felt;
 pub mod signer;
 
@@ -13,66 +14,36 @@ pub mod ffi {
     use std::str::Utf8Error;
     use std::sync::{Arc, Mutex};
     use tokio::runtime::Runtime;
-    use url::ParseError;
     use url::Url;
 
     lazy_static! {
         static ref RUNTIME: Arc<Runtime> =
             Arc::new(Runtime::new().expect("Failed to create Tokio runtime"));
+
+        // Global storage for the last error message
+        pub static ref LAST_ERROR: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
     }
 
     /// Opaque handle to a Controller instance
     #[diplomat::opaque]
     pub struct Controller(pub Arc<Mutex<SdkController>>);
 
-    /// Error types for controller operations
-    #[diplomat::opaque]
-    pub struct ControllerError {
-        pub error_type: ErrorType,
-        pub message: String,
-    }
-
-    pub enum ErrorType {
-        InitError,
-        RuntimeError,
-        SessionError,
-        InvalidInput,
-        NotDeployed,
-        InsufficientBalance,
-    }
-
-    impl ControllerError {
-        fn new(error_type: ErrorType, message: String) -> Self {
-            ControllerError {
-                error_type,
-                message,
-            }
-        }
-    }
-
     // Re-export types from account_sdk
     pub use account_sdk::signers::{Owner, Signer};
 
     use crate::constants::ffi::SignerType;
+    use crate::error::ffi::ControllerError;
     use crate::felt::ffi::DiplomatCallList;
     use crate::signer::ffi::DiplomatOwner;
 
-    impl From<Utf8Error> for Box<ControllerError> {
-        fn from(e: Utf8Error) -> Self {
-            Box::new(ControllerError::new(ErrorType::InvalidInput, e.to_string()))
-        }
-    }
-
-    impl From<FromStrError> for Box<ControllerError> {
-        fn from(e: FromStrError) -> Self {
-            Box::new(ControllerError::new(ErrorType::InvalidInput, e.to_string()))
-        }
-    }
-
-    impl From<ParseError> for Box<ControllerError> {
-        fn from(e: ParseError) -> Self {
-            Box::new(ControllerError::new(ErrorType::InvalidInput, e.to_string()))
-        }
+    /// Helper macro to store error message before returning
+    macro_rules! store_error {
+        ($err:expr) => {{
+            let err_msg = $err.to_string();
+            let mut last_error = LAST_ERROR.lock().unwrap();
+            *last_error = Some(err_msg.clone());
+            Box::new(ControllerError(err_msg))
+        }};
     }
 
     impl Controller {
@@ -119,14 +90,27 @@ pub mod ffi {
             owner: &DiplomatOwner,
             chain_id: &DiplomatStr,
         ) -> Result<Box<Controller>, Box<ControllerError>> {
-            let app_id_str = std::str::from_utf8(app_id)?.to_string();
-            let username_str = std::str::from_utf8(username)?.to_string();
-            let class_hash_str = std::str::from_utf8(class_hash)?.to_string();
-            let class_hash_felt = Felt::from_hex(class_hash_str.as_str())?;
-            let rpc_url_str = std::str::from_utf8(rpc_url)?.to_string();
-            let rpc_url_parsed = Url::parse(rpc_url_str.as_str())?;
-            let chain_id_str = std::str::from_utf8(chain_id)?.to_string();
-            let chain_id_felt = Felt::from_hex(chain_id_str.as_str())?;
+            let app_id_str = std::str::from_utf8(app_id)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in app_id: {e}")))?
+                .to_string();
+            let username_str = std::str::from_utf8(username)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in username: {e}")))?
+                .to_string();
+            let class_hash_str = std::str::from_utf8(class_hash)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in class_hash: {e}")))?
+                .to_string();
+            let class_hash_felt = Felt::from_hex(class_hash_str.as_str())
+                .map_err(|e| store_error!(format!("Invalid class hash: {e}")))?;
+            let rpc_url_str = std::str::from_utf8(rpc_url)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in rpc_url: {e}")))?
+                .to_string();
+            let rpc_url_parsed = Url::parse(rpc_url_str.as_str())
+                .map_err(|e| store_error!(format!("Invalid RPC URL: {e}")))?;
+            let chain_id_str = std::str::from_utf8(chain_id)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in chain_id: {e}")))?
+                .to_string();
+            let chain_id_felt = Felt::from_hex(chain_id_str.as_str())
+                .map_err(|e| store_error!(format!("Invalid chain ID: {e}")))?;
 
             let controller = SdkController::new_headless(
                 app_id_str,
@@ -145,26 +129,15 @@ pub mod ffi {
             app_id: &DiplomatStr,
         ) -> Result<Option<Box<Controller>>, Box<ControllerError>> {
             let app_id_str = std::str::from_utf8(app_id)
-                .map_err(|e| {
-                    Box::new(ControllerError::new(
-                        ErrorType::InvalidInput,
-                        format!("Invalid UTF-8 in app_id: {e}"),
-                    ))
-                })?
+                .map_err(|e| Box::new(ControllerError(format!("Invalid UTF-8 in app_id: {e}"))))?
                 .to_string();
 
             match SdkController::from_storage(app_id_str) {
                 Ok(Some(controller)) => {
                     Ok(Some(Box::new(Controller(Arc::new(Mutex::new(controller))))))
                 }
-                Ok(None) => Err(Box::new(ControllerError::new(
-                    ErrorType::InitError,
-                    "No controller found in storage".to_string(),
-                ))),
-                Err(e) => Err(Box::new(ControllerError::new(
-                    ErrorType::InitError,
-                    e.to_string(),
-                ))),
+                Ok(None) => Err(store_error!("No controller found in storage")),
+                Err(e) => Err(store_error!(e)),
             }
         }
 
@@ -181,9 +154,7 @@ pub mod ffi {
                     session_expiration,
                     cartridge_api_url.map(|url| std::str::from_utf8(url).unwrap().to_string()),
                 ))
-                .map_err(|e| {
-                    Box::new(ControllerError::new(ErrorType::RuntimeError, e.to_string()))
-                })?;
+                .map_err(|e| store_error!(e))?;
             Ok(())
         }
 
@@ -218,9 +189,7 @@ pub mod ffi {
         /// Disconnects the controller and clears storage
         pub fn disconnect(&self) -> Result<(), Box<ControllerError>> {
             let mut inner: std::sync::MutexGuard<'_, SdkController> = self.0.lock().unwrap();
-            inner
-                .disconnect()
-                .map_err(|e| Box::new(ControllerError::new(ErrorType::RuntimeError, e.to_string())))
+            inner.disconnect().map_err(|e| store_error!(e))
         }
 
         pub fn execute(
@@ -237,9 +206,7 @@ pub mod ffi {
             let mut inner = self.0.lock().unwrap();
             let ret = RUNTIME
                 .block_on(inner.execute(calls_vec, None, None))
-                .map_err(|e| {
-                    Box::new(ControllerError::new(ErrorType::RuntimeError, e.to_string()))
-                })?;
+                .map_err(|e| store_error!(e))?;
             write!(write, "{:#x}", ret.transaction_hash).unwrap();
             Ok(())
         }
@@ -273,9 +240,9 @@ pub mod ffi {
             result: &mut DiplomatWrite,
         ) -> Result<(), Box<ControllerError>> {
             let inner = self.0.lock().unwrap();
-            let delegate = RUNTIME.block_on(inner.delegate_account()).map_err(|e| {
-                Box::new(ControllerError::new(ErrorType::RuntimeError, e.to_string()))
-            })?;
+            let delegate = RUNTIME
+                .block_on(inner.delegate_account())
+                .map_err(|e| store_error!(e))?;
 
             write!(result, "{delegate:#x}").unwrap();
             Ok(())
@@ -288,33 +255,17 @@ pub mod ffi {
             amount: &DiplomatStr,
             result: &mut DiplomatWrite,
         ) -> Result<(), Box<ControllerError>> {
-            let recipient_str = std::str::from_utf8(recipient).map_err(|e| {
-                Box::new(ControllerError::new(
-                    ErrorType::InvalidInput,
-                    format!("Invalid UTF-8 in recipient: {e}"),
-                ))
-            })?;
+            let recipient_str = std::str::from_utf8(recipient)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in recipient: {e}")))?;
 
-            let recipient_felt = Felt::from_hex(recipient_str).map_err(|e| {
-                Box::new(ControllerError::new(
-                    ErrorType::InvalidInput,
-                    format!("Invalid recipient address: {e}"),
-                ))
-            })?;
+            let recipient_felt = Felt::from_hex(recipient_str)
+                .map_err(|e| store_error!(format!("Invalid recipient address: {e}")))?;
 
-            let amount_str = std::str::from_utf8(amount).map_err(|e| {
-                Box::new(ControllerError::new(
-                    ErrorType::InvalidInput,
-                    format!("Invalid UTF-8 in amount: {e}"),
-                ))
-            })?;
+            let amount_str = std::str::from_utf8(amount)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in amount: {e}")))?;
 
-            let amount_felt = Felt::from_hex(amount_str).map_err(|e| {
-                Box::new(ControllerError::new(
-                    ErrorType::InvalidInput,
-                    format!("Invalid amount: {e}"),
-                ))
-            })?;
+            let amount_felt = Felt::from_hex(amount_str)
+                .map_err(|e| store_error!(format!("Invalid amount: {e}")))?;
 
             let call = starknet::core::types::Call {
                 to: STRK_CONTRACT_ADDRESS,
@@ -324,25 +275,10 @@ pub mod ffi {
 
             let tx_result = RUNTIME
                 .block_on(self.0.lock().unwrap().execute(vec![call], None, None))
-                .map_err(|e| {
-                    Box::new(ControllerError::new(ErrorType::RuntimeError, e.to_string()))
-                })?;
+                .map_err(|e| store_error!(e))?;
 
             write!(result, "{:#x}", tx_result.transaction_hash).unwrap();
             Ok(())
-        }
-    }
-
-    impl ControllerError {
-        /// Gets the error message
-        pub fn message(&self, result: &mut DiplomatWrite) -> Result<(), Box<ControllerError>> {
-            write!(result, "{}", self.message).unwrap();
-            Ok(())
-        }
-
-        /// Gets the error type
-        pub fn error_type(&self) -> ErrorType {
-            self.error_type
         }
     }
 }

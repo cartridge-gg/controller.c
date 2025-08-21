@@ -4,7 +4,7 @@ pub mod ffi {
     use diplomat_runtime::DiplomatWrite;
     use std::fmt::Write;
 
-    use crate::ffi::ControllerError;
+    use crate::error::ffi::ControllerError;
 
     #[diplomat::opaque]
     pub struct CONTROLLERS(pub SDK_CONTROLLERS);

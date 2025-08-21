@@ -3,7 +3,7 @@ pub mod ffi {
     use diplomat_runtime::DiplomatStr;
     use starknet::core::types::Felt;
 
-    use crate::ffi::{ControllerError, ErrorType};
+    use crate::error::ffi::ControllerError;
 
     #[diplomat::opaque]
     pub struct DiplomatFelt(pub Felt);
@@ -11,16 +11,10 @@ pub mod ffi {
     impl DiplomatFelt {
         pub fn new_from_hex(hex: &DiplomatStr) -> Result<Box<DiplomatFelt>, Box<ControllerError>> {
             let s = std::str::from_utf8(hex).map_err(|e| {
-                Box::new(ControllerError {
-                    error_type: ErrorType::InvalidInput,
-                    message: format!("Invalid UTF-8 in felt hex: {e}"),
-                })
+                Box::new(ControllerError(format!("Invalid UTF-8 in felt hex: {e}")))
             })?;
             let felt = Felt::from_hex(s).map_err(|e| {
-                Box::new(ControllerError {
-                    error_type: ErrorType::InvalidInput,
-                    message: format!("Invalid felt hex: {e}"),
-                })
+                Box::new(ControllerError(format!("Invalid felt hex: {e}")))
             })?;
             Ok(Box::new(DiplomatFelt(felt)))
         }
