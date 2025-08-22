@@ -52,11 +52,19 @@ namespace capi {
     typedef struct Controller_execute_result {union { diplomat::capi::ControllerError* err;}; bool is_ok;} Controller_execute_result;
     Controller_execute_result Controller_execute(const diplomat::capi::Controller* self, const diplomat::capi::DiplomatCallList* calls, diplomat::capi::DiplomatWrite* write);
 
+    typedef struct Controller_switch_chain_result {union { diplomat::capi::ControllerError* err;}; bool is_ok;} Controller_switch_chain_result;
+    Controller_switch_chain_result Controller_switch_chain(const diplomat::capi::Controller* self, diplomat::capi::DiplomatStringView rpc_url);
+
     typedef struct Controller_delegate_account_result {union { diplomat::capi::ControllerError* err;}; bool is_ok;} Controller_delegate_account_result;
     Controller_delegate_account_result Controller_delegate_account(const diplomat::capi::Controller* self, diplomat::capi::DiplomatWrite* write);
 
     typedef struct Controller_transfer_result {union { diplomat::capi::ControllerError* err;}; bool is_ok;} Controller_transfer_result;
     Controller_transfer_result Controller_transfer(const diplomat::capi::Controller* self, diplomat::capi::DiplomatStringView recipient, diplomat::capi::DiplomatStringView amount, diplomat::capi::DiplomatWrite* write);
+
+    typedef struct Controller_error_message_result {union { diplomat::capi::ControllerError* err;}; bool is_ok;} Controller_error_message_result;
+    Controller_error_message_result Controller_error_message(const diplomat::capi::Controller* self, diplomat::capi::DiplomatWrite* write);
+
+    void Controller_clear_last_error(const diplomat::capi::Controller* self);
 
     void Controller_destroy(Controller* self);
 
@@ -180,6 +188,12 @@ inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> Contro
   return result.is_ok ? diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Ok<std::monostate>()) : diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
 }
 
+inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> Controller::switch_chain(std::string_view rpc_url) const {
+  auto result = diplomat::capi::Controller_switch_chain(this->AsFFI(),
+    {rpc_url.data(), rpc_url.size()});
+  return result.is_ok ? diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Ok<std::monostate>()) : diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
+}
+
 inline diplomat::result<std::string, std::unique_ptr<ControllerError>> Controller::delegate_account() const {
   std::string output;
   diplomat::capi::DiplomatWrite write = diplomat::WriteFromString(output);
@@ -212,6 +226,25 @@ inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> Contro
     {amount.data(), amount.size()},
     &write);
   return result.is_ok ? diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Ok<std::monostate>()) : diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
+}
+
+inline diplomat::result<std::string, std::unique_ptr<ControllerError>> Controller::error_message() const {
+  std::string output;
+  diplomat::capi::DiplomatWrite write = diplomat::WriteFromString(output);
+  auto result = diplomat::capi::Controller_error_message(this->AsFFI(),
+    &write);
+  return result.is_ok ? diplomat::result<std::string, std::unique_ptr<ControllerError>>(diplomat::Ok<std::string>(std::move(output))) : diplomat::result<std::string, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
+}
+template<typename W>
+inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> Controller::error_message_write(W& writeable) const {
+  diplomat::capi::DiplomatWrite write = diplomat::WriteTrait<W>::Construct(writeable);
+  auto result = diplomat::capi::Controller_error_message(this->AsFFI(),
+    &write);
+  return result.is_ok ? diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Ok<std::monostate>()) : diplomat::result<std::monostate, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
+}
+
+inline void Controller::clear_last_error() const {
+  diplomat::capi::Controller_clear_last_error(this->AsFFI());
 }
 
 inline const diplomat::capi::Controller* Controller::AsFFI() const {

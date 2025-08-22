@@ -87,6 +87,11 @@ public:
   inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> execute_write(const DiplomatCallList& calls, W& writeable_output) const;
 
   /**
+   * Switches to a different chain
+   */
+  inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> switch_chain(std::string_view rpc_url) const;
+
+  /**
    * Gets the delegate account address
    */
   inline diplomat::result<std::string, std::unique_ptr<ControllerError>> delegate_account() const;
@@ -99,6 +104,18 @@ public:
   inline diplomat::result<std::string, std::unique_ptr<ControllerError>> transfer(std::string_view recipient, std::string_view amount) const;
   template<typename W>
   inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> transfer_write(std::string_view recipient, std::string_view amount, W& writeable_output) const;
+
+  /**
+   * Gets the error message
+   */
+  inline diplomat::result<std::string, std::unique_ptr<ControllerError>> error_message() const;
+  template<typename W>
+  inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> error_message_write(W& writeable_output) const;
+
+  /**
+   * Clear the last error message
+   */
+  inline void clear_last_error() const;
 
   inline const diplomat::capi::Controller* AsFFI() const;
   inline diplomat::capi::Controller* AsFFI();

@@ -46,7 +46,7 @@ def main():
     # Configuration
     cartridge_api_url = "https://api.cartridge.gg"
     app_id = "test_app_python"
-    username = "pythonuser5"
+    username = "pythonuser7"
     rpc_url = f"{cartridge_api_url}/x/starknet/sepolia"
     chain_id = "0x534e5f5345504f4c4941"  # SN_SEPOLIA
     # chain_id = "0x534e5f4d41494e"  # SN_MAIN
@@ -94,14 +94,18 @@ def main():
         controller_chain_id = controller.chain_id()
         print(f"⛓️  Controller chain_id: {controller_chain_id}")
         
-        # Step 5: Signup with controller
-        print("\n✍️  Step 5: Signing up...")
-        controller.signup(
-            signer_type=controller_c.SignerType.Starknet,
-            session_expiration=19999999999999,
-            cartridge_api_url=cartridge_api_url
-        )
-        print("✅ Signup successful")
+        try:
+            # Step 5: Signup with controller
+            print("\n✍️  Step 5: Signing up...")
+            controller.signup(
+                signer_type=controller_c.SignerType.Starknet,
+                session_expiration=19999999999999,
+                cartridge_api_url=cartridge_api_url
+            )
+            print("✅ Signup successful")
+        except Exception:
+            error_message = controller.error_message()
+            print(f"❌ Error during execution: {error_message}")
 
         # Step 6: Create and execute a transaction
         print("\n💸 Step 6: Creating transaction...")
@@ -125,25 +129,37 @@ def main():
         print("📦 Transaction created")
         
         # Execute the transaction
-        print("\n🚀 Step 7: Executing transaction...")
-        tx_hash = controller.execute(call_list)
-        print(f"✅ Transaction executed successfully!")
-        print(f"📍 Transaction hash: {tx_hash}")
+        try:
+            print("\n🚀 Step 7: Executing transaction...")
+            tx_hash = controller.execute(call_list)
+            print(f"✅ Transaction executed successfully!")
+            print(f"📍 Transaction hash: {tx_hash}")
+        except Exception:
+            error_message = controller.error_message()
+            print(f"❌ Error during execution: {error_message}")
         
-        # Step 8: Try the simplified transfer method
-        print("\n💰 Step 8: Testing simplified transfer...")
+        try: 
+            # Step 8: Try the simplified transfer method
+            print("\n💰 Step 8: Testing simplified transfer...")
 
-        recipient = controller_address  # Send to self
-        amount = "0x1"  # 1 wei
-        tx_hash = controller.transfer(recipient, amount)
-        print(f"✅ Transfer successful!")
-        print(f"📍 Transaction hash: {tx_hash}")
+            recipient = controller_address  # Send to self
+            amount = "0x1"  # 1 wei
+            tx_hash = controller.transfer(recipient, amount)
+            print(f"✅ Transfer successful!")
+            print(f"📍 Transaction hash: {tx_hash}")
+        except Exception:
+            error_message = controller.error_message()
+            print(f"❌ Error during execution: {error_message}")
+
         
         print("\n🎉 Example completed successfully!")
         
     except Exception:
         error_message = controller_c.ControllerError.get_last_error_message()
-        print(f"❌ Error during execution: {error_message}")
+        if error_message != "No error occurred":
+            print(f"❌ Error during execution: {error_message}")
+        else:
+            print("✅ No error occurred")
         return 1
     
     return 0

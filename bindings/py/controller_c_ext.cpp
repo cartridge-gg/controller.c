@@ -9,6 +9,7 @@ void add_DiplomatCall_binding(nb::handle);
 void add_DiplomatCallList_binding(nb::handle);
 void add_DiplomatFelt_binding(nb::handle);
 void add_Controller_binding(nb::handle);
+void add_ControllerWithRuntime_binding(nb::handle);
 void add_DiplomatOwner_binding(nb::handle);
 void add_DiplomatSigner_binding(nb::handle);
 void add_Eip191Signer_binding(nb::handle);
@@ -78,6 +79,7 @@ NB_MODULE(controller_c, controller_c_mod)
     add_DiplomatCallList_binding(controller_c_mod);
     add_DiplomatFelt_binding(controller_c_mod);
     add_Controller_binding(controller_c_mod);
+    add_ControllerWithRuntime_binding(controller_c_mod);
     add_DiplomatOwner_binding(controller_c_mod);
     add_DiplomatSigner_binding(controller_c_mod);
     add_Eip191Signer_binding(controller_c_mod);

@@ -9,24 +9,27 @@ pub mod ffi {
     use account_sdk::controller::Controller as SdkController;
     use diplomat_runtime::{DiplomatStr, DiplomatWrite};
     use lazy_static::lazy_static;
-    use starknet::core::types::{Felt, FromStrError};
+    use starknet::core::types::Felt;
     use std::fmt::Write;
-    use std::str::Utf8Error;
     use std::sync::{Arc, Mutex};
     use tokio::runtime::Runtime;
     use url::Url;
 
     lazy_static! {
-        static ref RUNTIME: Arc<Runtime> =
-            Arc::new(Runtime::new().expect("Failed to create Tokio runtime"));
-
-        // Global storage for the last error message
+        /// Global storage for the last error message
         pub static ref LAST_ERROR: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
+    }
+
+    /// Controller wrapper with its own runtime
+    #[diplomat::opaque]
+    pub struct ControllerWithRuntime {
+        controller: SdkController,
+        last_error: DiplomatOption<String>,
     }
 
     /// Opaque handle to a Controller instance
     #[diplomat::opaque]
-    pub struct Controller(pub Arc<Mutex<SdkController>>);
+    pub struct Controller(pub Arc<Mutex<ControllerWithRuntime>>);
 
     // Re-export types from account_sdk
     pub use account_sdk::signers::{Owner, Signer};
@@ -40,11 +43,12 @@ pub mod ffi {
     macro_rules! store_error {
         ($err:expr) => {{
             let err_msg = $err.to_string();
-            let mut last_error = LAST_ERROR.lock().unwrap();
+            let mut last_error = crate::ffi::LAST_ERROR.lock().unwrap();
             *last_error = Some(err_msg.clone());
             Box::new(ControllerError(err_msg))
         }};
     }
+    pub(crate) use store_error;
 
     impl Controller {
         /// Creates a new Controller instance
@@ -57,16 +61,30 @@ pub mod ffi {
             address: &DiplomatStr,
             chain_id: &DiplomatStr,
         ) -> Result<Box<Controller>, Box<ControllerError>> {
-            let app_id_str = std::str::from_utf8(app_id)?.to_string();
-            let username_str = std::str::from_utf8(username)?.to_string();
-            let class_hash_str = std::str::from_utf8(class_hash)?.to_string();
-            let class_hash_felt = Felt::from_hex(class_hash_str.as_str())?;
-            let rpc_url_str = std::str::from_utf8(rpc_url)?.to_string();
-            let rpc_url_parsed = Url::parse(rpc_url_str.as_str())?;
-            let address_str = std::str::from_utf8(address)?.to_string();
-            let address_felt = Felt::from_hex(address_str.as_str())?;
-            let chain_id_str = std::str::from_utf8(chain_id)?.to_string();
-            let chain_id_felt = Felt::from_hex(chain_id_str.as_str())?;
+            let app_id_str = std::str::from_utf8(app_id)
+                .map_err(|e| store_error!(e))?
+                .to_string();
+            let username_str = std::str::from_utf8(username)
+                .map_err(|e| store_error!(e))?
+                .to_string();
+            let class_hash_str = std::str::from_utf8(class_hash)
+                .map_err(|e| store_error!(e))?
+                .to_string();
+            let class_hash_felt =
+                Felt::from_hex(class_hash_str.as_str()).map_err(|e| store_error!(e))?;
+            let rpc_url_str = std::str::from_utf8(rpc_url)
+                .map_err(|e| store_error!(e))?
+                .to_string();
+            let rpc_url_parsed = Url::parse(rpc_url_str.as_str()).map_err(|e| store_error!(e))?;
+            let address_str = std::str::from_utf8(address)
+                .map_err(|e| store_error!(e))?
+                .to_string();
+            let address_felt = Felt::from_hex(address_str.as_str()).map_err(|e| store_error!(e))?;
+            let chain_id_str = std::str::from_utf8(chain_id)
+                .map_err(|e| store_error!(e))?
+                .to_string();
+            let chain_id_felt =
+                Felt::from_hex(chain_id_str.as_str()).map_err(|e| store_error!(e))?;
 
             let controller = SdkController::new(
                 app_id_str,
@@ -78,7 +96,12 @@ pub mod ffi {
                 chain_id_felt,
             );
 
-            Ok(Box::new(Controller(Arc::new(Mutex::new(controller)))))
+            Ok(Box::new(Controller(Arc::new(Mutex::new(
+                ControllerWithRuntime {
+                    controller,
+                    last_error: DiplomatOption::from(None),
+                },
+            )))))
         }
 
         /// Creates a new Controller headless instance
@@ -121,7 +144,12 @@ pub mod ffi {
                 chain_id_felt,
             );
 
-            Ok(Box::new(Controller(Arc::new(Mutex::new(controller)))))
+            Ok(Box::new(Controller(Arc::new(Mutex::new(
+                ControllerWithRuntime {
+                    controller,
+                    last_error: DiplomatOption::from(None),
+                },
+            )))))
         }
 
         /// Creates a Controller from storage
@@ -133,9 +161,12 @@ pub mod ffi {
                 .to_string();
 
             match SdkController::from_storage(app_id_str) {
-                Ok(Some(controller)) => {
-                    Ok(Some(Box::new(Controller(Arc::new(Mutex::new(controller))))))
-                }
+                Ok(Some(controller)) => Ok(Some(Box::new(Controller(Arc::new(Mutex::new(
+                    ControllerWithRuntime {
+                        controller,
+                        last_error: DiplomatOption::from(None),
+                    },
+                )))))),
                 Ok(None) => Err(store_error!("No controller found in storage")),
                 Err(e) => Err(store_error!(e)),
             }
@@ -148,48 +179,64 @@ pub mod ffi {
             cartridge_api_url: Option<&DiplomatStr>,
         ) -> Result<(), Box<ControllerError>> {
             let mut inner = self.0.lock().unwrap();
-            RUNTIME
-                .block_on(inner.signup(
-                    signer_type.into(),
-                    session_expiration,
-                    cartridge_api_url.map(|url| std::str::from_utf8(url).unwrap().to_string()),
-                ))
-                .map_err(|e| store_error!(e))?;
+
+            // Create the runtime outside of the error handling
+            let runtime = Runtime::new().expect("Failed to create Tokio runtime");
+
+            let result = runtime.block_on(inner.controller.signup(
+                signer_type.into(),
+                session_expiration,
+                cartridge_api_url.map(|url| std::str::from_utf8(url).unwrap().to_string()),
+            ));
+
+            drop(runtime);
+
+            result.map_err(|e| {
+                let err_msg = e.to_string();
+                inner.last_error = DiplomatOption::from(Some(err_msg.clone()));
+                Box::new(ControllerError(err_msg))
+            })?;
+
             Ok(())
         }
 
         /// Gets the controller's address
         pub fn address(&self, result: &mut DiplomatWrite) -> Result<(), Box<ControllerError>> {
             let inner = self.0.lock().unwrap();
-            write!(result, "{:#x}", inner.address).unwrap();
+            write!(result, "{:#x}", inner.controller.address).unwrap();
             Ok(())
         }
 
         /// Gets the controller's username
         pub fn username(&self, result: &mut DiplomatWrite) -> Result<(), Box<ControllerError>> {
             let inner = self.0.lock().unwrap();
-            write!(result, "{}", inner.username).unwrap();
+            write!(result, "{}", inner.controller.username).unwrap();
             Ok(())
         }
 
         /// Gets the controller's app ID
         pub fn app_id(&self, result: &mut DiplomatWrite) -> Result<(), Box<ControllerError>> {
             let inner = self.0.lock().unwrap();
-            write!(result, "{}", inner.app_id).unwrap();
+            write!(result, "{}", inner.controller.app_id).unwrap();
             Ok(())
         }
 
         /// Gets the controller's chain ID
         pub fn chain_id(&self, result: &mut DiplomatWrite) -> Result<(), Box<ControllerError>> {
             let inner = self.0.lock().unwrap();
-            write!(result, "{:#x}", inner.chain_id).unwrap();
+            write!(result, "{:#x}", inner.controller.chain_id).unwrap();
             Ok(())
         }
 
         /// Disconnects the controller and clears storage
         pub fn disconnect(&self) -> Result<(), Box<ControllerError>> {
-            let mut inner: std::sync::MutexGuard<'_, SdkController> = self.0.lock().unwrap();
-            inner.disconnect().map_err(|e| store_error!(e))
+            let mut inner: std::sync::MutexGuard<'_, ControllerWithRuntime> =
+                self.0.lock().unwrap();
+            inner.controller.disconnect().map_err(|e| {
+                inner.last_error = DiplomatOption::from(Some(e.to_string()));
+                Box::new(ControllerError(e.to_string()))
+            })?;
+            Ok(())
         }
 
         pub fn execute(
@@ -204,35 +251,35 @@ pub mod ffi {
                 .collect::<Vec<_>>();
 
             let mut inner = self.0.lock().unwrap();
-            let ret = RUNTIME
-                .block_on(inner.execute(calls_vec, None, None))
-                .map_err(|e| store_error!(e))?;
+            let ret = Runtime::new()
+                .expect("Failed to create Tokio runtime")
+                .block_on(inner.controller.execute(calls_vec, None, None))
+                .map_err(|e| {
+                    inner.last_error = DiplomatOption::from(Some(e.to_string()));
+                    Box::new(ControllerError(e.to_string()))
+                })?;
             write!(write, "{:#x}", ret.transaction_hash).unwrap();
             Ok(())
         }
-        // /// Switches to a different chain
-        // pub fn switch_chain(&self, rpc_url: &DiplomatStr) -> Result<(), Box<ControllerError>> {
-        //     let mut inner = self.0.lock().unwrap();
 
-        //     let rpc_url_str = std::str::from_utf8(rpc_url).map_err(|e| {
-        //         Box::new(ControllerError::new(
-        //             ErrorType::InvalidInput,
-        //             format!("Invalid UTF-8 in rpc_url: {}", e),
-        //         ))
-        //     })?;
+        /// Switches to a different chain
+        pub fn switch_chain(&self, rpc_url: &DiplomatStr) -> Result<(), Box<ControllerError>> {
+            let mut inner = self.0.lock().unwrap();
 
-        //     let url = Url::parse(rpc_url_str).map_err(|e| {
-        //         Box::new(ControllerError::new(
-        //             ErrorType::InvalidInput,
-        //             format!("Invalid RPC URL: {}", e),
-        //         ))
-        //     })?;
+            let rpc_url_str = std::str::from_utf8(rpc_url)
+                .map_err(|e| store_error!(format!("Invalid UTF-8 in rpc_url: {}", e)))?;
 
-        //     inner
-        //         .runtime
-        //         .block_on(inner.controller.switch_chain(url))
-        //         .map_err(|e| Box::new(ControllerError::new(ErrorType::RuntimeError, e.to_string())))
-        // }
+            let url = Url::parse(rpc_url_str).map_err(|e| store_error!(e))?;
+
+            Runtime::new()
+                .expect("Failed to create Tokio runtime")
+                .block_on(inner.controller.switch_chain(url))
+                .map_err(|e| {
+                    inner.last_error = DiplomatOption::from(Some(e.to_string()));
+                    Box::new(ControllerError(e.to_string()))
+                })?;
+            Ok(())
+        }
 
         /// Gets the delegate account address
         pub fn delegate_account(
@@ -240,8 +287,9 @@ pub mod ffi {
             result: &mut DiplomatWrite,
         ) -> Result<(), Box<ControllerError>> {
             let inner = self.0.lock().unwrap();
-            let delegate = RUNTIME
-                .block_on(inner.delegate_account())
+            let delegate = Runtime::new()
+                .expect("Failed to create Tokio runtime")
+                .block_on(inner.controller.delegate_account())
                 .map_err(|e| store_error!(e))?;
 
             write!(result, "{delegate:#x}").unwrap();
@@ -273,12 +321,35 @@ pub mod ffi {
                 calldata: vec![recipient_felt, amount_felt, Felt::ZERO], // recipient, amount_low, amount_high
             };
 
-            let tx_result = RUNTIME
-                .block_on(self.0.lock().unwrap().execute(vec![call], None, None))
+            let mut inner = self.0.lock().unwrap();
+            let tx_result = Runtime::new()
+                .expect("Failed to create Tokio runtime")
+                .block_on(inner.controller.execute(vec![call], None, None))
                 .map_err(|e| store_error!(e))?;
 
             write!(result, "{:#x}", tx_result.transaction_hash).unwrap();
             Ok(())
+        }
+
+        /// Gets the error message
+        pub fn error_message(
+            &self,
+            result: &mut DiplomatWrite,
+        ) -> Result<(), Box<ControllerError>> {
+            let inner = self.0.lock().unwrap();
+
+            if let Ok(error_str) = inner.last_error.as_ref() {
+                write!(result, "{}", error_str).unwrap();
+            }
+
+            Ok(())
+        }
+
+        /// Clear the last error message
+        pub fn clear_last_error(&self) {
+            let mut inner = self.0.lock().unwrap();
+            let error_msg = &mut inner.last_error;
+            *error_msg = DiplomatOption::from(None);
         }
     }
 }

@@ -26,8 +26,10 @@ pub mod ffi {
             write: &mut DiplomatWrite,
         ) -> Result<(), Box<ControllerError>> {
             let sdk_version: account_sdk::artifacts::Version = (version).into();
-            let class_hash = SDK_CONTROLLERS.get(&sdk_version).unwrap().hash;
-            let _ = write!(write, "{class_hash:#x}");
+            let class_hash = SDK_CONTROLLERS
+                .get(&sdk_version)
+                .ok_or_else(|| crate::ffi::store_error!("Version not found"))?;
+            let _ = write!(write, "{:#x}", class_hash.hash);
             Ok(())
         }
     }

@@ -46,9 +46,8 @@ pub mod ffi {
             starknet_pk: &DiplomatStr,
         ) -> Result<Box<DiplomatOwner>, Box<ControllerError>> {
             let starknet_signer = SigningKey::from_secret_scalar(
-                Felt::from_hex(std::str::from_utf8(starknet_pk).unwrap()).map_err(|e| {
-                    Box::new(ControllerError(format!("Invalid private key: {e}")))
-                })?,
+                Felt::from_hex(std::str::from_utf8(starknet_pk).unwrap())
+                    .map_err(|e| crate::ffi::store_error!(e))?,
             );
             let signer = account_sdk::signers::Signer::Starknet(starknet_signer);
             Ok(Box::new(DiplomatOwner(

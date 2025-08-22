@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "account-wasm"
 version = "0.1.0"
-source = "git+https://github.com/cartridge-gg/controller-rs?branch=fix%2Fsignup-chain-id#9ed93732e1dace984b813e4c95c36560bb0108b2"
+source = "git+https://github.com/cartridge-gg/controller-rs?rev=525f46e#525f46e5d84519f5e88acbd43e783f86baeacbc3"
 dependencies = [
  "account_sdk",
  "alloy-signer",
@@ -26,7 +26,7 @@ dependencies = [
  "serde_with",
  "starknet",
  "starknet-crypto",
- "starknet-types-core",
+ "starknet-types-core 0.2.0",
  "thiserror 1.0.69",
  "tsify-next",
  "url",
@@ -40,7 +40,7 @@ dependencies = [
 [[package]]
 name = "account_sdk"
 version = "0.1.0"
-source = "git+https://github.com/cartridge-gg/controller-rs?branch=fix%2Fsignup-chain-id#9ed93732e1dace984b813e4c95c36560bb0108b2"
+source = "git+https://github.com/cartridge-gg/controller-rs?rev=525f46e#525f46e5d84519f5e88acbd43e783f86baeacbc3"
 dependencies = [
  "alloy-primitives",
  "alloy-signer",
@@ -76,7 +76,7 @@ dependencies = [
  "sha2",
  "starknet",
  "starknet-crypto",
- "starknet-types-core",
+ "starknet-types-core 0.2.0",
  "thiserror 1.0.69",
  "tokio",
  "toml",
@@ -687,7 +687,7 @@ dependencies = [
  "serde",
  "serde_json",
  "starknet",
- "starknet-types-core",
+ "starknet-types-core 0.1.9",
  "thiserror 2.0.12",
  "tracing",
  "tracing-subscriber",
@@ -993,7 +993,7 @@ dependencies = [
  "serde_json",
  "starknet",
  "starknet-crypto",
- "starknet-types-core",
+ "starknet-types-core 0.2.0",
  "tokio",
  "url",
 ]
@@ -3794,9 +3794,9 @@ checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 
 [[package]]
 name = "starknet"
-version = "0.17.0-rc.2"
+version = "0.17.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9c9e90938ff10648a2ef87d1fee28fccdcc428f6ded1f9b64657ccfbbfeff64"
+checksum = "d125fee99fa38cb276aeaa1248b78619bacc203e83d359763288bef0aae6a2c4"
 dependencies = [
  "starknet-accounts",
  "starknet-contract",
@@ -3810,9 +3810,9 @@ dependencies = [
 
 [[package]]
 name = "starknet-accounts"
-version = "0.16.0-rc.2"
+version = "0.16.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "27b0a53f50fff55946699637e930eb764bb18ddabd392cbe4fd7271b2b223b40"
+checksum = "d8312632b7d4289850fdd50498255949ff2266d8100c28c60ddb7319f12e3374"
 dependencies = [
  "async-trait",
  "auto_impl",
@@ -3825,9 +3825,9 @@ dependencies = [
 
 [[package]]
 name = "starknet-contract"
-version = "0.16.0-rc.2"
+version = "0.16.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25948c499faf8de208ff6a64be5a87be8bb58cb30138dc578311ea7071190af8"
+checksum = "bfe44911fcd7f024fc72e657428d3cc975bab2b66179fb5e8f41cac7bd6e406d"
 dependencies = [
  "serde",
  "serde_json",
@@ -3840,9 +3840,9 @@ dependencies = [
 
 [[package]]
 name = "starknet-core"
-version = "0.16.0-rc.2"
+version = "0.16.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6266bffbcf0ccfde812f9497dc847e2ea269bd4316e5373ec562165ceba014f"
+checksum = "53b4736424cdc1cee7b667c665855d11afd8856e87a2e724ab0fe02bc37bb3fa"
 dependencies = [
  "base64 0.21.7",
  "crypto-bigint",
@@ -3858,7 +3858,7 @@ dependencies = [
  "sha3",
  "starknet-core-derive",
  "starknet-crypto",
- "starknet-types-core",
+ "starknet-types-core 0.2.0",
 ]
 
 [[package]]
@@ -3874,9 +3874,9 @@ dependencies = [
 
 [[package]]
 name = "starknet-crypto"
-version = "0.7.4"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "039a3bad70806b494c9e6b21c5238a6c8a373d66a26071859deb0ccca6f93634"
+checksum = "0f2ca44b93bd42b743256c4063de76a1dc3ac8240cf05059ca9e0106f2284f24"
 dependencies = [
  "crypto-bigint",
  "hex",
@@ -3887,24 +3887,24 @@ dependencies = [
  "rfc6979",
  "sha2",
  "starknet-curve",
- "starknet-types-core",
+ "starknet-types-core 0.2.0",
  "zeroize",
 ]
 
 [[package]]
 name = "starknet-curve"
-version = "0.5.1"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcde6bd74269b8161948190ace6cf069ef20ac6e79cd2ba09b320efa7500b6de"
+checksum = "22c898ae81b6409532374cf237f1bd752d068b96c6ad500af9ebbd0d9bb712f6"
 dependencies = [
- "starknet-types-core",
+ "starknet-types-core 0.2.0",
 ]
 
 [[package]]
 name = "starknet-macros"
-version = "0.2.5-rc.2"
+version = "0.2.5-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed7b5b575473d4734c3b736735a2099cc14f66be26c6f9895c1a345f436012ed"
+checksum = "628f8dc2a1d3be4f1b9fe57fa8a87cdb21359cbe86ecf9cc3ed2be240995c221"
 dependencies = [
  "starknet-core",
  "syn 2.0.104",
@@ -3912,9 +3912,9 @@ dependencies = [
 
 [[package]]
 name = "starknet-providers"
-version = "0.16.0-rc.2"
+version = "0.16.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dfab31dd85ecaef7d9d15e1c3bbefc06c7f0fe6fbe56a8bc2b26c9c1ba7d42f9"
+checksum = "9f8fed5dd5722edfb09bc12637deb66b0ae53b4bb7120e65eb1d229e81cbffe2"
 dependencies = [
  "async-trait",
  "auto_impl",
@@ -3933,9 +3933,9 @@ dependencies = [
 
 [[package]]
 name = "starknet-signers"
-version = "0.14.0-rc.2"
+version = "0.14.0-rc.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd907b1e3da29d9215f8a41e980f5965c4bb28eb43ca55902d37ee2ccc032575"
+checksum = "a4ee2aef5db70ceddfb77b85cc1a63c2c1074fc8fd0a88054ca4368acc669b0f"
 dependencies = [
  "async-trait",
  "auto_impl",
@@ -3954,6 +3954,22 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "87af771d7f577931913089f9ca9a9f85d8a6238d59b2977f4c383d133c8abd3b"
 dependencies = [
+ "lambdaworks-crypto",
+ "lambdaworks-math",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "serde",
+ "size-of",
+ "zeroize",
+]
+
+[[package]]
+name = "starknet-types-core"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5fa3d91e38f091dbc543d33589eb7716bed2a8eb1c20879e484561977832b60a"
+dependencies = [
  "blake2",
  "digest 0.10.7",
  "lambdaworks-crypto",
@@ -3962,7 +3978,6 @@ dependencies = [
  "num-integer",
  "num-traits",
  "serde",
- "size-of",
  "zeroize",
 ]
 
