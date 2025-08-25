@@ -1,0 +1,20 @@
+target/
+.DS_Store
+.vscode/
+.idea/
+.cursorrules
+.cursor/
+examples/test_controller
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+build/
+dist/
+
+# Python virtual environment
+examples/python/venv/

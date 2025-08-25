@@ -1,0 +1,11 @@
+[workspace]
+members = ["crates/bridge", "crates/generator"]
+resolver = "2"
+
+
+
+[workspace.dependencies]
+diplomat = "0.12.0"
+diplomat-runtime = "0.12.0"
+diplomat-tool = "0.12.0"
+diplomat_core = "0.12.0"
