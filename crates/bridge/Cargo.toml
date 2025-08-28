@@ -11,8 +11,8 @@ crate-type = ["cdylib", "rlib", "staticlib"]
 name = "controller_c"
 
 [dependencies]
-account_sdk = { git = "https://github.com/cartridge-gg/controller-rs", rev = "525f46e" }
-account-wasm = { git = "https://github.com/cartridge-gg/controller-rs", rev = "525f46e" }
+account_sdk = { git = "https://github.com/cartridge-gg/controller-rs", rev = "a8c9d51" }
+account-wasm = { git = "https://github.com/cartridge-gg/controller-rs", rev = "a8c9d51" }
 tokio = { version = "1.38", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

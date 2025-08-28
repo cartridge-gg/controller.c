@@ -8,14 +8,19 @@ pub mod ffi {
     #[diplomat::opaque]
     pub struct DiplomatFelt(pub Felt);
 
+    impl From<&DiplomatFelt> for Felt {
+        fn from(value: &DiplomatFelt) -> Felt {
+            value.0
+        }
+    }
+
     impl DiplomatFelt {
         pub fn new_from_hex(hex: &DiplomatStr) -> Result<Box<DiplomatFelt>, Box<ControllerError>> {
             let s = std::str::from_utf8(hex).map_err(|e| {
                 Box::new(ControllerError(format!("Invalid UTF-8 in felt hex: {e}")))
             })?;
-            let felt = Felt::from_hex(s).map_err(|e| {
-                Box::new(ControllerError(format!("Invalid felt hex: {e}")))
-            })?;
+            let felt = Felt::from_hex(s)
+                .map_err(|e| Box::new(ControllerError(format!("Invalid felt hex: {e}"))))?;
             Ok(Box::new(DiplomatFelt(felt)))
         }
         pub fn new_from_bytes(bytes: &[u8]) -> Result<Box<DiplomatFelt>, Box<ControllerError>> {
