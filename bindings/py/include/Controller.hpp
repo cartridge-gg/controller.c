@@ -13,8 +13,10 @@
 #include <cstdlib>
 #include "ControllerError.hpp"
 #include "DiplomatCallList.hpp"
+#include "DiplomatFelt.hpp"
 #include "DiplomatOwner.hpp"
 #include "SignerType.hpp"
+#include "SubscribeCreateSessionResponse.hpp"
 #include "diplomat_runtime.hpp"
 
 
@@ -65,6 +67,9 @@ namespace capi {
     Controller_error_message_result Controller_error_message(const diplomat::capi::Controller* self, diplomat::capi::DiplomatWrite* write);
 
     void Controller_clear_last_error(const diplomat::capi::Controller* self);
+
+    typedef struct Controller_subscribe_create_session_result {union {diplomat::capi::SubscribeCreateSessionResponse* ok; diplomat::capi::ControllerError* err;}; bool is_ok;} Controller_subscribe_create_session_result;
+    Controller_subscribe_create_session_result Controller_subscribe_create_session(const diplomat::capi::Controller* self, diplomat::capi::DiplomatStringView controller_id, const diplomat::capi::DiplomatFelt* session_key_guid, diplomat::capi::DiplomatStringView cartridge_api_url);
 
     void Controller_destroy(Controller* self);
 
@@ -245,6 +250,20 @@ inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> Contro
 
 inline void Controller::clear_last_error() const {
   diplomat::capi::Controller_clear_last_error(this->AsFFI());
+}
+
+inline diplomat::result<diplomat::result<std::unique_ptr<SubscribeCreateSessionResponse>, std::unique_ptr<ControllerError>>, diplomat::Utf8Error> Controller::subscribe_create_session(std::string_view controller_id, const DiplomatFelt& session_key_guid, std::string_view cartridge_api_url) const {
+  if (!diplomat::capi::diplomat_is_str(controller_id.data(), controller_id.size())) {
+    return diplomat::Err<diplomat::Utf8Error>();
+  }
+  if (!diplomat::capi::diplomat_is_str(cartridge_api_url.data(), cartridge_api_url.size())) {
+    return diplomat::Err<diplomat::Utf8Error>();
+  }
+  auto result = diplomat::capi::Controller_subscribe_create_session(this->AsFFI(),
+    {controller_id.data(), controller_id.size()},
+    session_key_guid.AsFFI(),
+    {cartridge_api_url.data(), cartridge_api_url.size()});
+  return diplomat::Ok<diplomat::result<std::unique_ptr<SubscribeCreateSessionResponse>, std::unique_ptr<ControllerError>>>(result.is_ok ? diplomat::result<std::unique_ptr<SubscribeCreateSessionResponse>, std::unique_ptr<ControllerError>>(diplomat::Ok<std::unique_ptr<SubscribeCreateSessionResponse>>(std::unique_ptr<SubscribeCreateSessionResponse>(SubscribeCreateSessionResponse::FromFFI(result.ok)))) : diplomat::result<std::unique_ptr<SubscribeCreateSessionResponse>, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err)))));
 }
 
 inline const diplomat::capi::Controller* Controller::AsFFI() const {

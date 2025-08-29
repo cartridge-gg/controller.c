@@ -15,8 +15,12 @@ namespace diplomat::capi { struct ControllerError; }
 class ControllerError;
 namespace diplomat::capi { struct DiplomatCallList; }
 class DiplomatCallList;
+namespace diplomat::capi { struct DiplomatFelt; }
+class DiplomatFelt;
 namespace diplomat::capi { struct DiplomatOwner; }
 class DiplomatOwner;
+namespace diplomat::capi { struct SubscribeCreateSessionResponse; }
+class SubscribeCreateSessionResponse;
 class SignerType;
 
 
@@ -116,6 +120,8 @@ public:
    * Clear the last error message
    */
   inline void clear_last_error() const;
+
+  inline diplomat::result<diplomat::result<std::unique_ptr<SubscribeCreateSessionResponse>, std::unique_ptr<ControllerError>>, diplomat::Utf8Error> subscribe_create_session(std::string_view controller_id, const DiplomatFelt& session_key_guid, std::string_view cartridge_api_url) const;
 
   inline const diplomat::capi::Controller* AsFFI() const;
   inline diplomat::capi::Controller* AsFFI();

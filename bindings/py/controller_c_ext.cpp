@@ -15,6 +15,7 @@ void add_DiplomatSigner_binding(nb::handle);
 void add_Eip191Signer_binding(nb::handle);
 void add_StarknetSigner_binding(nb::handle);
 void add_WebauthnSigner_binding(nb::handle);
+void add_SubscribeCreateSessionResponse_binding(nb::handle);
 void add_SignerType_binding(nb::handle);
 void add_Version_binding(nb::handle);
 void add_OwnerType_binding(nb::handle);
@@ -85,6 +86,7 @@ NB_MODULE(controller_c, controller_c_mod)
     add_Eip191Signer_binding(controller_c_mod);
     add_StarknetSigner_binding(controller_c_mod);
     add_WebauthnSigner_binding(controller_c_mod);
+    add_SubscribeCreateSessionResponse_binding(controller_c_mod);
     add_SignerType_binding(controller_c_mod);
     add_Version_binding(controller_c_mod);
     add_OwnerType_binding(controller_c_mod);

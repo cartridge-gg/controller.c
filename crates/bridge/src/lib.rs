@@ -2,6 +2,7 @@ pub mod constants;
 pub mod error;
 pub mod felt;
 pub mod signer;
+pub mod types;
 
 #[diplomat::bridge]
 pub mod ffi {
@@ -36,8 +37,9 @@ pub mod ffi {
 
     use crate::constants::ffi::SignerType;
     use crate::error::ffi::ControllerError;
-    use crate::felt::ffi::DiplomatCallList;
+    use crate::felt::ffi::{DiplomatCallList, DiplomatFelt};
     use crate::signer::ffi::DiplomatOwner;
+    use crate::types::ffi::SubscribeCreateSessionResponse;
 
     /// Helper macro to store error message before returning
     macro_rules! store_error {
@@ -350,6 +352,28 @@ pub mod ffi {
             let mut inner = self.0.lock().unwrap();
             let error_msg = &mut inner.last_error;
             *error_msg = DiplomatOption::from(None);
+        }
+
+        pub fn subscribe_create_session(
+            &self,
+            controller_id: &str,
+            session_key_guid: &DiplomatFelt,
+            cartridge_api_url: &str,
+        ) -> Result<Box<SubscribeCreateSessionResponse>, Box<ControllerError>> {
+            let mut inner = self.0.lock().unwrap();
+
+            Runtime::new()
+                .expect("Failed to create Tokio runtime")
+                .block_on(inner.controller.subscribe_create_session(
+                    controller_id.to_string(),
+                    session_key_guid.into(),
+                    cartridge_api_url.to_string(),
+                ))
+                .map(|x| Box::new(SubscribeCreateSessionResponse(x)))
+                .map_err(|e| {
+                    inner.last_error = DiplomatOption::from(Some(e.to_string()));
+                    Box::new(ControllerError(e.to_string()))
+                })
         }
     }
 }
