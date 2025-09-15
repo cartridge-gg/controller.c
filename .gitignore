@@ -18,3 +18,7 @@ dist/
 
 # Python virtual environment
 examples/python/venv/
+
+# JS
+node_modules/
+.turbo

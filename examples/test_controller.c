@@ -77,9 +77,6 @@ int main() {
     ControllerError_message(storage_result.err, &error_writeable);
     printf("📝 Error message: %.*s\n", (int)error_writeable.len, error_buffer);
 
-    ErrorType error_type = ControllerError_error_type(storage_result.err);
-    printf("🏷️  Error type: %d\n", error_type);
-
     ControllerError_destroy(storage_result.err);
     return 1;
   }

@@ -9,7 +9,7 @@ cd "$PROJECT_ROOT"
 
 # First run the generator to create bindings
 echo "Generating bindings..."
-cargo run --bin generator
+cargo run --bin generator -- "$1"
 
 # Build the bridge crate as a dynamic library
 echo "Building controller-c library..."

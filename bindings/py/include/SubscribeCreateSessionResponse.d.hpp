@@ -11,9 +11,6 @@
 #include <cstdlib>
 #include "diplomat_runtime.hpp"
 
-namespace diplomat::capi { struct ControllerError; }
-class ControllerError;
-
 
 namespace diplomat {
 namespace capi {
@@ -23,10 +20,6 @@ namespace capi {
 
 class SubscribeCreateSessionResponse {
 public:
-
-  inline diplomat::result<std::string, std::unique_ptr<ControllerError>> get_as_json() const;
-  template<typename W>
-  inline diplomat::result<std::monostate, std::unique_ptr<ControllerError>> get_as_json_write(W& writeable_output) const;
 
   inline const diplomat::capi::SubscribeCreateSessionResponse* AsFFI() const;
   inline diplomat::capi::SubscribeCreateSessionResponse* AsFFI();

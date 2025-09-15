@@ -22,8 +22,8 @@ namespace capi {
     typedef struct DiplomatFelt_new_from_hex_result {union {diplomat::capi::DiplomatFelt* ok; diplomat::capi::ControllerError* err;}; bool is_ok;} DiplomatFelt_new_from_hex_result;
     DiplomatFelt_new_from_hex_result DiplomatFelt_new_from_hex(diplomat::capi::DiplomatStringView hex);
 
-    typedef struct DiplomatFelt_new_from_bytes_result {union {diplomat::capi::DiplomatFelt* ok; diplomat::capi::ControllerError* err;}; bool is_ok;} DiplomatFelt_new_from_bytes_result;
-    DiplomatFelt_new_from_bytes_result DiplomatFelt_new_from_bytes(diplomat::capi::DiplomatU8View bytes);
+    typedef struct DiplomatFelt_new_from_bytes_be_result {union {diplomat::capi::DiplomatFelt* ok; diplomat::capi::ControllerError* err;}; bool is_ok;} DiplomatFelt_new_from_bytes_be_result;
+    DiplomatFelt_new_from_bytes_be_result DiplomatFelt_new_from_bytes_be(diplomat::capi::DiplomatU8View bytes);
 
     void DiplomatFelt_destroy(DiplomatFelt* self);
 
@@ -36,8 +36,8 @@ inline diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<Controlle
   return result.is_ok ? diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>>(diplomat::Ok<std::unique_ptr<DiplomatFelt>>(std::unique_ptr<DiplomatFelt>(DiplomatFelt::FromFFI(result.ok)))) : diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
 }
 
-inline diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>> DiplomatFelt::new_from_bytes(diplomat::span<const uint8_t> bytes) {
-  auto result = diplomat::capi::DiplomatFelt_new_from_bytes({bytes.data(), bytes.size()});
+inline diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>> DiplomatFelt::new_from_bytes_be(diplomat::span<const uint8_t> bytes) {
+  auto result = diplomat::capi::DiplomatFelt_new_from_bytes_be({bytes.data(), bytes.size()});
   return result.is_ok ? diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>>(diplomat::Ok<std::unique_ptr<DiplomatFelt>>(std::unique_ptr<DiplomatFelt>(DiplomatFelt::FromFFI(result.ok)))) : diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>>(diplomat::Err<std::unique_ptr<ControllerError>>(std::unique_ptr<ControllerError>(ControllerError::FromFFI(result.err))));
 }
 

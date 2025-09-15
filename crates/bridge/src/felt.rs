@@ -1,7 +1,8 @@
 #[diplomat::bridge]
 pub mod ffi {
+    use account_sdk::abigen;
     use diplomat_runtime::DiplomatStr;
-    use starknet::core::types::Felt;
+    use starknet::core::types::{Call, Felt};
 
     use crate::error::ffi::ControllerError;
 
@@ -23,11 +24,12 @@ pub mod ffi {
                 .map_err(|e| Box::new(ControllerError(format!("Invalid felt hex: {e}"))))?;
             Ok(Box::new(DiplomatFelt(felt)))
         }
-        pub fn new_from_bytes(bytes: &[u8]) -> Result<Box<DiplomatFelt>, Box<ControllerError>> {
+        pub fn new_from_bytes_be(bytes: &[u8]) -> Result<Box<DiplomatFelt>, Box<ControllerError>> {
             Ok(Box::new(DiplomatFelt(Felt::from_bytes_be_slice(bytes))))
         }
     }
 
+    #[derive(Clone)]
     #[diplomat::opaque]
     pub struct DiplomatCall(pub starknet::core::types::Call);
 
@@ -45,25 +47,57 @@ pub mod ffi {
                 .calldata
                 .push(Felt::from_hex(std::str::from_utf8(felt).unwrap()).unwrap());
         }
-        pub fn push_calldata_bytes(&mut self, byte: &[u8]) {
+
+        pub fn push_calldata_bytes_be(&mut self, byte: &[u8]) {
             self.0.calldata.push(Felt::from_bytes_be_slice(byte));
+        }
+
+        pub fn push_calldata(&mut self, felt: &DiplomatFelt) {
+            self.0.calldata.push(felt.0);
+        }
+    }
+
+    impl From<DiplomatCall> for Call {
+        fn from(value: DiplomatCall) -> Call {
+            value.0
+        }
+    }
+
+    impl From<DiplomatCall> for abigen::controller::Call {
+        fn from(value: DiplomatCall) -> abigen::controller::Call {
+            value.0.into()
         }
     }
 
     #[diplomat::opaque]
-    pub struct DiplomatCallList {
-        pub calls: Vec<DiplomatCall>,
-    }
+    pub struct DiplomatCallList(pub Vec<DiplomatCall>);
 
     impl DiplomatCallList {
         /// Create a new empty call list
         pub fn new() -> Box<DiplomatCallList> {
-            Box::new(DiplomatCallList { calls: Vec::new() })
+            Box::new(DiplomatCallList(Vec::new()))
         }
 
         /// Add a call to the list
         pub fn add_call(&mut self, call: &DiplomatCall) {
-            self.calls.push(DiplomatCall(call.0.clone()));
+            self.0.push(DiplomatCall(call.0.clone()));
+        }
+    }
+
+    impl From<DiplomatCallList> for Vec<Call> {
+        fn from(value: DiplomatCallList) -> Vec<Call> {
+            value.0.iter().cloned().map(Into::into).collect::<Vec<_>>()
+        }
+    }
+
+    impl From<DiplomatCallList> for Vec<abigen::controller::Call> {
+        fn from(value: DiplomatCallList) -> Vec<abigen::controller::Call> {
+            value.0.iter().cloned().map(Into::into).collect::<Vec<_>>()
+        }
+    }
+    impl From<&DiplomatCallList> for Vec<abigen::controller::Call> {
+        fn from(value: &DiplomatCallList) -> Vec<abigen::controller::Call> {
+            value.0.iter().cloned().map(Into::into).collect::<Vec<_>>()
         }
     }
 }

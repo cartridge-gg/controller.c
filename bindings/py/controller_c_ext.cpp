@@ -4,18 +4,20 @@
 // Forward declarations for binding add functions
 
 void add_CONTROLLERS_binding(nb::handle);
+void add_Controller_binding(nb::handle);
+void add_ControllerInner_binding(nb::handle);
 void add_ControllerError_binding(nb::handle);
 void add_DiplomatCall_binding(nb::handle);
 void add_DiplomatCallList_binding(nb::handle);
 void add_DiplomatFelt_binding(nb::handle);
-void add_Controller_binding(nb::handle);
-void add_ControllerWithRuntime_binding(nb::handle);
+void add_SessionAccount_binding(nb::handle);
+void add_SessionAccountInner_binding(nb::handle);
+void add_DiplomatPolicies_binding(nb::handle);
 void add_DiplomatOwner_binding(nb::handle);
 void add_DiplomatSigner_binding(nb::handle);
-void add_Eip191Signer_binding(nb::handle);
-void add_StarknetSigner_binding(nb::handle);
-void add_WebauthnSigner_binding(nb::handle);
+void add_ResponseDataOut_binding(nb::handle);
 void add_SubscribeCreateSessionResponse_binding(nb::handle);
+void add_Utils_binding(nb::handle);
 void add_SignerType_binding(nb::handle);
 void add_Version_binding(nb::handle);
 void add_OwnerType_binding(nb::handle);
@@ -75,18 +77,20 @@ NB_MODULE(controller_c, controller_c_mod)
     // Module declarations
     // Add bindings
     add_CONTROLLERS_binding(controller_c_mod);
+    add_Controller_binding(controller_c_mod);
+    add_ControllerInner_binding(controller_c_mod);
     add_ControllerError_binding(controller_c_mod);
     add_DiplomatCall_binding(controller_c_mod);
     add_DiplomatCallList_binding(controller_c_mod);
     add_DiplomatFelt_binding(controller_c_mod);
-    add_Controller_binding(controller_c_mod);
-    add_ControllerWithRuntime_binding(controller_c_mod);
+    add_SessionAccount_binding(controller_c_mod);
+    add_SessionAccountInner_binding(controller_c_mod);
+    add_DiplomatPolicies_binding(controller_c_mod);
     add_DiplomatOwner_binding(controller_c_mod);
     add_DiplomatSigner_binding(controller_c_mod);
-    add_Eip191Signer_binding(controller_c_mod);
-    add_StarknetSigner_binding(controller_c_mod);
-    add_WebauthnSigner_binding(controller_c_mod);
+    add_ResponseDataOut_binding(controller_c_mod);
     add_SubscribeCreateSessionResponse_binding(controller_c_mod);
+    add_Utils_binding(controller_c_mod);
     add_SignerType_binding(controller_c_mod);
     add_Version_binding(controller_c_mod);
     add_OwnerType_binding(controller_c_mod);

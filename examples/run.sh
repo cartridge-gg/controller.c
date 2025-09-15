@@ -15,7 +15,7 @@ echo -e "${YELLOW}Building C example...${NC}"
 # Ensure the Rust library is built first
 echo "Building Rust library..."
 cd "$PROJECT_ROOT"
-cargo run --bin generator
+cargo run --bin generator -- py
 
 # Compile the C example
 echo -e "\n${YELLOW}Compiling test_controller.c...${NC}"

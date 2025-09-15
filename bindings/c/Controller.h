@@ -49,11 +49,19 @@ Controller_disconnect_result Controller_disconnect(const Controller* self);
 typedef struct Controller_execute_result {union { ControllerError* err;}; bool is_ok;} Controller_execute_result;
 Controller_execute_result Controller_execute(const Controller* self, const DiplomatCallList* calls, DiplomatWrite* write);
 
+typedef struct Controller_switch_chain_result {union { ControllerError* err;}; bool is_ok;} Controller_switch_chain_result;
+Controller_switch_chain_result Controller_switch_chain(const Controller* self, DiplomatStringView rpc_url);
+
 typedef struct Controller_delegate_account_result {union { ControllerError* err;}; bool is_ok;} Controller_delegate_account_result;
 Controller_delegate_account_result Controller_delegate_account(const Controller* self, DiplomatWrite* write);
 
 typedef struct Controller_transfer_result {union { ControllerError* err;}; bool is_ok;} Controller_transfer_result;
 Controller_transfer_result Controller_transfer(const Controller* self, DiplomatStringView recipient, DiplomatStringView amount, DiplomatWrite* write);
+
+typedef struct Controller_error_message_result {union { ControllerError* err;}; bool is_ok;} Controller_error_message_result;
+Controller_error_message_result Controller_error_message(const Controller* self, DiplomatWrite* write);
+
+void Controller_clear_last_error(const Controller* self);
 
 void Controller_destroy(Controller* self);
 

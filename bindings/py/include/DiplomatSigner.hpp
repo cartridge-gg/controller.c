@@ -11,6 +11,7 @@
 #include <functional>
 #include <optional>
 #include <cstdlib>
+#include "DiplomatFelt.hpp"
 #include "diplomat_runtime.hpp"
 
 
@@ -18,11 +19,18 @@ namespace diplomat {
 namespace capi {
     extern "C" {
 
+    diplomat::capi::DiplomatSigner* DiplomatSigner_new_starknet_signer(const diplomat::capi::DiplomatFelt* secret_scalar);
+
     void DiplomatSigner_destroy(DiplomatSigner* self);
 
     } // extern "C"
 } // namespace capi
 } // namespace
+
+inline std::unique_ptr<DiplomatSigner> DiplomatSigner::new_starknet_signer(const DiplomatFelt& secret_scalar) {
+  auto result = diplomat::capi::DiplomatSigner_new_starknet_signer(secret_scalar.AsFFI());
+  return std::unique_ptr<DiplomatSigner>(DiplomatSigner::FromFFI(result));
+}
 
 inline const diplomat::capi::DiplomatSigner* DiplomatSigner::AsFFI() const {
   return reinterpret_cast<const diplomat::capi::DiplomatSigner*>(this);

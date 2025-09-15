@@ -3,7 +3,7 @@ pub mod ffi {
     use starknet::signers::SigningKey;
     use starknet_crypto::Felt;
 
-    use crate::error::ffi::ControllerError;
+    use crate::{error::ffi::ControllerError, felt::ffi::DiplomatFelt};
 
     pub enum OwnerType {
         Signer,
@@ -17,28 +17,14 @@ pub mod ffi {
 
     /// Opaque wrapper for complex Signer type
     #[diplomat::opaque]
-    pub struct DiplomatSigner {
-        pub webauthn: Option<Box<WebauthnSigner>>,
-        pub starknet: Option<Box<StarknetSigner>>,
-        pub eip191: Option<Box<Eip191Signer>>,
-    }
+    pub struct DiplomatSigner(pub account_sdk::signers::Signer);
 
-    /// Opaque wrapper for WebauthnSigner
-    #[diplomat::opaque]
-    pub struct WebauthnSigner {
-        // Internal fields
-    }
-
-    /// Opaque wrapper for StarknetSigner  
-    #[diplomat::opaque]
-    pub struct StarknetSigner {
-        pub private_key: String,
-    }
-
-    /// Opaque wrapper for Eip191Signer
-    #[diplomat::opaque]
-    pub struct Eip191Signer {
-        // Internal fields
+    impl DiplomatSigner {
+        pub fn new_starknet_signer(secret_scalar: &DiplomatFelt) -> Box<DiplomatSigner> {
+            Box::new(DiplomatSigner(account_sdk::signers::Signer::Starknet(
+                SigningKey::from_secret_scalar(secret_scalar.into()),
+            )))
+        }
     }
 
     impl DiplomatOwner {
@@ -47,12 +33,23 @@ pub mod ffi {
         ) -> Result<Box<DiplomatOwner>, Box<ControllerError>> {
             let starknet_signer = SigningKey::from_secret_scalar(
                 Felt::from_hex(std::str::from_utf8(starknet_pk).unwrap())
-                    .map_err(|e| crate::ffi::store_error!(e))?,
+                    .map_err(|e| crate::error::ffi::store_error!(e))?,
             );
             let signer = account_sdk::signers::Signer::Starknet(starknet_signer);
             Ok(Box::new(DiplomatOwner(
                 account_sdk::signers::Owner::Signer(signer),
             )))
+        }
+    }
+
+    impl From<DiplomatSigner> for account_sdk::signers::Signer {
+        fn from(value: DiplomatSigner) -> account_sdk::signers::Signer {
+            value.0
+        }
+    }
+    impl From<&DiplomatSigner> for account_sdk::signers::Signer {
+        fn from(value: &DiplomatSigner) -> account_sdk::signers::Signer {
+            value.0.clone()
         }
     }
 }

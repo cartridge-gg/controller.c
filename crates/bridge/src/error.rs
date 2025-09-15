@@ -1,12 +1,30 @@
+use diplomat_runtime::DiplomatWrite;
+
 #[diplomat::bridge]
 pub mod ffi {
     use diplomat_runtime::DiplomatWrite;
+    use lazy_static::lazy_static;
     use starknet::core::types::FromStrError;
     use std::fmt::Write;
     use std::str::Utf8Error;
+    use std::sync::{Arc, Mutex};
     use url::ParseError;
 
-    use crate::ffi::LAST_ERROR;
+    lazy_static! {
+        /// Global storage for the last error message
+        pub static ref LAST_ERROR: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
+    }
+
+    /// Helper macro to store error message before returning
+    macro_rules! store_error {
+        ($err:expr) => {{
+            let err_msg = $err.to_string();
+            let mut last_error = crate::error::ffi::LAST_ERROR.lock().unwrap();
+            *last_error = Some(err_msg.clone());
+            Box::new(ControllerError(err_msg))
+        }};
+    }
+    pub(crate) use store_error;
 
     /// Error types for controller operations
     #[diplomat::opaque]

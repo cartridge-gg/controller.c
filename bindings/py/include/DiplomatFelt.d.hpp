@@ -26,7 +26,7 @@ public:
 
   inline static diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>> new_from_hex(std::string_view hex);
 
-  inline static diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>> new_from_bytes(diplomat::span<const uint8_t> bytes);
+  inline static diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>> new_from_bytes_be(diplomat::span<const uint8_t> bytes);
 
   inline const diplomat::capi::DiplomatFelt* AsFFI() const;
   inline diplomat::capi::DiplomatFelt* AsFFI();
