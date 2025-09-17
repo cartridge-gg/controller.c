@@ -3,9 +3,8 @@ members = ["crates/bridge", "crates/generator"]
 resolver = "2"
 
 
-
 [workspace.dependencies]
-diplomat = "0.12.0"
-diplomat-runtime = "0.12.0"
-diplomat-tool = "0.12.0"
-diplomat_core = "0.12.0"
+diplomat = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
+diplomat-runtime = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
+diplomat-tool = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
+diplomat_core = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }

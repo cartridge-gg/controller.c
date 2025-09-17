@@ -15,16 +15,20 @@ echo -e "${YELLOW}Building C example...${NC}"
 # Ensure the Rust library is built first
 echo "Building Rust library..."
 cd "$PROJECT_ROOT"
-cargo run --bin generator -- py
+cargo run --bin generator -- c
+
+# Build the bridge crate as a dynamic library
+echo "Building controller-c library..."
+cargo build --release --package controller-c
 
 # Compile the C example
-echo -e "\n${YELLOW}Compiling test_controller.c...${NC}"
+echo -e "\n${YELLOW}Compiling test_session_account.c...${NC}"
 
 # For macOS (adjust for Linux if needed)
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
     gcc -o "$SCRIPT_DIR/test_controller" \
-        "$SCRIPT_DIR/test_controller.c" \
+        "$SCRIPT_DIR/test_session_account.c" \
         -L"$PROJECT_ROOT/target/release" \
         -lcontroller_c \
         -framework CoreFoundation \
@@ -33,7 +37,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
     # Linux
     gcc -o "$SCRIPT_DIR/test_controller" \
-        "$SCRIPT_DIR/test_controller.c" \
+        "$SCRIPT_DIR/test_session_account.c" \
         -L"$PROJECT_ROOT/target/release" \
         -lcontroller_c \
         -lpthread \
@@ -51,4 +55,4 @@ else
     echo "export LD_LIBRARY_PATH=$PROJECT_ROOT/target/release:\$LD_LIBRARY_PATH"
 fi
 
-$PROJECT_ROOT/examples/test_controller
+"$PROJECT_ROOT"/examples/test_controller

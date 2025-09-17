@@ -10,7 +10,8 @@
 #include "ControllerError.d.h"
 #include "DiplomatCallList.d.h"
 #include "DiplomatFelt.d.h"
-#include "DiplomatPolicies.d.h"
+#include "DiplomatSessionPolicies.d.h"
+#include "DiplomatSigner.d.h"
 
 #include "SessionAccount.d.h"
 
@@ -19,8 +20,11 @@
 
 
 
+typedef struct SessionAccount_create_from_subscribe_create_session_result {union {SessionAccount* ok; ControllerError* err;}; bool is_ok;} SessionAccount_create_from_subscribe_create_session_result;
+SessionAccount_create_from_subscribe_create_session_result SessionAccount_create_from_subscribe_create_session(const DiplomatSigner* signer, const DiplomatSessionPolicies* policies, DiplomatStringView rpc_url, DiplomatStringView cartridge_api_url);
+
 typedef struct SessionAccount_new_as_registered_result {union {SessionAccount* ok; ControllerError* err;}; bool is_ok;} SessionAccount_new_as_registered_result;
-SessionAccount_new_as_registered_result SessionAccount_new_as_registered(DiplomatStringView rpc_url, const DiplomatFelt* signer, const DiplomatFelt* address, const DiplomatFelt* owner_guid, const DiplomatFelt* chain_id, const DiplomatPolicies* policies, uint64_t session_expiration);
+SessionAccount_new_as_registered_result SessionAccount_new_as_registered(DiplomatStringView rpc_url, const DiplomatSigner* signer, const DiplomatFelt* address, const DiplomatFelt* owner_guid, const DiplomatFelt* chain_id, const DiplomatSessionPolicies* policies, uint64_t session_expiration);
 
 typedef struct SessionAccount_execute_result {union { ControllerError* err;}; bool is_ok;} SessionAccount_execute_result;
 SessionAccount_execute_result SessionAccount_execute(const SessionAccount* self, const DiplomatCallList* calls, DiplomatWrite* write);

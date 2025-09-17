@@ -24,6 +24,8 @@ Utils_subscribe_create_session_result Utils_subscribe_create_session(const Diplo
 
 DiplomatFelt* Utils_signer_to_guid(const DiplomatSigner* signer);
 
+DiplomatFelt* Utils_get_public_key(const DiplomatFelt* private_key);
+
 void Utils_destroy(Utils* self);
 
 

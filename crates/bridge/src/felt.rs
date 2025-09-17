@@ -1,17 +1,40 @@
 #[diplomat::bridge]
 pub mod ffi {
+    use crate::error::ffi::ControllerError;
     use account_sdk::abigen;
     use diplomat_runtime::DiplomatStr;
     use starknet::core::types::{Call, Felt};
+    use std::fmt::Write;
 
-    use crate::error::ffi::ControllerError;
-
+    #[derive(Debug)]
     #[diplomat::opaque]
     pub struct DiplomatFelt(pub Felt);
 
     impl From<&DiplomatFelt> for Felt {
         fn from(value: &DiplomatFelt) -> Felt {
             value.0
+        }
+    }
+
+    impl From<Felt> for DiplomatFelt {
+        fn from(value: Felt) -> DiplomatFelt {
+            DiplomatFelt(value)
+        }
+    }
+    impl TryFrom<String> for DiplomatFelt {
+        type Error = Box<ControllerError>;
+        fn try_from(value: String) -> Result<DiplomatFelt, Self::Error> {
+            Ok(DiplomatFelt(
+                Felt::from_hex(&value).map_err(|e| Box::new(ControllerError(e.to_string())))?,
+            ))
+        }
+    }
+    impl TryFrom<&String> for DiplomatFelt {
+        type Error = Box<ControllerError>;
+        fn try_from(value: &String) -> Result<DiplomatFelt, Self::Error> {
+            Ok(DiplomatFelt(
+                Felt::from_hex(&value).map_err(|e| Box::new(ControllerError(e.to_string())))?,
+            ))
         }
     }
 
@@ -26,6 +49,10 @@ pub mod ffi {
         }
         pub fn new_from_bytes_be(bytes: &[u8]) -> Result<Box<DiplomatFelt>, Box<ControllerError>> {
             Ok(Box::new(DiplomatFelt(Felt::from_bytes_be_slice(bytes))))
+        }
+
+        pub fn to_hex_string(&self, write: &mut DiplomatWrite) -> () {
+            let _ = write!(write, "{:#x}", self.0);
         }
     }
 

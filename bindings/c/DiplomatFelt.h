@@ -22,6 +22,8 @@ DiplomatFelt_new_from_hex_result DiplomatFelt_new_from_hex(DiplomatStringView he
 typedef struct DiplomatFelt_new_from_bytes_be_result {union {DiplomatFelt* ok; ControllerError* err;}; bool is_ok;} DiplomatFelt_new_from_bytes_be_result;
 DiplomatFelt_new_from_bytes_be_result DiplomatFelt_new_from_bytes_be(DiplomatU8View bytes);
 
+void DiplomatFelt_to_hex_string(const DiplomatFelt* self, DiplomatWrite* write);
+
 void DiplomatFelt_destroy(DiplomatFelt* self);
 
 

@@ -33,7 +33,7 @@ pub mod ffi {
         ) -> Result<Box<DiplomatOwner>, Box<ControllerError>> {
             let starknet_signer = SigningKey::from_secret_scalar(
                 Felt::from_hex(std::str::from_utf8(starknet_pk).unwrap())
-                    .map_err(|e| crate::error::ffi::store_error!(e))?,
+                    .map_err(|e| Box::new(ControllerError(e.to_string())))?,
             );
             let signer = account_sdk::signers::Signer::Starknet(starknet_signer);
             Ok(Box::new(DiplomatOwner(
@@ -43,13 +43,29 @@ pub mod ffi {
     }
 
     impl From<DiplomatSigner> for account_sdk::signers::Signer {
-        fn from(value: DiplomatSigner) -> account_sdk::signers::Signer {
+        fn from(value: DiplomatSigner) -> Self {
             value.0
         }
     }
     impl From<&DiplomatSigner> for account_sdk::signers::Signer {
-        fn from(value: &DiplomatSigner) -> account_sdk::signers::Signer {
+        fn from(value: &DiplomatSigner) -> Self {
             value.0.clone()
+        }
+    }
+
+    impl From<DiplomatSigner> for account_sdk::abigen::controller::Signer {
+        fn from(value: DiplomatSigner) -> Self {
+            value.0.into()
+        }
+    }
+    impl From<&DiplomatSigner> for account_sdk::abigen::controller::Signer {
+        fn from(value: &DiplomatSigner) -> Self {
+            value.0.clone().into()
+        }
+    }
+    impl From<&DiplomatSigner> for DiplomatFelt {
+        fn from(value: &DiplomatSigner) -> Self {
+            DiplomatFelt(value.0.clone().into())
         }
     }
 }

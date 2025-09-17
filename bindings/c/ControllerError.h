@@ -20,10 +20,6 @@ ControllerError_message_result ControllerError_message(const ControllerError* se
 
 void ControllerError_get_message_string(const ControllerError* self, DiplomatWrite* write);
 
-void ControllerError_get_last_error_message(DiplomatWrite* write);
-
-void ControllerError_clear_last_error(void);
-
 void ControllerError_destroy(ControllerError* self);
 
 

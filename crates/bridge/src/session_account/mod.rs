@@ -1,3 +1,4 @@
+pub mod policies;
 pub mod session;
 
 #[diplomat::bridge]
@@ -10,15 +11,15 @@ pub mod ffi {
     use account_sdk::provider::{
         CartridgeJsonRpcProvider, CartridgeProvider, ExecuteFromOutsideResponse,
     };
-    use account_sdk::signers::Signer;
     use chrono::Utc;
     use diplomat_runtime::{DiplomatStr, DiplomatWrite};
     use starknet::accounts::{Account, ConnectedAccount};
     use starknet::core::types::Felt;
+    use starknet::core::utils::cairo_short_string_to_felt;
+    use starknet::macros::short_string;
     use starknet::signers::SigningKey;
     use std::fmt::Write;
     use std::sync::{Arc, Mutex};
-    use tokio::runtime::Runtime;
     use url::Url;
 
     /// Session Account Wrapper
@@ -34,43 +35,85 @@ pub mod ffi {
 
     use crate::error::ffi::ControllerError;
     use crate::felt::ffi::{DiplomatCallList, DiplomatFelt};
-    use crate::session_account::session::ffi::DiplomatPolicies;
+    use crate::session_account::session::ffi::DiplomatSessionPolicies;
+    use crate::signer::ffi::DiplomatSigner;
+    use crate::utils::ffi::Utils;
 
     impl SessionAccount {
-        /// Creates a new Controller instance
+        pub fn create_from_subscribe_create_session(
+            signer: &DiplomatSigner,
+            policies: &DiplomatSessionPolicies,
+            rpc_url: &DiplomatStr,
+            cartridge_api_url: &str,
+        ) -> Result<Box<SessionAccount>, Box<ControllerError>> {
+            println!("He");
+            let session_key_guid: DiplomatFelt = signer.into();
+            let response_data_out =
+                Utils::subscribe_create_session(&session_key_guid, cartridge_api_url)?;
+
+            let data = response_data_out
+                .data
+                .subscribe_create_session
+                .ok_or(Box::new(ControllerError(
+                    "No data inside the subscribe create session".to_string(),
+                )))?;
+            if Felt::from_hex(&data.authorization[0])
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
+                != short_string!("authorization-by-registered")
+            {
+                return Err(Box::new(ControllerError(
+                    "Invalid authorization".to_string(),
+                )));
+            }
+
+            Ok(Box::new(*SessionAccount::new_as_registered(
+                rpc_url,
+                signer,
+                &data.controller.address.try_into()?,
+                &(&data.authorization[1]).try_into()?,
+                &cairo_short_string_to_felt(&data.chain_id)
+                    .map_err(|e| {
+                        Box::new(ControllerError(format!("Failed to parse chainId {}", e)))
+                    })?
+                    .into(),
+                policies,
+                data.expires_at,
+            )?))
+        }
+
+        /// Creates a new Session Account instance
         pub fn new_as_registered(
             rpc_url: &DiplomatStr,
-            signer: &DiplomatFelt,
+            signer: &DiplomatSigner,
             address: &DiplomatFelt,
             owner_guid: &DiplomatFelt,
             chain_id: &DiplomatFelt,
-            policies: &DiplomatPolicies,
+            policies: &DiplomatSessionPolicies,
             session_expiration: u64,
         ) -> Result<Box<SessionAccount>, Box<ControllerError>> {
             let rpc_url_str = std::str::from_utf8(rpc_url)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
-            let rpc_url_parsed =
-                Url::parse(rpc_url_str.as_str()).map_err(|e| crate::error::ffi::store_error!(e))?;
+            let rpc_url_parsed = Url::parse(rpc_url_str.as_str())
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
             let provider = CartridgeJsonRpcProvider::new(rpc_url_parsed);
 
-            let signer = Signer::Starknet(SigningKey::from_secret_scalar(signer.0));
             let address = address.0;
             let chain_id = chain_id.0;
 
             let session = account_sdk::account::session::hash::Session::new(
-                policies.into(),
+                policies.try_into()?,
                 session_expiration,
-                &signer.clone().into(),
+                &signer.into(),
                 Felt::ZERO,
             )
-            .map_err(|e| crate::error::ffi::store_error!(e))?;
+            .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             Ok(Box::new(SessionAccount(Arc::new(Mutex::new(
                 SessionAccountInner {
                     session_account: SdkSessionAccount::new_as_registered(
                         provider,
-                        signer,
+                        signer.into(),
                         address,
                         chain_id,
                         owner_guid.0,
@@ -134,7 +177,7 @@ pub mod ffi {
                             .session_account
                             .sign_outside_execution(OutsideExecution::V3(outside_execution.clone()))
                             .await
-                            .map_err(|e| crate::error::ffi::store_error!(e))?;
+                            .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
                         let res = session
                             .session_account
@@ -146,7 +189,7 @@ pub mod ffi {
                                 None,
                             )
                             .await
-                            .map_err(|e| crate::error::ffi::store_error!(e))?;
+                            .map_err(|e| Box::new(ControllerError(e.to_string())))?;
                         Ok::<ExecuteFromOutsideResponse, Box<ControllerError>>(res)
                     }
                 })?;

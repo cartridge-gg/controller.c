@@ -20,9 +20,8 @@ pub mod ffi {
 
     use crate::constants::ffi::SignerType;
     use crate::error::ffi::ControllerError;
-    use crate::felt::ffi::{DiplomatCallList, DiplomatFelt};
+    use crate::felt::ffi::DiplomatCallList;
     use crate::signer::ffi::DiplomatOwner;
-    use crate::types::ffi::SubscribeCreateSessionResponse;
 
     impl Controller {
         /// Creates a new Controller instance
@@ -36,31 +35,31 @@ pub mod ffi {
             chain_id: &DiplomatStr,
         ) -> Result<Box<Controller>, Box<ControllerError>> {
             let app_id_str = std::str::from_utf8(app_id)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let username_str = std::str::from_utf8(username)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let class_hash_str = std::str::from_utf8(class_hash)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let class_hash_felt = Felt::from_hex(class_hash_str.as_str())
-                .map_err(|e| crate::error::ffi::store_error!(e))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
             let rpc_url_str = std::str::from_utf8(rpc_url)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
-            let rpc_url_parsed =
-                Url::parse(rpc_url_str.as_str()).map_err(|e| crate::error::ffi::store_error!(e))?;
+            let rpc_url_parsed = Url::parse(rpc_url_str.as_str())
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
             let address_str = std::str::from_utf8(address)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let address_felt = Felt::from_hex(address_str.as_str())
-                .map_err(|e| crate::error::ffi::store_error!(e))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
             let chain_id_str = std::str::from_utf8(chain_id)
-                .map_err(|e| crate::error::ffi::store_error!(e))?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let chain_id_felt = Felt::from_hex(chain_id_str.as_str())
-                .map_err(|e| crate::error::ffi::store_error!(e))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             let controller = SdkController::new(
                 app_id_str,
@@ -90,36 +89,26 @@ pub mod ffi {
             chain_id: &DiplomatStr,
         ) -> Result<Box<Controller>, Box<ControllerError>> {
             let app_id_str = std::str::from_utf8(app_id)
-                .map_err(|e| {
-                    crate::error::ffi::store_error!(format!("Invalid UTF-8 in app_id: {e}"))
-                })?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let username_str = std::str::from_utf8(username)
-                .map_err(|e| {
-                    crate::error::ffi::store_error!(format!("Invalid UTF-8 in username: {e}"))
-                })?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let class_hash_str = std::str::from_utf8(class_hash)
-                .map_err(|e| {
-                    crate::error::ffi::store_error!(format!("Invalid UTF-8 in class_hash: {e}"))
-                })?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let class_hash_felt = Felt::from_hex(class_hash_str.as_str())
-                .map_err(|e| crate::error::ffi::store_error!(format!("Invalid class hash: {e}")))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
             let rpc_url_str = std::str::from_utf8(rpc_url)
-                .map_err(|e| {
-                    crate::error::ffi::store_error!(format!("Invalid UTF-8 in rpc_url: {e}"))
-                })?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let rpc_url_parsed = Url::parse(rpc_url_str.as_str())
-                .map_err(|e| crate::error::ffi::store_error!(format!("Invalid RPC URL: {e}")))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
             let chain_id_str = std::str::from_utf8(chain_id)
-                .map_err(|e| {
-                    crate::error::ffi::store_error!(format!("Invalid UTF-8 in chain_id: {e}"))
-                })?
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?
                 .to_string();
             let chain_id_felt = Felt::from_hex(chain_id_str.as_str())
-                .map_err(|e| crate::error::ffi::store_error!(format!("Invalid chain ID: {e}")))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             let controller = SdkController::new_headless(
                 app_id_str,
@@ -153,10 +142,10 @@ pub mod ffi {
                         last_error: DiplomatOption::from(None),
                     },
                 )))))),
-                Ok(None) => Err(crate::error::ffi::store_error!(
-                    "No controller found in storage"
-                )),
-                Err(e) => Err(crate::error::ffi::store_error!(e)),
+                Ok(None) => Err(Box::new(ControllerError(
+                    ("No controller found in storage").to_string(),
+                ))),
+                Err(e) => Err(Box::new(ControllerError(e.to_string()))),
             }
         }
 
@@ -254,11 +243,11 @@ pub mod ffi {
         pub fn switch_chain(&self, rpc_url: &DiplomatStr) -> Result<(), Box<ControllerError>> {
             let mut inner = self.0.lock().unwrap();
 
-            let rpc_url_str = std::str::from_utf8(rpc_url).map_err(|e| {
-                crate::error::ffi::store_error!(format!("Invalid UTF-8 in rpc_url: {}", e))
-            })?;
+            let rpc_url_str = std::str::from_utf8(rpc_url)
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
-            let url = Url::parse(rpc_url_str).map_err(|e| crate::error::ffi::store_error!(e))?;
+            let url =
+                Url::parse(rpc_url_str).map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             tokio::runtime::Builder::new_current_thread()
                 .enable_all()
@@ -283,7 +272,7 @@ pub mod ffi {
                 .build()
                 .expect("Failed to create Tokio runtime")
                 .block_on(inner.controller.delegate_account())
-                .map_err(|e| crate::error::ffi::store_error!(e))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             write!(result, "{delegate:#x}").unwrap();
             Ok(())
@@ -296,20 +285,17 @@ pub mod ffi {
             amount: &DiplomatStr,
             result: &mut DiplomatWrite,
         ) -> Result<(), Box<ControllerError>> {
-            let recipient_str = std::str::from_utf8(recipient).map_err(|e| {
-                crate::error::ffi::store_error!(format!("Invalid UTF-8 in recipient: {e}"))
-            })?;
+            let recipient_str = std::str::from_utf8(recipient)
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
-            let recipient_felt = Felt::from_hex(recipient_str).map_err(|e| {
-                crate::error::ffi::store_error!(format!("Invalid recipient address: {e}"))
-            })?;
+            let recipient_felt = Felt::from_hex(recipient_str)
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
-            let amount_str = std::str::from_utf8(amount).map_err(|e| {
-                crate::error::ffi::store_error!(format!("Invalid UTF-8 in amount: {e}"))
-            })?;
+            let amount_str = std::str::from_utf8(amount)
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
-            let amount_felt = Felt::from_hex(amount_str)
-                .map_err(|e| crate::error::ffi::store_error!(format!("Invalid amount: {e}")))?;
+            let amount_felt =
+                Felt::from_hex(amount_str).map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             let call = starknet::core::types::Call {
                 to: STRK_CONTRACT_ADDRESS,
@@ -323,7 +309,7 @@ pub mod ffi {
                 .build()
                 .expect("Failed to create Tokio runtime")
                 .block_on(inner.controller.execute(vec![call], None, None))
-                .map_err(|e| crate::error::ffi::store_error!(e))?;
+                .map_err(|e| Box::new(ControllerError(e.to_string())))?;
 
             write!(result, "{:#x}", tx_result.transaction_hash).unwrap();
             Ok(())
