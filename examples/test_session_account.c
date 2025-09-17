@@ -26,11 +26,14 @@ OptionStringView toOptionStringView(const char *string) {
                             .is_ok = true};
 }
 
+const char *RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet/rpc/v0_9";
+const char *CARTRIDGE_API_URL = "https://api.cartridge.gg";
+const char *KEYCHAIN_URL = "https://x.cartridge.gg";
+
 int main() {
   char buffer[1024];
   DiplomatWrite writeable = diplomat_simple_write(buffer, sizeof(buffer));
 
-  const char *rpc_url = "http://localhost:8001/x/starknet/mainnet/rpc/v0_9";
   // Test private key - DO NOT USE IN PRODUCTION
   DiplomatStringView private_key_view = toStringView(
       "0x1234567890123456789012345678901234567890123456789012345678901234");
@@ -71,10 +74,10 @@ int main() {
   DiplomatFelt_to_hex_string(public_key, &writeable);
 
   printf("Please open a browser to this URL and create a session: "
-         "http://localhost:3001/"
-         "session?public_key=%.*s&redirect_uri=http://example.com&"
+         "%s"
+         "/session?public_key=%.*s&redirect_uri=http://example.com&"
          "redirect_query_name=startapp&policies=%s&rpc_url=%s\n",
-         (int)writeable.len, buffer, policies, rpc_url);
+         KEYCHAIN_URL, (int)writeable.len, buffer, policies, RPC_URL);
 
   DiplomatSigner *starknet_signer = DiplomatSigner_new_starknet_signer(pk.ok);
   DiplomatFelt *guid = Utils_signer_to_guid(starknet_signer);
@@ -86,11 +89,11 @@ int main() {
   DiplomatOwner_new_from_starknet_signer_result owner_result =
       DiplomatOwner_new_from_starknet_signer(private_key_view);
 
-  DiplomatStringView api_url = toStringView("http://localhost:8000");
+  DiplomatStringView api_url = toStringView(CARTRIDGE_API_URL);
 
   SessionAccount_create_from_subscribe_create_session_result ret =
       SessionAccount_create_from_subscribe_create_session(
-          starknet_signer, session_policies, toStringView(rpc_url), api_url);
+          starknet_signer, session_policies, toStringView(RPC_URL), api_url);
 
   if (!ret.is_ok) {
     printf("❌ Failed to get ret\n");

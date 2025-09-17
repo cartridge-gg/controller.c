@@ -15,7 +15,6 @@ pub mod ffi {
             session_key_guid: &DiplomatFelt,
             cartridge_api_url: &str,
         ) -> Result<Box<ResponseDataOut>, Box<ControllerError>> {
-            println!("session_key_guid {:?}", session_key_guid);
             tokio::runtime::Builder::new_current_thread()
                 .enable_all()
                 .build()

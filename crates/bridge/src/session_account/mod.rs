@@ -46,7 +46,6 @@ pub mod ffi {
             rpc_url: &DiplomatStr,
             cartridge_api_url: &str,
         ) -> Result<Box<SessionAccount>, Box<ControllerError>> {
-            println!("He");
             let session_key_guid: DiplomatFelt = signer.into();
             let response_data_out =
                 Utils::subscribe_create_session(&session_key_guid, cartridge_api_url)?;
