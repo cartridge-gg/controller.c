@@ -10,6 +10,7 @@ void add_DiplomatSigner_binding(nb::handle mod) {
         {Py_tp_dealloc, (void *)diplomat_tp_dealloc},
         {0, nullptr}};
     
-    nb::class_<DiplomatSigner>(mod, "DiplomatSigner", nb::type_slots(DiplomatSigner_slots));
+    nb::class_<DiplomatSigner>(mod, "DiplomatSigner", nb::type_slots(DiplomatSigner_slots))
+    	.def_static("new_starknet_signer", &DiplomatSigner::new_starknet_signer, "secret_scalar"_a);
 }
 

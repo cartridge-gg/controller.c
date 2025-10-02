@@ -23,7 +23,6 @@ void add_Controller_binding(nb::handle mod) {
     	.def_static("new", &Controller::new_, "app_id"_a, "username"_a, "class_hash"_a, "rpc_url"_a, "owner"_a, "address"_a, "chain_id"_a)
     	.def_static("new_headless", &Controller::new_headless, "app_id"_a, "username"_a, "class_hash"_a, "rpc_url"_a, "owner"_a, "chain_id"_a)
     	.def("signup", &Controller::signup, "signer_type"_a, "session_expiration"_a= nb::none(), "cartridge_api_url"_a= nb::none())
-    	.def("subscribe_create_session", &Controller::subscribe_create_session, "controller_id"_a, "session_key_guid"_a, "cartridge_api_url"_a)
     	.def("switch_chain", &Controller::switch_chain, "rpc_url"_a)
     	.def("transfer", &Controller::transfer, "recipient"_a, "amount"_a)
     	.def("username", &Controller::username);

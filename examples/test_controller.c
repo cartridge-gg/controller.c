@@ -9,7 +9,6 @@
 #include <string.h>
 
 int main() {
-
   const char *ETH_CONTRACT_ADDRESS =
       "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 
@@ -76,9 +75,6 @@ int main() {
 
     ControllerError_message(storage_result.err, &error_writeable);
     printf("📝 Error message: %.*s\n", (int)error_writeable.len, error_buffer);
-
-    ErrorType error_type = ControllerError_error_type(storage_result.err);
-    printf("🏷️  Error type: %d\n", error_type);
 
     ControllerError_destroy(storage_result.err);
     return 1;

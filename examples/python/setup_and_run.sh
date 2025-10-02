@@ -152,7 +152,7 @@ build_library() {
     # Run the build script
     log_info "Running build script..."
     if [[ -x "scripts/build.sh" ]]; then
-        ./scripts/build.sh
+        ./scripts/build.sh py
     else
         log_error "Build script not found or not executable"
         exit 1
@@ -226,22 +226,12 @@ if platform.system() == "Darwin":
     extra_compile_args.extend(["-stdlib=libc++", "-mmacosx-version-min=10.14"])
     extra_link_args.extend([f"-Wl,-rpath,{lib_dir}"])
 
-# Include directories - add both nanobind and robin_map paths
-include_dirs = ["include", nanobind.include_dir()]
-
-# Add robin_map include path if it exists
-nanobind_pkg_dir = Path(nanobind.__file__).parent
-robin_map_include = nanobind_pkg_dir / "ext" / "robin_map" / "include"
-if robin_map_include.exists():
-    include_dirs.append(str(robin_map_include))
-    print(f"Added robin_map include: {robin_map_include}")
-
 # Create extension
 ext = Extension(
     "controller_c",
     sources,
-    include_dirs=include_dirs,
-    libraries=["controller_c"],
+    include_dirs=["include", nanobind.include_dir()],    libraries=["controller_c"],
+	libraries=["controller_c"],
     library_dirs=[str(lib_dir)],
     language="c++",
     extra_compile_args=extra_compile_args,

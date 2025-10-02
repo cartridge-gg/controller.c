@@ -11,6 +11,9 @@
 #include <cstdlib>
 #include "diplomat_runtime.hpp"
 
+namespace diplomat::capi { struct DiplomatFelt; }
+class DiplomatFelt;
+
 
 namespace diplomat {
 namespace capi {
@@ -25,7 +28,9 @@ public:
 
   inline void push_calldata_str(std::string_view felt);
 
-  inline void push_calldata_bytes(diplomat::span<const uint8_t> byte);
+  inline void push_calldata_bytes_be(diplomat::span<const uint8_t> byte);
+
+  inline void push_calldata(const DiplomatFelt& felt);
 
   inline const diplomat::capi::DiplomatCall* AsFFI() const;
   inline diplomat::capi::DiplomatCall* AsFFI();

@@ -11,6 +11,9 @@
 #include <cstdlib>
 #include "diplomat_runtime.hpp"
 
+namespace diplomat::capi { struct DiplomatFelt; }
+class DiplomatFelt;
+
 
 namespace diplomat {
 namespace capi {
@@ -23,6 +26,8 @@ namespace capi {
  */
 class DiplomatSigner {
 public:
+
+  inline static std::unique_ptr<DiplomatSigner> new_starknet_signer(const DiplomatFelt& secret_scalar);
 
   inline const diplomat::capi::DiplomatSigner* AsFFI() const;
   inline diplomat::capi::DiplomatSigner* AsFFI();

@@ -2,6 +2,7 @@ from pathlib import Path
 from setuptools import setup, Extension
 import nanobind
 import platform
+import os
 
 # Get project root and library directory
 project_root = Path(__file__).parent.parent.parent
@@ -23,8 +24,8 @@ if platform.system() == "Darwin":
 ext = Extension(
     "controller_c",
     sources,
-    include_dirs=["include", nanobind.include_dir()],
-    libraries=["controller_c"],
+    include_dirs=["include", nanobind.include_dir()],    
+	libraries=["controller_c"],
     library_dirs=[str(lib_dir)],
     language="c++",
     extra_compile_args=extra_compile_args,

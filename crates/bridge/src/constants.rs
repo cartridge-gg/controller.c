@@ -28,7 +28,7 @@ pub mod ffi {
             let sdk_version: account_sdk::artifacts::Version = (version).into();
             let class_hash = SDK_CONTROLLERS
                 .get(&sdk_version)
-                .ok_or_else(|| crate::ffi::store_error!("Version not found"))?;
+                .ok_or_else(|| Box::new(ControllerError("Version not found".to_string())))?;
             let _ = write!(write, "{:#x}", class_hash.hash);
             Ok(())
         }

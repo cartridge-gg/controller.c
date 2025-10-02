@@ -11,6 +11,7 @@
 #include <functional>
 #include <optional>
 #include <cstdlib>
+#include "DiplomatFelt.hpp"
 #include "diplomat_runtime.hpp"
 
 
@@ -22,7 +23,9 @@ namespace capi {
 
     void DiplomatCall_push_calldata_str(diplomat::capi::DiplomatCall* self, diplomat::capi::DiplomatStringView felt);
 
-    void DiplomatCall_push_calldata_bytes(diplomat::capi::DiplomatCall* self, diplomat::capi::DiplomatU8View byte);
+    void DiplomatCall_push_calldata_bytes_be(diplomat::capi::DiplomatCall* self, diplomat::capi::DiplomatU8View byte);
+
+    void DiplomatCall_push_calldata(diplomat::capi::DiplomatCall* self, const diplomat::capi::DiplomatFelt* felt);
 
     void DiplomatCall_destroy(DiplomatCall* self);
 
@@ -41,9 +44,14 @@ inline void DiplomatCall::push_calldata_str(std::string_view felt) {
     {felt.data(), felt.size()});
 }
 
-inline void DiplomatCall::push_calldata_bytes(diplomat::span<const uint8_t> byte) {
-  diplomat::capi::DiplomatCall_push_calldata_bytes(this->AsFFI(),
+inline void DiplomatCall::push_calldata_bytes_be(diplomat::span<const uint8_t> byte) {
+  diplomat::capi::DiplomatCall_push_calldata_bytes_be(this->AsFFI(),
     {byte.data(), byte.size()});
+}
+
+inline void DiplomatCall::push_calldata(const DiplomatFelt& felt) {
+  diplomat::capi::DiplomatCall_push_calldata(this->AsFFI(),
+    felt.AsFFI());
 }
 
 inline const diplomat::capi::DiplomatCall* DiplomatCall::AsFFI() const {
