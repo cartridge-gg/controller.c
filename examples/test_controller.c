@@ -32,7 +32,7 @@ int main() {
 
     return 1;
   }
-  const char *rpc_url = "http://localhost:8001/x/starknet/mainnet";
+  const char *rpc_url = "https://api.cartridge.gg/x/starknet/mainnet/rpc/v0_9";
   const char *address = "0x0";
   const char *chain_id = "0x534e5f4d41494e"; // SN_MAIN
   // Test private key - DO NOT USE IN PRODUCTION
@@ -110,8 +110,8 @@ int main() {
   OptionU64 session_expiration = {.is_ok = true, .ok = 19999999999999};
   OptionStringView cartridge_api_url = {
       .is_ok = true,
-      .ok = {.data = "http://localhost:8000",
-             .len = strlen("http://localhost:8000")}};
+      .ok = {.data = "https://api.cartridge.gg",
+             .len = strlen("https://api.cartridge.gg")}};
   Controller_signup_result signup_result = Controller_signup(
       controller, SignerType_Starknet, session_expiration, cartridge_api_url);
   if (signup_result.is_ok == false && signup_result.err) {
