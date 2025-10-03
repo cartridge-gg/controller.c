@@ -11,7 +11,8 @@ void add_DiplomatFelt_binding(nb::handle mod) {
         {0, nullptr}};
     
     nb::class_<DiplomatFelt>(mod, "DiplomatFelt", nb::type_slots(DiplomatFelt_slots))
-    	.def_static("new_from_bytes_be", &DiplomatFelt::new_from_bytes_be, "bytes"_a)
-    	.def_static("new_from_hex", &DiplomatFelt::new_from_hex, "hex"_a);
+        .def_static("new_from_bytes_be", &DiplomatFelt::new_from_bytes_be, "bytes"_a)
+        .def_static("new_from_hex", &DiplomatFelt::new_from_hex, "hex"_a)
+        .def("to_hex_string", &DiplomatFelt::to_hex_string);
 }
 

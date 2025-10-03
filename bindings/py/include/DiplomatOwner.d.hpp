@@ -29,18 +29,18 @@ public:
 
   inline static diplomat::result<std::unique_ptr<DiplomatOwner>, std::unique_ptr<ControllerError>> new_from_starknet_signer(std::string_view starknet_pk);
 
-  inline const diplomat::capi::DiplomatOwner* AsFFI() const;
-  inline diplomat::capi::DiplomatOwner* AsFFI();
-  inline static const DiplomatOwner* FromFFI(const diplomat::capi::DiplomatOwner* ptr);
-  inline static DiplomatOwner* FromFFI(diplomat::capi::DiplomatOwner* ptr);
-  inline static void operator delete(void* ptr);
+    inline const diplomat::capi::DiplomatOwner* AsFFI() const;
+    inline diplomat::capi::DiplomatOwner* AsFFI();
+    inline static const DiplomatOwner* FromFFI(const diplomat::capi::DiplomatOwner* ptr);
+    inline static DiplomatOwner* FromFFI(diplomat::capi::DiplomatOwner* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  DiplomatOwner() = delete;
-  DiplomatOwner(const DiplomatOwner&) = delete;
-  DiplomatOwner(DiplomatOwner&&) noexcept = delete;
-  DiplomatOwner operator=(const DiplomatOwner&) = delete;
-  DiplomatOwner operator=(DiplomatOwner&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    DiplomatOwner() = delete;
+    DiplomatOwner(const DiplomatOwner&) = delete;
+    DiplomatOwner(DiplomatOwner&&) noexcept = delete;
+    DiplomatOwner operator=(const DiplomatOwner&) = delete;
+    DiplomatOwner operator=(DiplomatOwner&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

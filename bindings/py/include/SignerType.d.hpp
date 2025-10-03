@@ -30,26 +30,26 @@ namespace capi {
 
 class SignerType {
 public:
-  enum Value {
-    Starknet = 0,
-    StarknetAccount = 1,
-    Eip191 = 2,
-    Webauthn = 3,
-    Siws = 4,
-    Secp256k1 = 5,
-    Secp256r1 = 6,
-  };
+    enum Value {
+        Starknet = 0,
+        StarknetAccount = 1,
+        Eip191 = 2,
+        Webauthn = 3,
+        Siws = 4,
+        Secp256k1 = 5,
+        Secp256r1 = 6,
+    };
 
-  SignerType(): value(Value::Starknet) {}
+    SignerType(): value(Value::Starknet) {}
 
-  // Implicit conversions between enum and ::Value
-  constexpr SignerType(Value v) : value(v) {}
-  constexpr operator Value() const { return value; }
-  // Prevent usage as boolean value
-  explicit operator bool() const = delete;
+    // Implicit conversions between enum and ::Value
+    constexpr SignerType(Value v) : value(v) {}
+    constexpr operator Value() const { return value; }
+    // Prevent usage as boolean value
+    explicit operator bool() const = delete;
 
-  inline diplomat::capi::SignerType AsFFI() const;
-  inline static SignerType FromFFI(diplomat::capi::SignerType c_enum);
+    inline diplomat::capi::SignerType AsFFI() const;
+    inline static SignerType FromFFI(diplomat::capi::SignerType c_enum);
 private:
     Value value;
 };

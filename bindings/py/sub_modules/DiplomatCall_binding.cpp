@@ -2,6 +2,7 @@
 
 
 #include "DiplomatCall.hpp"
+#include "DiplomatFelt.hpp"
 
 
 void add_DiplomatCall_binding(nb::handle mod) {
@@ -11,9 +12,9 @@ void add_DiplomatCall_binding(nb::handle mod) {
         {0, nullptr}};
     
     nb::class_<DiplomatCall>(mod, "DiplomatCall", nb::type_slots(DiplomatCall_slots))
-    	.def_static("new", &DiplomatCall::new_, "to"_a, "selector"_a)
-    	.def("push_calldata", &DiplomatCall::push_calldata, "felt"_a)
-    	.def("push_calldata_bytes_be", &DiplomatCall::push_calldata_bytes_be, "byte"_a)
-    	.def("push_calldata_str", &DiplomatCall::push_calldata_str, "felt"_a);
+        .def_static("new", &DiplomatCall::new_, "to"_a, "selector"_a)
+        .def("push_calldata", &DiplomatCall::push_calldata, "felt"_a)
+        .def("push_calldata_bytes_be", &DiplomatCall::push_calldata_bytes_be, "byte"_a)
+        .def("push_calldata_str", &DiplomatCall::push_calldata_str, "felt"_a);
 }
 

@@ -21,18 +21,18 @@ namespace capi {
 class ControllerInner {
 public:
 
-  inline const diplomat::capi::ControllerInner* AsFFI() const;
-  inline diplomat::capi::ControllerInner* AsFFI();
-  inline static const ControllerInner* FromFFI(const diplomat::capi::ControllerInner* ptr);
-  inline static ControllerInner* FromFFI(diplomat::capi::ControllerInner* ptr);
-  inline static void operator delete(void* ptr);
+    inline const diplomat::capi::ControllerInner* AsFFI() const;
+    inline diplomat::capi::ControllerInner* AsFFI();
+    inline static const ControllerInner* FromFFI(const diplomat::capi::ControllerInner* ptr);
+    inline static ControllerInner* FromFFI(diplomat::capi::ControllerInner* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  ControllerInner() = delete;
-  ControllerInner(const ControllerInner&) = delete;
-  ControllerInner(ControllerInner&&) noexcept = delete;
-  ControllerInner operator=(const ControllerInner&) = delete;
-  ControllerInner operator=(ControllerInner&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    ControllerInner() = delete;
+    ControllerInner(const ControllerInner&) = delete;
+    ControllerInner(ControllerInner&&) noexcept = delete;
+    ControllerInner operator=(const ControllerInner&) = delete;
+    ControllerInner operator=(ControllerInner&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

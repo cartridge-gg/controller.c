@@ -28,18 +28,22 @@ public:
 
   inline static diplomat::result<std::unique_ptr<DiplomatFelt>, std::unique_ptr<ControllerError>> new_from_bytes_be(diplomat::span<const uint8_t> bytes);
 
-  inline const diplomat::capi::DiplomatFelt* AsFFI() const;
-  inline diplomat::capi::DiplomatFelt* AsFFI();
-  inline static const DiplomatFelt* FromFFI(const diplomat::capi::DiplomatFelt* ptr);
-  inline static DiplomatFelt* FromFFI(diplomat::capi::DiplomatFelt* ptr);
-  inline static void operator delete(void* ptr);
+  inline std::string to_hex_string() const;
+  template<typename W>
+  inline void to_hex_string_write(W& writeable_output) const;
+
+    inline const diplomat::capi::DiplomatFelt* AsFFI() const;
+    inline diplomat::capi::DiplomatFelt* AsFFI();
+    inline static const DiplomatFelt* FromFFI(const diplomat::capi::DiplomatFelt* ptr);
+    inline static DiplomatFelt* FromFFI(diplomat::capi::DiplomatFelt* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  DiplomatFelt() = delete;
-  DiplomatFelt(const DiplomatFelt&) = delete;
-  DiplomatFelt(DiplomatFelt&&) noexcept = delete;
-  DiplomatFelt operator=(const DiplomatFelt&) = delete;
-  DiplomatFelt operator=(DiplomatFelt&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    DiplomatFelt() = delete;
+    DiplomatFelt(const DiplomatFelt&) = delete;
+    DiplomatFelt(DiplomatFelt&&) noexcept = delete;
+    DiplomatFelt operator=(const DiplomatFelt&) = delete;
+    DiplomatFelt operator=(DiplomatFelt&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

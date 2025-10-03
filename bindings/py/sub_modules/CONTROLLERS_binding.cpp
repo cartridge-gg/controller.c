@@ -2,6 +2,7 @@
 
 
 #include "CONTROLLERS.hpp"
+#include "Version.hpp"
 
 
 void add_CONTROLLERS_binding(nb::handle mod) {
@@ -11,6 +12,6 @@ void add_CONTROLLERS_binding(nb::handle mod) {
         {0, nullptr}};
     
     nb::class_<CONTROLLERS>(mod, "CONTROLLERS", nb::type_slots(CONTROLLERS_slots))
-    	.def_static("get_class_hash", &CONTROLLERS::get_class_hash, "version"_a);
+        .def_static("get_class_hash", &CONTROLLERS::get_class_hash, "version"_a);
 }
 
