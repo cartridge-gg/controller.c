@@ -1,6 +1,6 @@
 # Controller SDK C/Python Bindings
 
-This project provides C and Python bindings for the Controller SDK using Diplomat. [Diplomat](https://rust-diplomat.github.io/diplomat/intro.html) provides an easy way to generate bindings to different languages. 
+This project provides C and Python bindings for the Controller SDK using Diplomat. [Diplomat](https://rust-diplomat.github.io/diplomat/intro.html) provides an easy way to generate bindings to different languages.
 
 ## Quick Start
 
@@ -18,15 +18,10 @@ This project provides C and Python bindings for the Controller SDK using Diploma
 ./examples/run.sh
 ```
 
-#### Python Example (Recommended)
+#### Python Example
 
 ```bash
-# One-command setup and run
-./run_python_example.sh
-
-# Or manually
-cd examples/python
-./setup_and_run.sh
+./examples/python/setup_and_run.sh
 ```
 
 ## Examples
