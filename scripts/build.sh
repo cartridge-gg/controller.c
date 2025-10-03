@@ -28,7 +28,11 @@ if [ "$1" = "swift" ]; then
     swift build
 
     echo "Swift bindings complete!"
-    echo "Library: target/release/libcontroller_c.dylib"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "Library: target/release/libcontroller_c.dylib"
+    else
+        echo "Library: target/release/libcontroller_c.so"
+    fi
     echo "Swift Package: bindings/swift/ControllerSDK"
 else
     # First run the generator to create bindings
@@ -39,5 +43,9 @@ else
     echo "Building controller-c library..."
     cargo build --release --package controller-c
 
-    echo "Build complete! Library available at target/release/libcontroller_c.dylib"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "Build complete! Library available at target/release/libcontroller_c.dylib"
+    else
+        echo "Build complete! Library available at target/release/libcontroller_c.so"
+    fi
 fi

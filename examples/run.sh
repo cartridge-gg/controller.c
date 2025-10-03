@@ -22,13 +22,13 @@ echo "Building controller-c library..."
 cargo build --release --package controller-c
 
 # Compile the C example
-echo -e "\n${YELLOW}Compiling test_session_account.c...${NC}"
+echo -e "\n${YELLOW}Compiling test_controller.c...${NC}"
 
 # For macOS (adjust for Linux if needed)
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS
     gcc -o "$SCRIPT_DIR/test_controller" \
-        "$SCRIPT_DIR/test_session_account.c" \
+        "$SCRIPT_DIR/test_controller.c" \
         -L"$PROJECT_ROOT/target/release" \
         -lcontroller_c \
         -framework CoreFoundation \
@@ -37,7 +37,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
     # Linux
     gcc -o "$SCRIPT_DIR/test_controller" \
-        "$SCRIPT_DIR/test_session_account.c" \
+        "$SCRIPT_DIR/test_controller.c" \
         -L"$PROJECT_ROOT/target/release" \
         -lcontroller_c \
         -lpthread \
