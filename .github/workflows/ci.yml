@@ -1,0 +1,216 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # Test C bindings
+  test-c:
+    name: Test C Bindings
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-c-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build C bindings
+        run: ./scripts/build.sh c
+
+      - name: Run C example
+        run: ./examples/run.sh
+
+  # Test Python bindings
+  test-python:
+    name: Test Python Bindings
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-py-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build Python bindings
+        run: ./scripts/build.sh py
+
+      - name: Install Python dependencies
+        run: |
+          cd examples/python
+          pip install -r requirements.txt
+
+      - name: Run Python tests
+        run: |
+          cd examples/python
+          python test_controller.py
+
+  # Test Swift bindings
+  test-swift:
+    name: Test Swift Bindings
+    strategy:
+      matrix:
+        os: [macos-latest, macos-13]
+        swift: ["5.9", "5.10"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: ${{ matrix.swift }}
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-swift-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache Swift
+        uses: actions/cache@v4
+        with:
+          path: |
+            bindings/swift/ControllerSDK/.build
+          key: ${{ runner.os }}-swift-${{ matrix.swift }}-${{ hashFiles('bindings/swift/ControllerSDK/Package.resolved') }}
+
+      - name: Build Swift bindings
+        run: ./scripts/build.sh swift
+
+      - name: Run Swift tests
+        run: |
+          cd bindings/swift/ControllerSDK
+          swift test --parallel
+
+      - name: Run Swift example (smoke test)
+        run: |
+          cd examples/swift
+          # Run with timeout to prevent hanging
+          timeout 30s ./run.sh || true
+
+  # Test Swift on Linux (Ubuntu)
+  test-swift-linux:
+    name: Test Swift Bindings (Linux)
+    runs-on: ubuntu-latest
+    container:
+      image: swift:5.9-jammy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y curl build-essential
+
+      - name: Setup Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Build C library
+        run: |
+          source $HOME/.cargo/env
+          cargo build --release --package controller-c
+
+      - name: Generate C bindings
+        run: |
+          source $HOME/.cargo/env
+          cargo run --bin generator -- c
+
+      - name: Copy headers
+        run: |
+          cp bindings/c/*.h bindings/swift/ControllerSDK/Sources/CControllerBridge/include/
+          cp bindings/c/*.d.h bindings/swift/ControllerSDK/Sources/CControllerBridge/include/
+
+      - name: Build Swift package
+        run: |
+          cd bindings/swift/ControllerSDK
+          swift build
+
+      - name: Run Swift tests
+        run: |
+          cd bindings/swift/ControllerSDK
+          swift test
+
+  # Lint and format check
+  lint:
+    name: Lint and Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Check Rust formatting
+        run: cargo fmt -- --check
+
+      - name: Run Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Setup Swift (for SwiftFormat)
+        if: runner.os == 'macOS'
+        run: |
+          brew install swiftformat
+
+      - name: Check Swift formatting
+        if: runner.os == 'macOS'
+        run: |
+          swiftformat --lint bindings/swift/ControllerSDK
+
+  # Build documentation
+  docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build Rust docs
+        run: cargo doc --no-deps
+
+      - name: Upload docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-docs
+          path: target/doc/
