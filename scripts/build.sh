@@ -7,12 +7,37 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$PROJECT_ROOT"
 
-# First run the generator to create bindings
-echo "Generating bindings..."
-cargo run --bin generator -- "$1"
+# Check if target is Swift
+if [ "$1" = "swift" ]; then
+    # For Swift, we need to generate C bindings first
+    echo "Generating C bindings for Swift..."
+    cargo run --bin generator -- c
 
-# Build the bridge crate as a dynamic library
-echo "Building controller-c library..."
-cargo build --release --package controller-c
+    # Build the bridge crate as a dynamic library
+    echo "Building controller-c library..."
+    cargo build --release --package controller-c
 
-echo "Build complete! Library available at target/release/libcontroller_c.dylib"
+    # Copy C headers to Swift package
+    echo "Copying C headers to Swift package..."
+    cp bindings/c/*.h bindings/swift/ControllerSDK/Sources/CControllerBridge/include/
+    cp bindings/c/*.d.h bindings/swift/ControllerSDK/Sources/CControllerBridge/include/
+
+    # Build Swift package
+    echo "Building Swift package..."
+    cd bindings/swift/ControllerSDK
+    swift build
+
+    echo "Swift bindings complete!"
+    echo "Library: target/release/libcontroller_c.dylib"
+    echo "Swift Package: bindings/swift/ControllerSDK"
+else
+    # First run the generator to create bindings
+    echo "Generating bindings..."
+    cargo run --bin generator -- "$1"
+
+    # Build the bridge crate as a dynamic library
+    echo "Building controller-c library..."
+    cargo build --release --package controller-c
+
+    echo "Build complete! Library available at target/release/libcontroller_c.dylib"
+fi

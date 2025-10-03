@@ -1,0 +1,5 @@
+module CControllerBridge {
+    umbrella header "CControllerBridge.h"
+    export *
+    link "controller_c"
+}

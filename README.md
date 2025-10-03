@@ -1,13 +1,13 @@
-# Controller SDK C/Python Bindings
+# Controller SDK C/Python/Swift Bindings
 
-This project provides C and Python bindings for the Controller SDK using Diplomat. [Diplomat](https://rust-diplomat.github.io/diplomat/intro.html) provides an easy way to generate bindings to different languages. 
+This project provides C, Python, and Swift bindings for the Controller SDK using Diplomat. [Diplomat](https://rust-diplomat.github.io/diplomat/intro.html) provides an easy way to generate bindings to different languages. Swift bindings are built on top of the C bindings. 
 
 ## Quick Start
 
 ### Build the library and generate bindings
 
 ```bash
-./scripts/build.sh <py-c>
+./scripts/build.sh <py|c|swift>
 ```
 
 ### Run Examples
@@ -29,17 +29,28 @@ cd examples/python
 ./setup_and_run.sh
 ```
 
+#### Swift Example
+
+```bash
+cd examples/swift
+./run.sh
+```
+
 ## Examples
 
 - **C Controller Example**: `examples/test_controller.c` - Basic C usage demonstration
 - **C Session flow Example**: `examples/test_session_account.c` - Basic C usage demonstration for the register session flow.
 - **Python Example**: `examples/python/` - Complete Python example with setup automation
+- **Swift Example**: `examples/swift/` - Swift example demonstrating Controller and SessionAccount usage
 
 ## Configuration
 
 ### Change binding target language
 
-[Generator/main.rs](./crates/generator/src/main.rs) accepts a command line argument to change the target-language from `py-nanobind` to `c`.
+[Generator/main.rs](./crates/generator/src/main.rs) accepts a command line argument to change the target-language. Supported values are:
+- `py` - Python bindings using nanobind
+- `c` - C bindings
+- `swift` - Swift bindings (wraps C bindings)
 
 ### Python Bindings
 
@@ -52,6 +63,18 @@ The Python bindings uses nanobind and provide a comprehensive example that inclu
 - Transaction execution examples
 
 See `examples/python/README.md` for detailed Python setup instructions.
+
+### Swift Bindings
+
+The Swift bindings wrap the C API to provide a native Swift interface that includes:
+
+- Type-safe Swift APIs
+- Native error handling with Swift errors
+- Support for macOS 12+ and iOS 15+
+- Swift Package Manager integration
+- Automatic memory management
+
+See `bindings/swift/README.md` for detailed Swift setup instructions.
 
 ## Controller flow use case
 
