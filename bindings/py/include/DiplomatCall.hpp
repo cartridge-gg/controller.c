@@ -34,44 +34,44 @@ namespace capi {
 } // namespace
 
 inline std::unique_ptr<DiplomatCall> DiplomatCall::new_(std::string_view to, std::string_view selector) {
-  auto result = diplomat::capi::DiplomatCall_new({to.data(), to.size()},
-    {selector.data(), selector.size()});
-  return std::unique_ptr<DiplomatCall>(DiplomatCall::FromFFI(result));
+    auto result = diplomat::capi::DiplomatCall_new({to.data(), to.size()},
+        {selector.data(), selector.size()});
+    return std::unique_ptr<DiplomatCall>(DiplomatCall::FromFFI(result));
 }
 
 inline void DiplomatCall::push_calldata_str(std::string_view felt) {
-  diplomat::capi::DiplomatCall_push_calldata_str(this->AsFFI(),
-    {felt.data(), felt.size()});
+    diplomat::capi::DiplomatCall_push_calldata_str(this->AsFFI(),
+        {felt.data(), felt.size()});
 }
 
 inline void DiplomatCall::push_calldata_bytes_be(diplomat::span<const uint8_t> byte) {
-  diplomat::capi::DiplomatCall_push_calldata_bytes_be(this->AsFFI(),
-    {byte.data(), byte.size()});
+    diplomat::capi::DiplomatCall_push_calldata_bytes_be(this->AsFFI(),
+        {byte.data(), byte.size()});
 }
 
 inline void DiplomatCall::push_calldata(const DiplomatFelt& felt) {
-  diplomat::capi::DiplomatCall_push_calldata(this->AsFFI(),
-    felt.AsFFI());
+    diplomat::capi::DiplomatCall_push_calldata(this->AsFFI(),
+        felt.AsFFI());
 }
 
 inline const diplomat::capi::DiplomatCall* DiplomatCall::AsFFI() const {
-  return reinterpret_cast<const diplomat::capi::DiplomatCall*>(this);
+    return reinterpret_cast<const diplomat::capi::DiplomatCall*>(this);
 }
 
 inline diplomat::capi::DiplomatCall* DiplomatCall::AsFFI() {
-  return reinterpret_cast<diplomat::capi::DiplomatCall*>(this);
+    return reinterpret_cast<diplomat::capi::DiplomatCall*>(this);
 }
 
 inline const DiplomatCall* DiplomatCall::FromFFI(const diplomat::capi::DiplomatCall* ptr) {
-  return reinterpret_cast<const DiplomatCall*>(ptr);
+    return reinterpret_cast<const DiplomatCall*>(ptr);
 }
 
 inline DiplomatCall* DiplomatCall::FromFFI(diplomat::capi::DiplomatCall* ptr) {
-  return reinterpret_cast<DiplomatCall*>(ptr);
+    return reinterpret_cast<DiplomatCall*>(ptr);
 }
 
 inline void DiplomatCall::operator delete(void* ptr) {
-  diplomat::capi::DiplomatCall_destroy(reinterpret_cast<diplomat::capi::DiplomatCall*>(ptr));
+    diplomat::capi::DiplomatCall_destroy(reinterpret_cast<diplomat::capi::DiplomatCall*>(ptr));
 }
 
 

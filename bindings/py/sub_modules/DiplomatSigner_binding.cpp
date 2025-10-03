@@ -1,6 +1,7 @@
 #include "diplomat_nanobind_common.hpp"
 
 
+#include "DiplomatFelt.hpp"
 #include "DiplomatSigner.hpp"
 
 
@@ -11,6 +12,6 @@ void add_DiplomatSigner_binding(nb::handle mod) {
         {0, nullptr}};
     
     nb::class_<DiplomatSigner>(mod, "DiplomatSigner", nb::type_slots(DiplomatSigner_slots))
-    	.def_static("new_starknet_signer", &DiplomatSigner::new_starknet_signer, "secret_scalar"_a);
+        .def_static("new_starknet_signer", &DiplomatSigner::new_starknet_signer, "secret_scalar"_a);
 }
 

@@ -34,18 +34,20 @@ public:
 
   inline static std::unique_ptr<DiplomatFelt> signer_to_guid(const DiplomatSigner& signer);
 
-  inline const diplomat::capi::Utils* AsFFI() const;
-  inline diplomat::capi::Utils* AsFFI();
-  inline static const Utils* FromFFI(const diplomat::capi::Utils* ptr);
-  inline static Utils* FromFFI(diplomat::capi::Utils* ptr);
-  inline static void operator delete(void* ptr);
+  inline static std::unique_ptr<DiplomatFelt> get_public_key(const DiplomatFelt& private_key);
+
+    inline const diplomat::capi::Utils* AsFFI() const;
+    inline diplomat::capi::Utils* AsFFI();
+    inline static const Utils* FromFFI(const diplomat::capi::Utils* ptr);
+    inline static Utils* FromFFI(diplomat::capi::Utils* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  Utils() = delete;
-  Utils(const Utils&) = delete;
-  Utils(Utils&&) noexcept = delete;
-  Utils operator=(const Utils&) = delete;
-  Utils operator=(Utils&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    Utils() = delete;
+    Utils(const Utils&) = delete;
+    Utils(Utils&&) noexcept = delete;
+    Utils operator=(const Utils&) = delete;
+    Utils operator=(Utils&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

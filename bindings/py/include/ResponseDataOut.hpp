@@ -25,23 +25,23 @@ namespace capi {
 } // namespace
 
 inline const diplomat::capi::ResponseDataOut* ResponseDataOut::AsFFI() const {
-  return reinterpret_cast<const diplomat::capi::ResponseDataOut*>(this);
+    return reinterpret_cast<const diplomat::capi::ResponseDataOut*>(this);
 }
 
 inline diplomat::capi::ResponseDataOut* ResponseDataOut::AsFFI() {
-  return reinterpret_cast<diplomat::capi::ResponseDataOut*>(this);
+    return reinterpret_cast<diplomat::capi::ResponseDataOut*>(this);
 }
 
 inline const ResponseDataOut* ResponseDataOut::FromFFI(const diplomat::capi::ResponseDataOut* ptr) {
-  return reinterpret_cast<const ResponseDataOut*>(ptr);
+    return reinterpret_cast<const ResponseDataOut*>(ptr);
 }
 
 inline ResponseDataOut* ResponseDataOut::FromFFI(diplomat::capi::ResponseDataOut* ptr) {
-  return reinterpret_cast<ResponseDataOut*>(ptr);
+    return reinterpret_cast<ResponseDataOut*>(ptr);
 }
 
 inline void ResponseDataOut::operator delete(void* ptr) {
-  diplomat::capi::ResponseDataOut_destroy(reinterpret_cast<diplomat::capi::ResponseDataOut*>(ptr));
+    diplomat::capi::ResponseDataOut_destroy(reinterpret_cast<diplomat::capi::ResponseDataOut*>(ptr));
 }
 
 

@@ -25,21 +25,21 @@ namespace capi {
 
 class OwnerType {
 public:
-  enum Value {
-    Signer = 0,
-    Account = 1,
-  };
+    enum Value {
+        Signer = 0,
+        Account = 1,
+    };
 
-  OwnerType(): value(Value::Signer) {}
+    OwnerType(): value(Value::Signer) {}
 
-  // Implicit conversions between enum and ::Value
-  constexpr OwnerType(Value v) : value(v) {}
-  constexpr operator Value() const { return value; }
-  // Prevent usage as boolean value
-  explicit operator bool() const = delete;
+    // Implicit conversions between enum and ::Value
+    constexpr OwnerType(Value v) : value(v) {}
+    constexpr operator Value() const { return value; }
+    // Prevent usage as boolean value
+    explicit operator bool() const = delete;
 
-  inline diplomat::capi::OwnerType AsFFI() const;
-  inline static OwnerType FromFFI(diplomat::capi::OwnerType c_enum);
+    inline diplomat::capi::OwnerType AsFFI() const;
+    inline static OwnerType FromFFI(diplomat::capi::OwnerType c_enum);
 private:
     Value value;
 };

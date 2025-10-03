@@ -25,23 +25,23 @@ namespace capi {
 } // namespace
 
 inline const diplomat::capi::SessionAccountInner* SessionAccountInner::AsFFI() const {
-  return reinterpret_cast<const diplomat::capi::SessionAccountInner*>(this);
+    return reinterpret_cast<const diplomat::capi::SessionAccountInner*>(this);
 }
 
 inline diplomat::capi::SessionAccountInner* SessionAccountInner::AsFFI() {
-  return reinterpret_cast<diplomat::capi::SessionAccountInner*>(this);
+    return reinterpret_cast<diplomat::capi::SessionAccountInner*>(this);
 }
 
 inline const SessionAccountInner* SessionAccountInner::FromFFI(const diplomat::capi::SessionAccountInner* ptr) {
-  return reinterpret_cast<const SessionAccountInner*>(ptr);
+    return reinterpret_cast<const SessionAccountInner*>(ptr);
 }
 
 inline SessionAccountInner* SessionAccountInner::FromFFI(diplomat::capi::SessionAccountInner* ptr) {
-  return reinterpret_cast<SessionAccountInner*>(ptr);
+    return reinterpret_cast<SessionAccountInner*>(ptr);
 }
 
 inline void SessionAccountInner::operator delete(void* ptr) {
-  diplomat::capi::SessionAccountInner_destroy(reinterpret_cast<diplomat::capi::SessionAccountInner*>(ptr));
+    diplomat::capi::SessionAccountInner_destroy(reinterpret_cast<diplomat::capi::SessionAccountInner*>(ptr));
 }
 
 

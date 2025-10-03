@@ -11,6 +11,6 @@ void add_DiplomatOwner_binding(nb::handle mod) {
         {0, nullptr}};
     
     nb::class_<DiplomatOwner>(mod, "DiplomatOwner", nb::type_slots(DiplomatOwner_slots))
-    	.def_static("new_from_starknet_signer", &DiplomatOwner::new_from_starknet_signer, "starknet_pk"_a);
+        .def_static("new_from_starknet_signer", &DiplomatOwner::new_from_starknet_signer, "starknet_pk"_a);
 }
 

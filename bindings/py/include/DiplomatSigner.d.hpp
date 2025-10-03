@@ -29,18 +29,18 @@ public:
 
   inline static std::unique_ptr<DiplomatSigner> new_starknet_signer(const DiplomatFelt& secret_scalar);
 
-  inline const diplomat::capi::DiplomatSigner* AsFFI() const;
-  inline diplomat::capi::DiplomatSigner* AsFFI();
-  inline static const DiplomatSigner* FromFFI(const diplomat::capi::DiplomatSigner* ptr);
-  inline static DiplomatSigner* FromFFI(diplomat::capi::DiplomatSigner* ptr);
-  inline static void operator delete(void* ptr);
+    inline const diplomat::capi::DiplomatSigner* AsFFI() const;
+    inline diplomat::capi::DiplomatSigner* AsFFI();
+    inline static const DiplomatSigner* FromFFI(const diplomat::capi::DiplomatSigner* ptr);
+    inline static DiplomatSigner* FromFFI(diplomat::capi::DiplomatSigner* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  DiplomatSigner() = delete;
-  DiplomatSigner(const DiplomatSigner&) = delete;
-  DiplomatSigner(DiplomatSigner&&) noexcept = delete;
-  DiplomatSigner operator=(const DiplomatSigner&) = delete;
-  DiplomatSigner operator=(DiplomatSigner&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    DiplomatSigner() = delete;
+    DiplomatSigner(const DiplomatSigner&) = delete;
+    DiplomatSigner(DiplomatSigner&&) noexcept = delete;
+    DiplomatSigner operator=(const DiplomatSigner&) = delete;
+    DiplomatSigner operator=(DiplomatSigner&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

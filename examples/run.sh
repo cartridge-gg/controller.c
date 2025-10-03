@@ -15,7 +15,7 @@ echo -e "${YELLOW}Building C example...${NC}"
 # Ensure the Rust library is built first
 echo "Building Rust library..."
 cd "$PROJECT_ROOT"
-cargo run --bin generator -- c
+./scripts/build.sh c
 
 # Build the bridge crate as a dynamic library
 echo "Building controller-c library..."

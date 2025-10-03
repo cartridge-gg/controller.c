@@ -12,7 +12,13 @@ void add_DiplomatCallList_binding(nb::handle);
 void add_DiplomatFelt_binding(nb::handle);
 void add_SessionAccount_binding(nb::handle);
 void add_SessionAccountInner_binding(nb::handle);
-void add_DiplomatPolicies_binding(nb::handle);
+void add_ContractPolicy_binding(nb::handle);
+void add_Method_binding(nb::handle);
+void add_SignMessagePolicy_binding(nb::handle);
+void add_StarknetDomain_binding(nb::handle);
+void add_StarknetType_binding(nb::handle);
+void add_TypedData_binding(nb::handle);
+void add_DiplomatSessionPolicies_binding(nb::handle);
 void add_DiplomatOwner_binding(nb::handle);
 void add_DiplomatSigner_binding(nb::handle);
 void add_ResponseDataOut_binding(nb::handle);
@@ -62,16 +68,16 @@ struct _Dummy {};
 
 NB_MODULE(controller_c, controller_c_mod)
 {
-	{
-		nb::class_<_Dummy> dummy(controller_c_mod, "__dummy__");
-		nb_tp_dealloc = (void (*)(void *))nb::type_get_slot(dummy, Py_tp_dealloc);
-	}
+    {
+        nb::class_<_Dummy> dummy(controller_c_mod, "__dummy__");
+        nb_tp_dealloc = (void (*)(void *))nb::type_get_slot(dummy, Py_tp_dealloc);
+    }
 
     nb::class_<std::monostate>(controller_c_mod, "monostate")
-		.def("__repr__", [](const std::monostate &)
-			 { return ""; })
-		.def("__str__", [](const std::monostate &)
-			 { return ""; });
+        .def("__repr__", [](const std::monostate &)
+             { return ""; })
+        .def("__str__", [](const std::monostate &)
+             { return ""; });
              
 
     // Module declarations
@@ -85,7 +91,13 @@ NB_MODULE(controller_c, controller_c_mod)
     add_DiplomatFelt_binding(controller_c_mod);
     add_SessionAccount_binding(controller_c_mod);
     add_SessionAccountInner_binding(controller_c_mod);
-    add_DiplomatPolicies_binding(controller_c_mod);
+    add_ContractPolicy_binding(controller_c_mod);
+    add_Method_binding(controller_c_mod);
+    add_SignMessagePolicy_binding(controller_c_mod);
+    add_StarknetDomain_binding(controller_c_mod);
+    add_StarknetType_binding(controller_c_mod);
+    add_TypedData_binding(controller_c_mod);
+    add_DiplomatSessionPolicies_binding(controller_c_mod);
     add_DiplomatOwner_binding(controller_c_mod);
     add_DiplomatSigner_binding(controller_c_mod);
     add_ResponseDataOut_binding(controller_c_mod);
@@ -95,5 +107,5 @@ NB_MODULE(controller_c, controller_c_mod)
     add_Version_binding(controller_c_mod);
     add_OwnerType_binding(controller_c_mod);
     
-	
+    
 }

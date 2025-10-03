@@ -25,23 +25,23 @@ namespace capi {
 } // namespace
 
 inline const diplomat::capi::SubscribeCreateSessionResponse* SubscribeCreateSessionResponse::AsFFI() const {
-  return reinterpret_cast<const diplomat::capi::SubscribeCreateSessionResponse*>(this);
+    return reinterpret_cast<const diplomat::capi::SubscribeCreateSessionResponse*>(this);
 }
 
 inline diplomat::capi::SubscribeCreateSessionResponse* SubscribeCreateSessionResponse::AsFFI() {
-  return reinterpret_cast<diplomat::capi::SubscribeCreateSessionResponse*>(this);
+    return reinterpret_cast<diplomat::capi::SubscribeCreateSessionResponse*>(this);
 }
 
 inline const SubscribeCreateSessionResponse* SubscribeCreateSessionResponse::FromFFI(const diplomat::capi::SubscribeCreateSessionResponse* ptr) {
-  return reinterpret_cast<const SubscribeCreateSessionResponse*>(ptr);
+    return reinterpret_cast<const SubscribeCreateSessionResponse*>(ptr);
 }
 
 inline SubscribeCreateSessionResponse* SubscribeCreateSessionResponse::FromFFI(diplomat::capi::SubscribeCreateSessionResponse* ptr) {
-  return reinterpret_cast<SubscribeCreateSessionResponse*>(ptr);
+    return reinterpret_cast<SubscribeCreateSessionResponse*>(ptr);
 }
 
 inline void SubscribeCreateSessionResponse::operator delete(void* ptr) {
-  diplomat::capi::SubscribeCreateSessionResponse_destroy(reinterpret_cast<diplomat::capi::SubscribeCreateSessionResponse*>(ptr));
+    diplomat::capi::SubscribeCreateSessionResponse_destroy(reinterpret_cast<diplomat::capi::SubscribeCreateSessionResponse*>(ptr));
 }
 
 

@@ -2,6 +2,9 @@
 
 
 #include "Controller.hpp"
+#include "DiplomatCallList.hpp"
+#include "DiplomatOwner.hpp"
+#include "SignerType.hpp"
 
 
 void add_Controller_binding(nb::handle mod) {
@@ -11,20 +14,20 @@ void add_Controller_binding(nb::handle mod) {
         {0, nullptr}};
     
     nb::class_<Controller>(mod, "Controller", nb::type_slots(Controller_slots))
-    	.def("address", &Controller::address)
-    	.def("app_id", &Controller::app_id)
-    	.def("chain_id", &Controller::chain_id)
-    	.def("clear_last_error", &Controller::clear_last_error)
-    	.def("delegate_account", &Controller::delegate_account)
-    	.def("disconnect", &Controller::disconnect)
-    	.def("error_message", &Controller::error_message)
-    	.def("execute", &Controller::execute, "calls"_a)
-    	.def_static("from_storage", &Controller::from_storage, "app_id"_a)
-    	.def_static("new", &Controller::new_, "app_id"_a, "username"_a, "class_hash"_a, "rpc_url"_a, "owner"_a, "address"_a, "chain_id"_a)
-    	.def_static("new_headless", &Controller::new_headless, "app_id"_a, "username"_a, "class_hash"_a, "rpc_url"_a, "owner"_a, "chain_id"_a)
-    	.def("signup", &Controller::signup, "signer_type"_a, "session_expiration"_a= nb::none(), "cartridge_api_url"_a= nb::none())
-    	.def("switch_chain", &Controller::switch_chain, "rpc_url"_a)
-    	.def("transfer", &Controller::transfer, "recipient"_a, "amount"_a)
-    	.def("username", &Controller::username);
+        .def("address", &Controller::address)
+        .def("app_id", &Controller::app_id)
+        .def("chain_id", &Controller::chain_id)
+        .def("clear_last_error", &Controller::clear_last_error)
+        .def("delegate_account", &Controller::delegate_account)
+        .def("disconnect", &Controller::disconnect)
+        .def("error_message", &Controller::error_message)
+        .def("execute", &Controller::execute, "calls"_a)
+        .def_static("from_storage", &Controller::from_storage, "app_id"_a)
+        .def_static("new", &Controller::new_, "app_id"_a, "username"_a, "class_hash"_a, "rpc_url"_a, "owner"_a, "address"_a, "chain_id"_a)
+        .def_static("new_headless", &Controller::new_headless, "app_id"_a, "username"_a, "class_hash"_a, "rpc_url"_a, "owner"_a, "chain_id"_a)
+        .def("signup", &Controller::signup, "signer_type"_a, "session_expiration"_a= nb::none(), "cartridge_api_url"_a= nb::none())
+        .def("switch_chain", &Controller::switch_chain, "rpc_url"_a)
+        .def("transfer", &Controller::transfer, "recipient"_a, "amount"_a)
+        .def("username", &Controller::username);
 }
 

@@ -25,27 +25,27 @@ class DiplomatCallList {
 public:
 
   /**
-   * Create a new empty call list
+     * Create a new empty call list
    */
   inline static std::unique_ptr<DiplomatCallList> new_();
 
   /**
-   * Add a call to the list
+     * Add a call to the list
    */
   inline void add_call(const DiplomatCall& call);
 
-  inline const diplomat::capi::DiplomatCallList* AsFFI() const;
-  inline diplomat::capi::DiplomatCallList* AsFFI();
-  inline static const DiplomatCallList* FromFFI(const diplomat::capi::DiplomatCallList* ptr);
-  inline static DiplomatCallList* FromFFI(diplomat::capi::DiplomatCallList* ptr);
-  inline static void operator delete(void* ptr);
+    inline const diplomat::capi::DiplomatCallList* AsFFI() const;
+    inline diplomat::capi::DiplomatCallList* AsFFI();
+    inline static const DiplomatCallList* FromFFI(const diplomat::capi::DiplomatCallList* ptr);
+    inline static DiplomatCallList* FromFFI(diplomat::capi::DiplomatCallList* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  DiplomatCallList() = delete;
-  DiplomatCallList(const DiplomatCallList&) = delete;
-  DiplomatCallList(DiplomatCallList&&) noexcept = delete;
-  DiplomatCallList operator=(const DiplomatCallList&) = delete;
-  DiplomatCallList operator=(DiplomatCallList&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    DiplomatCallList() = delete;
+    DiplomatCallList(const DiplomatCallList&) = delete;
+    DiplomatCallList(DiplomatCallList&&) noexcept = delete;
+    DiplomatCallList operator=(const DiplomatCallList&) = delete;
+    DiplomatCallList operator=(DiplomatCallList&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

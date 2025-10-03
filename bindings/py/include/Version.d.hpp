@@ -30,26 +30,26 @@ namespace capi {
 
 class Version {
 public:
-  enum Value {
-    V1_0_4 = 0,
-    V1_0_5 = 1,
-    V1_0_6 = 2,
-    V1_0_7 = 3,
-    V1_0_8 = 4,
-    V1_0_9 = 5,
-    LATEST = 6,
-  };
+    enum Value {
+        V1_0_4 = 0,
+        V1_0_5 = 1,
+        V1_0_6 = 2,
+        V1_0_7 = 3,
+        V1_0_8 = 4,
+        V1_0_9 = 5,
+        LATEST = 6,
+    };
 
-  Version(): value(Value::V1_0_4) {}
+    Version(): value(Value::V1_0_4) {}
 
-  // Implicit conversions between enum and ::Value
-  constexpr Version(Value v) : value(v) {}
-  constexpr operator Value() const { return value; }
-  // Prevent usage as boolean value
-  explicit operator bool() const = delete;
+    // Implicit conversions between enum and ::Value
+    constexpr Version(Value v) : value(v) {}
+    constexpr operator Value() const { return value; }
+    // Prevent usage as boolean value
+    explicit operator bool() const = delete;
 
-  inline diplomat::capi::Version AsFFI() const;
-  inline static Version FromFFI(diplomat::capi::Version c_enum);
+    inline diplomat::capi::Version AsFFI() const;
+    inline static Version FromFFI(diplomat::capi::Version c_enum);
 private:
     Value value;
 };

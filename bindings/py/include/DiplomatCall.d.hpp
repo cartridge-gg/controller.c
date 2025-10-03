@@ -32,18 +32,18 @@ public:
 
   inline void push_calldata(const DiplomatFelt& felt);
 
-  inline const diplomat::capi::DiplomatCall* AsFFI() const;
-  inline diplomat::capi::DiplomatCall* AsFFI();
-  inline static const DiplomatCall* FromFFI(const diplomat::capi::DiplomatCall* ptr);
-  inline static DiplomatCall* FromFFI(diplomat::capi::DiplomatCall* ptr);
-  inline static void operator delete(void* ptr);
+    inline const diplomat::capi::DiplomatCall* AsFFI() const;
+    inline diplomat::capi::DiplomatCall* AsFFI();
+    inline static const DiplomatCall* FromFFI(const diplomat::capi::DiplomatCall* ptr);
+    inline static DiplomatCall* FromFFI(diplomat::capi::DiplomatCall* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  DiplomatCall() = delete;
-  DiplomatCall(const DiplomatCall&) = delete;
-  DiplomatCall(DiplomatCall&&) noexcept = delete;
-  DiplomatCall operator=(const DiplomatCall&) = delete;
-  DiplomatCall operator=(DiplomatCall&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    DiplomatCall() = delete;
+    DiplomatCall(const DiplomatCall&) = delete;
+    DiplomatCall(DiplomatCall&&) noexcept = delete;
+    DiplomatCall operator=(const DiplomatCall&) = delete;
+    DiplomatCall operator=(DiplomatCall&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 

@@ -29,18 +29,18 @@ public:
   template<typename W>
   inline static diplomat::result<std::monostate, std::unique_ptr<ControllerError>> get_class_hash_write(Version version, W& writeable_output);
 
-  inline const diplomat::capi::CONTROLLERS* AsFFI() const;
-  inline diplomat::capi::CONTROLLERS* AsFFI();
-  inline static const CONTROLLERS* FromFFI(const diplomat::capi::CONTROLLERS* ptr);
-  inline static CONTROLLERS* FromFFI(diplomat::capi::CONTROLLERS* ptr);
-  inline static void operator delete(void* ptr);
+    inline const diplomat::capi::CONTROLLERS* AsFFI() const;
+    inline diplomat::capi::CONTROLLERS* AsFFI();
+    inline static const CONTROLLERS* FromFFI(const diplomat::capi::CONTROLLERS* ptr);
+    inline static CONTROLLERS* FromFFI(diplomat::capi::CONTROLLERS* ptr);
+    inline static void operator delete(void* ptr);
 private:
-  CONTROLLERS() = delete;
-  CONTROLLERS(const CONTROLLERS&) = delete;
-  CONTROLLERS(CONTROLLERS&&) noexcept = delete;
-  CONTROLLERS operator=(const CONTROLLERS&) = delete;
-  CONTROLLERS operator=(CONTROLLERS&&) noexcept = delete;
-  static void operator delete[](void*, size_t) = delete;
+    CONTROLLERS() = delete;
+    CONTROLLERS(const CONTROLLERS&) = delete;
+    CONTROLLERS(CONTROLLERS&&) noexcept = delete;
+    CONTROLLERS operator=(const CONTROLLERS&) = delete;
+    CONTROLLERS operator=(CONTROLLERS&&) noexcept = delete;
+    static void operator delete[](void*, size_t) = delete;
 };
 
 
