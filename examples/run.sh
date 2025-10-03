@@ -47,12 +47,14 @@ fi
 echo -e "${GREEN}✅ Build successful!${NC}"
 echo -e "Run with: ${YELLOW}./examples/test_controller${NC}"
 
-# Note about library path
-echo -e "\n${YELLOW}Note:${NC} If you get a 'library not found' error when running, set:"
+# Set library path and run
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "export DYLD_LIBRARY_PATH=$PROJECT_ROOT/target/release:\$DYLD_LIBRARY_PATH"
+    export DYLD_LIBRARY_PATH="$PROJECT_ROOT/target/release:$DYLD_LIBRARY_PATH"
+    echo "Library path set: DYLD_LIBRARY_PATH=$PROJECT_ROOT/target/release"
 else
-    echo "export LD_LIBRARY_PATH=$PROJECT_ROOT/target/release:\$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$PROJECT_ROOT/target/release:$LD_LIBRARY_PATH"
+    echo "Library path set: LD_LIBRARY_PATH=$PROJECT_ROOT/target/release"
 fi
 
+echo -e "\n${YELLOW}Running test_controller...${NC}"
 "$PROJECT_ROOT"/examples/test_controller
