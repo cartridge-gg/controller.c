@@ -39,11 +39,11 @@ cd examples/python
 
 ### Change binding target language
 
-In [generator/main.rs](./crates/generator/src/main.rs) change the target-language from `py-nanobind` to `c` or vice-versa.
+[Generator/main.rs](./crates/generator/src/main.rs) accepts a command line argument to change the target-language from `py-nanobind` to `c`.
 
 ### Python Bindings
 
-The Python bindings use nanobind and provide a comprehensive example that includes:
+The Python bindings uses nanobind and provide a comprehensive example that includes:
 
 - Automatic dependency installation
 - Library building and binding generation
