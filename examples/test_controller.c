@@ -7,17 +7,24 @@
 #include "../bindings/c/diplomat_runtime.h"
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 int main() {
   const char *ETH_CONTRACT_ADDRESS =
       "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 
+  // Generate a new username (based on system time)
+  char username_buf[32];
+  snprintf(username_buf, sizeof username_buf, "%lld", (long long)time(NULL));
+  const char *username = username_buf;
+
   const char *app_id = "test_app";
-  const char *username = "4";
   char buffer[256];
+
   DiplomatWrite writeable = diplomat_simple_write(buffer, sizeof(buffer));
   CONTROLLERS_get_class_hash_result class_hash_result =
       CONTROLLERS_get_class_hash(Version_LATEST, &writeable);
+
   if (class_hash_result.is_ok) {
     printf("Class hash: %s\n", buffer);
   } else {
@@ -32,9 +39,11 @@ int main() {
 
     return 1;
   }
+
   const char *rpc_url = "https://api.cartridge.gg/x/starknet/mainnet/rpc/v0_9";
   const char *address = "0x0";
   const char *chain_id = "0x534e5f4d41494e"; // SN_MAIN
+
   // Test private key - DO NOT USE IN PRODUCTION
   const char *private_key =
       "0x1234567890123456789012345678901234567890123456789012345678901234";
@@ -64,6 +73,7 @@ int main() {
     }
   }
 
+  // Create a new headless Controller
   Controller_new_headless_result storage_result =
       Controller_new_headless(app_id_view, username_view, class_hash_view,
                               rpc_url_view, owner_result.ok, chain_id_view);
@@ -112,8 +122,11 @@ int main() {
       .is_ok = true,
       .ok = {.data = "https://api.cartridge.gg",
              .len = strlen("https://api.cartridge.gg")}};
+
+  // Register a new Controller account onchain
   Controller_signup_result signup_result = Controller_signup(
       controller, SignerType_Starknet, session_expiration, cartridge_api_url);
+
   if (signup_result.is_ok == false && signup_result.err) {
     char error_buffer[512];
     DiplomatWrite error_writeable =
@@ -144,6 +157,7 @@ int main() {
   DiplomatCall_push_calldata_str(call, last_view);
   DiplomatCallList_add_call(call_list, call);
 
+  // Execute the transfer tx
   writeable = diplomat_simple_write(buffer, sizeof(buffer));
   Controller_execute_result execute_result =
       Controller_execute(controller, call_list, &writeable);

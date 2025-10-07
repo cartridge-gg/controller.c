@@ -4,7 +4,9 @@ target/
 .idea/
 .cursorrules
 .cursor/
+
 examples/test_controller
+examples/test_session_account
 
 # Python
 __pycache__/

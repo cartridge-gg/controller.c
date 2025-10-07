@@ -73,10 +73,14 @@ int main() {
   writeable = diplomat_simple_write(buffer, sizeof(buffer));
   DiplomatFelt_to_hex_string(public_key, &writeable);
 
-  printf("Please open a browser to this URL and create a session: "
-         "%s"
-         "/session?public_key=%.*s&redirect_uri=http://example.com&"
-         "redirect_query_name=startapp&policies=%s&rpc_url=%s\n",
+  // Link the session to the Controller account via the browser
+  printf("\nPlease open a browser to this URL and create a session:\n"
+         "%s/session"
+         "?public_key=%.*s"
+         "&policies=%s"
+         "&rpc_url=%s"
+         "&redirect_uri=http://example.com"
+         "&redirect_query_name=startapp\n",
          KEYCHAIN_URL, (int)writeable.len, buffer, policies, RPC_URL);
 
   DiplomatSigner *starknet_signer = DiplomatSigner_new_starknet_signer(pk.ok);
@@ -89,11 +93,10 @@ int main() {
   DiplomatOwner_new_from_starknet_signer_result owner_result =
       DiplomatOwner_new_from_starknet_signer(private_key_view);
 
-  DiplomatStringView api_url = toStringView(CARTRIDGE_API_URL);
-
   SessionAccount_create_from_subscribe_create_session_result ret =
       SessionAccount_create_from_subscribe_create_session(
-          starknet_signer, session_policies, toStringView(RPC_URL), api_url);
+          starknet_signer, session_policies,
+          toStringView(RPC_URL), toStringView(CARTRIDGE_API_URL));
 
   if (!ret.is_ok) {
     printf("❌ Failed to get ret\n");
