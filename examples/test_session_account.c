@@ -26,7 +26,7 @@ OptionStringView toOptionStringView(const char *string) {
                             .is_ok = true};
 }
 
-const char *RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet/rpc/v0_9";
+const char *RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet";
 const char *CARTRIDGE_API_URL = "https://api.cartridge.gg";
 const char *KEYCHAIN_URL = "https://x.cartridge.gg";
 
@@ -36,7 +36,7 @@ int main() {
 
   // Test private key - DO NOT USE IN PRODUCTION
   DiplomatStringView private_key_view = toStringView(
-      "0x1234567890123456789012345678901234567890123456789012345678901234");
+      "0x123456789012345678901234567890123456789012345678901234567890abcd");
   DiplomatFelt_new_from_hex_result pk =
       DiplomatFelt_new_from_hex(private_key_view);
   if (!pk.is_ok) {
@@ -74,14 +74,17 @@ int main() {
   DiplomatFelt_to_hex_string(public_key, &writeable);
 
   // Link the session to the Controller account via the browser
-  printf("\nPlease open a browser to this URL and create a session:\n"
+  printf("\nPlease open a browser to this URL and create a session:\n\n"
          "%s/session"
          "?public_key=%.*s"
          "&policies=%s"
          "&rpc_url=%s"
-         "&redirect_uri=http://example.com"
-         "&redirect_query_name=startapp\n",
+         "&redirect_uri=https://docs.cartridge.gg/controller/overview"
+         "&redirect_query_name=startapp\n\n",
          KEYCHAIN_URL, (int)writeable.len, buffer, policies, RPC_URL);
+
+  printf("\nPress enter to continue when the session is created...\n");
+  getchar();
 
   DiplomatSigner *starknet_signer = DiplomatSigner_new_starknet_signer(pk.ok);
   DiplomatFelt *guid = Utils_signer_to_guid(starknet_signer);
