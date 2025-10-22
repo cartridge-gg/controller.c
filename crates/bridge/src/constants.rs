@@ -3,7 +3,7 @@ use crate::error::ControllerError;
 use crate::types::FieldElement;
 
 // Version enum for controller class hashes
-#[derive(uniffi::Enum, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub enum Version {
     V1_0_4,
     V1_0_5,
@@ -29,7 +29,6 @@ impl From<Version> for account_sdk::artifacts::Version {
 }
 
 /// Get the class hash for a specific controller version
-#[uniffi::export]
 pub fn get_controller_class_hash(version: Version) -> Result<FieldElement, ControllerError> {
     let sdk_version: account_sdk::artifacts::Version = version.into();
     let class_hash = SDK_CONTROLLERS

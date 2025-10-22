@@ -19,14 +19,11 @@ pub(crate) struct SessionAccountInner {
     pub last_error: Option<String>,
 }
 
-#[derive(uniffi::Object)]
 pub struct SessionAccount {
     pub(crate) inner: Arc<Mutex<SessionAccountInner>>,
 }
 
-#[uniffi::export]
 impl SessionAccount {
-    #[uniffi::constructor]
     pub fn new(
         rpc_url: String,
         private_key: String,
@@ -35,7 +32,7 @@ impl SessionAccount {
         chain_id: FieldElement,
         policies: SessionPolicies,
         session_expiration: u64,
-    ) -> Result<Arc<Self>, ControllerError> {
+    ) -> Result<Self, ControllerError> {
         let rpc_url_parsed = Url::parse(&rpc_url)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
         
@@ -75,12 +72,12 @@ impl SessionAccount {
             session,
         );
 
-        Ok(Arc::new(Self {
+        Ok(Self {
             inner: Arc::new(Mutex::new(SessionAccountInner {
                 session_account,
                 last_error: None,
             })),
-        }))
+        })
     }
 
     pub fn execute(&self, calls: Vec<Call>) -> Result<FieldElement, ControllerError> {
@@ -175,13 +172,12 @@ impl SessionAccount {
         }
     }
 
-    #[uniffi::constructor(name = "create_from_subscribe")]
     pub fn create_from_subscribe(
         private_key: String,
         policies: SessionPolicies,
         rpc_url: String,
         cartridge_api_url: String,
-    ) -> Result<Arc<Self>, ControllerError> {
+    ) -> Result<Self, ControllerError> {
         // Parse private key and create signer
         let private_key_felt = Felt::from_hex(&private_key)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;

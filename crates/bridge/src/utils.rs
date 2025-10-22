@@ -5,7 +5,6 @@ use crate::error::ControllerError;
 use crate::types::FieldElement;
 
 /// Utility functions
-#[uniffi::export]
 pub fn validate_felt(felt: String) -> Result<bool, ControllerError> {
     // Simple validation - check if it's a valid hex string
     if felt.starts_with("0x") || felt.starts_with("0X") {
@@ -18,7 +17,6 @@ pub fn validate_felt(felt: String) -> Result<bool, ControllerError> {
     }
 }
 
-#[uniffi::export]
 pub fn get_public_key(private_key: FieldElement) -> Result<FieldElement, ControllerError> {
     let felt = Felt::from_hex(&private_key.0)
         .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
@@ -27,7 +25,6 @@ pub fn get_public_key(private_key: FieldElement) -> Result<FieldElement, Control
     Ok(FieldElement(format!("{:#x}", public_key)))
 }
 
-#[uniffi::export]
 pub fn signer_to_guid(private_key: FieldElement) -> Result<FieldElement, ControllerError> {
     let felt = Felt::from_hex(&private_key.0)
         .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;

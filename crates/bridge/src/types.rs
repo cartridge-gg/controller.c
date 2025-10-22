@@ -8,7 +8,6 @@ pub struct FieldElement(pub String);
 uniffi::custom_newtype!(FieldElement, String);
 
 // Signer type enum
-#[derive(uniffi::Enum)]
 pub enum SignerType {
     Webauthn,
     Starknet,
@@ -24,7 +23,6 @@ impl From<SignerType> for account_sdk::signers::types::SignerType {
 }
 
 // Call structure
-#[derive(uniffi::Record)]
 pub struct Call {
     pub contract_address: FieldElement,
     pub entrypoint: String,
@@ -57,13 +55,11 @@ impl TryFrom<&Call> for starknet::core::types::Call {
 }
 
 // Session policy
-#[derive(uniffi::Record)]
 pub struct SessionPolicy {
     pub contract_address: FieldElement,
     pub entrypoint: String,
 }
 
-#[derive(uniffi::Record)]
 pub struct SessionPolicies {
     pub policies: Vec<SessionPolicy>,
     pub max_fee: FieldElement,

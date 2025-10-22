@@ -70,7 +70,7 @@ dictionary SessionPolicies {
 // Owner interface
 interface Owner {
     [Throws=ControllerError, Name=new]
-    constructor(FieldElement private_key);
+    constructor(string private_key);
 };
 
 // Controller interface
@@ -140,7 +140,7 @@ interface SessionAccount {
     [Throws=ControllerError, Name=new]
     constructor(
         string rpc_url,
-        FieldElement private_key,
+        string private_key,
         FieldElement address,
         FieldElement owner_guid,
         FieldElement chain_id,
@@ -150,7 +150,7 @@ interface SessionAccount {
     
     [Throws=ControllerError, Name=create_from_subscribe]
     constructor(
-        FieldElement private_key,
+        string private_key,
         SessionPolicies policies,
         string rpc_url,
         string cartridge_api_url

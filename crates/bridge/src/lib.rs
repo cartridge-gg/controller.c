@@ -7,5 +7,14 @@ pub mod session;
 pub mod utils;
 pub mod constants;
 
-// Include the uniffi-generated scaffolding
-uniffi::setup_scaffolding!();
+// Declare the UDL file
+uniffi::include_scaffolding!("controller");
+
+// Re-export all public items for UniFFI
+pub use error::*;
+pub use types::*;
+pub use owner::*;
+pub use controller::*;
+pub use session::*;
+pub use utils::*;
+pub use constants::*;

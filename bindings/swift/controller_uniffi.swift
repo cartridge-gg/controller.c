@@ -435,6 +435,30 @@ fileprivate struct FfiConverterUInt64: FfiConverterPrimitive {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterBool : FfiConverter {
+    typealias FfiType = Int8
+    typealias SwiftType = Bool
+
+    public static func lift(_ value: Int8) throws -> Bool {
+        return value != 0
+    }
+
+    public static func lower(_ value: Bool) -> Int8 {
+        return value ? 1 : 0
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Bool {
+        return try lift(readInt(&buf))
+    }
+
+    public static func write(_ value: Bool, into buf: inout [UInt8]) {
+        writeInt(&buf, lower(value))
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterString: FfiConverter {
     typealias SwiftType = String
     typealias FfiType = RustBuffer
@@ -562,6 +586,27 @@ public convenience init(appId: String, username: String, classHash: FieldElement
         try! rustCall { uniffi_controller_uniffi_fn_free_controller(handle, $0) }
     }
 
+    
+public static func fromStorage(appId: String)throws  -> Controller  {
+    return try  FfiConverterTypeController_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_constructor_controller_from_storage(
+        FfiConverterString.lower(appId),$0
+    )
+})
+}
+    
+public static func newHeadless(appId: String, username: String, classHash: FieldElement, rpcUrl: String, owner: Owner, chainId: FieldElement)throws  -> Controller  {
+    return try  FfiConverterTypeController_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_constructor_controller_new_headless(
+        FfiConverterString.lower(appId),
+        FfiConverterString.lower(username),
+        FfiConverterTypeFieldElement_lower(classHash),
+        FfiConverterString.lower(rpcUrl),
+        FfiConverterTypeOwner_lower(owner),
+        FfiConverterTypeFieldElement_lower(chainId),$0
+    )
+})
+}
     
 
     
@@ -890,6 +935,17 @@ public convenience init(rpcUrl: String, privateKey: String, address: FieldElemen
     }
 
     
+public static func createFromSubscribe(privateKey: String, policies: SessionPolicies, rpcUrl: String, cartridgeApiUrl: String)throws  -> SessionAccount  {
+    return try  FfiConverterTypeSessionAccount_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_constructor_sessionaccount_create_from_subscribe(
+        FfiConverterString.lower(privateKey),
+        FfiConverterTypeSessionPolicies_lower(policies),
+        FfiConverterString.lower(rpcUrl),
+        FfiConverterString.lower(cartridgeApiUrl),$0
+    )
+})
+}
+    
 
     
 open func execute(calls: [Call])throws  -> FieldElement  {
@@ -1122,20 +1178,20 @@ public enum ControllerError: Swift.Error, Equatable, Hashable, Foundation.Locali
 
     
     
-    case InitializationError(String
-    )
-    case SignupError(String
-    )
-    case ExecutionError(String
-    )
-    case NetworkError(String
-    )
-    case StorageError(String
-    )
-    case InvalidInput(String
-    )
-    case DisconnectError(String
-    )
+    case InitializationError(message: String)
+    
+    case SignupError(message: String)
+    
+    case ExecutionError(message: String)
+    
+    case NetworkError(message: String)
+    
+    case StorageError(message: String)
+    
+    case InvalidInput(message: String)
+    
+    case DisconnectError(message: String)
+    
 
     
 
@@ -1164,28 +1220,35 @@ public struct FfiConverterTypeControllerError: FfiConverterRustBuffer {
 
         
         case 1: return .InitializationError(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
         case 2: return .SignupError(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
         case 3: return .ExecutionError(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
         case 4: return .NetworkError(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
         case 5: return .StorageError(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
         case 6: return .InvalidInput(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
         case 7: return .DisconnectError(
-            try FfiConverterString.read(from: &buf)
-            )
+            message: try FfiConverterString.read(from: &buf)
+        )
+        
 
-         default: throw UniffiInternalError.unexpectedEnumCase
+        default: throw UniffiInternalError.unexpectedEnumCase
         }
     }
 
@@ -1195,41 +1258,22 @@ public struct FfiConverterTypeControllerError: FfiConverterRustBuffer {
         
 
         
-        
-        case let .InitializationError(v1):
+        case .InitializationError(_ /* message is ignored*/):
             writeInt(&buf, Int32(1))
-            FfiConverterString.write(v1, into: &buf)
-            
-        
-        case let .SignupError(v1):
+        case .SignupError(_ /* message is ignored*/):
             writeInt(&buf, Int32(2))
-            FfiConverterString.write(v1, into: &buf)
-            
-        
-        case let .ExecutionError(v1):
+        case .ExecutionError(_ /* message is ignored*/):
             writeInt(&buf, Int32(3))
-            FfiConverterString.write(v1, into: &buf)
-            
-        
-        case let .NetworkError(v1):
+        case .NetworkError(_ /* message is ignored*/):
             writeInt(&buf, Int32(4))
-            FfiConverterString.write(v1, into: &buf)
-            
-        
-        case let .StorageError(v1):
+        case .StorageError(_ /* message is ignored*/):
             writeInt(&buf, Int32(5))
-            FfiConverterString.write(v1, into: &buf)
-            
-        
-        case let .InvalidInput(v1):
+        case .InvalidInput(_ /* message is ignored*/):
             writeInt(&buf, Int32(6))
-            FfiConverterString.write(v1, into: &buf)
-            
-        
-        case let .DisconnectError(v1):
+        case .DisconnectError(_ /* message is ignored*/):
             writeInt(&buf, Int32(7))
-            FfiConverterString.write(v1, into: &buf)
-            
+
+        
         }
     }
 }
@@ -1314,6 +1358,106 @@ public func FfiConverterTypeSignerType_lower(_ value: SignerType) -> RustBuffer 
 }
 
 
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+
+public enum Version: Equatable, Hashable {
+    
+    case v104
+    case v105
+    case v106
+    case v107
+    case v108
+    case v109
+    case latest
+
+
+
+}
+
+#if compiler(>=6)
+extension Version: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeVersion: FfiConverterRustBuffer {
+    typealias SwiftType = Version
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Version {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        
+        case 1: return .v104
+        
+        case 2: return .v105
+        
+        case 3: return .v106
+        
+        case 4: return .v107
+        
+        case 5: return .v108
+        
+        case 6: return .v109
+        
+        case 7: return .latest
+        
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: Version, into buf: inout [UInt8]) {
+        switch value {
+        
+        
+        case .v104:
+            writeInt(&buf, Int32(1))
+        
+        
+        case .v105:
+            writeInt(&buf, Int32(2))
+        
+        
+        case .v106:
+            writeInt(&buf, Int32(3))
+        
+        
+        case .v107:
+            writeInt(&buf, Int32(4))
+        
+        
+        case .v108:
+            writeInt(&buf, Int32(5))
+        
+        
+        case .v109:
+            writeInt(&buf, Int32(6))
+        
+        
+        case .latest:
+            writeInt(&buf, Int32(7))
+        
+        }
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeVersion_lift(_ buf: RustBuffer) throws -> Version {
+    return try FfiConverterTypeVersion.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeVersion_lower(_ value: Version) -> RustBuffer {
+    return FfiConverterTypeVersion.lower(value)
+}
+
+
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
@@ -1357,30 +1501,6 @@ fileprivate struct FfiConverterOptionString: FfiConverterRustBuffer {
         switch try readInt(&buf) as Int8 {
         case 0: return nil
         case 1: return try FfiConverterString.read(from: &buf)
-        default: throw UniffiInternalError.unexpectedOptionalTag
-        }
-    }
-}
-
-#if swift(>=5.8)
-@_documentation(visibility: private)
-#endif
-fileprivate struct FfiConverterOptionTypeController: FfiConverterRustBuffer {
-    typealias SwiftType = Controller?
-
-    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
-        guard let value = value else {
-            writeInt(&buf, Int8(0))
-            return
-        }
-        writeInt(&buf, Int8(1))
-        FfiConverterTypeController.write(value, into: &buf)
-    }
-
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
-        switch try readInt(&buf) as Int8 {
-        case 0: return nil
-        case 1: return try FfiConverterTypeController.read(from: &buf)
         default: throw UniffiInternalError.unexpectedOptionalTag
         }
     }
@@ -1504,32 +1624,38 @@ public func FfiConverterTypeFieldElement_lower(_ value: FieldElement) -> RustBuf
     return FfiConverterTypeFieldElement.lower(value)
 }
 
-public func controllerFromStorage(appId: String)throws  -> Controller?  {
-    return try  FfiConverterOptionTypeController.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_func_controller_from_storage(
+public func controllerHasStorage(appId: String)throws  -> Bool  {
+    return try  FfiConverterBool.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_controller_has_storage(
         FfiConverterString.lower(appId),$0
     )
 })
 }
-public func controllerNewHeadless(appId: String, username: String, classHash: FieldElement, rpcUrl: String, owner: Owner, chainId: FieldElement)throws  -> Controller  {
-    return try  FfiConverterTypeController_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_func_controller_new_headless(
-        FfiConverterString.lower(appId),
-        FfiConverterString.lower(username),
-        FfiConverterTypeFieldElement_lower(classHash),
-        FfiConverterString.lower(rpcUrl),
-        FfiConverterTypeOwner_lower(owner),
-        FfiConverterTypeFieldElement_lower(chainId),$0
+public func getControllerClassHash(version: Version)throws  -> FieldElement  {
+    return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_get_controller_class_hash(
+        FfiConverterTypeVersion_lower(version),$0
     )
 })
 }
-public func sessionAccountCreateFromSubscribe(privateKey: String, policies: SessionPolicies, rpcUrl: String, cartridgeApiUrl: String)throws  -> SessionAccount  {
-    return try  FfiConverterTypeSessionAccount_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_func_session_account_create_from_subscribe(
-        FfiConverterString.lower(privateKey),
-        FfiConverterTypeSessionPolicies_lower(policies),
-        FfiConverterString.lower(rpcUrl),
-        FfiConverterString.lower(cartridgeApiUrl),$0
+public func getPublicKey(privateKey: FieldElement)throws  -> FieldElement  {
+    return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_get_public_key(
+        FfiConverterTypeFieldElement_lower(privateKey),$0
+    )
+})
+}
+public func signerToGuid(privateKey: FieldElement)throws  -> FieldElement  {
+    return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_signer_to_guid(
+        FfiConverterTypeFieldElement_lower(privateKey),$0
+    )
+})
+}
+public func validateFelt(felt: String)throws  -> Bool  {
+    return try  FfiConverterBool.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_validate_felt(
+        FfiConverterString.lower(felt),$0
     )
 })
 }
@@ -1549,64 +1675,79 @@ private let initializationResult: InitializationResult = {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_controller_uniffi_checksum_func_controller_from_storage() != 47721) {
+    if (uniffi_controller_uniffi_checksum_func_controller_has_storage() != 40864) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_func_controller_new_headless() != 35380) {
+    if (uniffi_controller_uniffi_checksum_func_get_controller_class_hash() != 11028) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_func_session_account_create_from_subscribe() != 3978) {
+    if (uniffi_controller_uniffi_checksum_func_get_public_key() != 36036) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_address() != 42791) {
+    if (uniffi_controller_uniffi_checksum_func_signer_to_guid() != 34619) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_app_id() != 56599) {
+    if (uniffi_controller_uniffi_checksum_func_validate_felt() != 45886) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_chain_id() != 21637) {
+    if (uniffi_controller_uniffi_checksum_method_controller_address() != 58142) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_clear_last_error() != 7520) {
+    if (uniffi_controller_uniffi_checksum_method_controller_app_id() != 56550) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_delegate_account() != 65360) {
+    if (uniffi_controller_uniffi_checksum_method_controller_chain_id() != 39031) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_disconnect() != 64757) {
+    if (uniffi_controller_uniffi_checksum_method_controller_clear_last_error() != 47063) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_error_message() != 34844) {
+    if (uniffi_controller_uniffi_checksum_method_controller_delegate_account() != 31461) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_execute() != 10797) {
+    if (uniffi_controller_uniffi_checksum_method_controller_disconnect() != 25464) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_signup() != 58043) {
+    if (uniffi_controller_uniffi_checksum_method_controller_error_message() != 27332) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_switch_chain() != 24689) {
+    if (uniffi_controller_uniffi_checksum_method_controller_execute() != 41685) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_transfer() != 27607) {
+    if (uniffi_controller_uniffi_checksum_method_controller_signup() != 53849) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_username() != 45760) {
+    if (uniffi_controller_uniffi_checksum_method_controller_switch_chain() != 37555) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_sessionaccount_execute() != 16497) {
+    if (uniffi_controller_uniffi_checksum_method_controller_transfer() != 64142) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside() != 6895) {
+    if (uniffi_controller_uniffi_checksum_method_controller_username() != 5497) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_constructor_controller_new() != 42904) {
+    if (uniffi_controller_uniffi_checksum_method_sessionaccount_execute() != 61492) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_constructor_owner_new() != 39425) {
+    if (uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside() != 27820) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_constructor_sessionaccount_new() != 6297) {
+    if (uniffi_controller_uniffi_checksum_constructor_controller_from_storage() != 39320) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_constructor_controller_new() != 18866) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_constructor_controller_new_headless() != 44171) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_constructor_owner_new() != 62973) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_constructor_sessionaccount_create_from_subscribe() != 29386) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_constructor_sessionaccount_new() != 1841) {
         return InitializationResult.apiChecksumMismatch
     }
 

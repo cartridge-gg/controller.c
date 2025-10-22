@@ -1,5 +1,5 @@
 // Error enum
-#[derive(Debug, thiserror::Error, uniffi::Error)]
+#[derive(Debug, thiserror::Error)]
 pub enum ControllerError {
     #[error("Initialization error: {0}")]
     InitializationError(String),

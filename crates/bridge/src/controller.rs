@@ -8,6 +8,7 @@ use url::Url;
 use crate::error::ControllerError;
 use crate::owner::Owner;
 use crate::types::{Call, FieldElement, SignerType};
+use std::ops::Deref;
 
 // Controller implementation
 pub(crate) struct ControllerInner {
@@ -15,14 +16,11 @@ pub(crate) struct ControllerInner {
     pub last_error: Option<String>,
 }
 
-#[derive(uniffi::Object)]
 pub struct Controller {
     pub(crate) inner: Arc<Mutex<ControllerInner>>,
 }
 
-#[uniffi::export]
 impl Controller {
-    #[uniffi::constructor]
     pub fn new(
         app_id: String,
         username: String,
@@ -31,7 +29,7 @@ impl Controller {
         owner: Arc<Owner>,
         address: FieldElement,
         chain_id: FieldElement,
-    ) -> Result<Arc<Self>, ControllerError> {
+    ) -> Result<Self, ControllerError> {
         let class_hash_felt = Felt::from_hex(&class_hash.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
         
@@ -49,20 +47,19 @@ impl Controller {
             username,
             class_hash_felt,
             rpc_url_parsed,
-            owner.inner.clone(),
+            owner.deref().inner.clone(),
             address_felt,
             chain_id_felt,
         );
 
-        Ok(Arc::new(Self {
+        Ok(Self {
             inner: Arc::new(Mutex::new(ControllerInner {
                 controller,
                 last_error: None,
             })),
-        }))
+        })
     }
 
-    #[uniffi::constructor(name = "new_headless")]
     pub fn new_headless(
         app_id: String,
         username: String,
@@ -70,7 +67,7 @@ impl Controller {
         rpc_url: String,
         owner: Arc<Owner>,
         chain_id: FieldElement,
-    ) -> Result<Arc<Self>, ControllerError> {
+    ) -> Result<Self, ControllerError> {
         let class_hash_felt = Felt::from_hex(&class_hash.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
         
@@ -85,27 +82,26 @@ impl Controller {
             username,
             class_hash_felt,
             rpc_url_parsed,
-            owner.inner.clone(),
+            owner.deref().inner.clone(),
             chain_id_felt,
         );
 
-        Ok(Arc::new(Self {
+        Ok(Self {
             inner: Arc::new(Mutex::new(ControllerInner {
                 controller,
                 last_error: None,
             })),
-        }))
+        })
     }
 
-    #[uniffi::constructor(name = "from_storage")]
-    pub fn from_storage(app_id: String) -> Result<Arc<Self>, ControllerError> {
+    pub fn from_storage(app_id: String) -> Result<Self, ControllerError> {
         match SdkController::from_storage(app_id.clone()) {
-            Ok(Some(controller)) => Ok(Arc::new(Self {
+            Ok(Some(controller)) => Ok(Self {
                 inner: Arc::new(Mutex::new(ControllerInner {
                     controller,
                     last_error: None,
                 })),
-            })),
+            }),
             Ok(None) => Err(ControllerError::StorageError(format!("No stored controller found for app_id: {}", app_id))),
             Err(e) => Err(ControllerError::StorageError(e.to_string())),
         }
@@ -268,7 +264,6 @@ impl Controller {
 }
 
 // Standalone utility function to check storage
-#[uniffi::export]
 pub fn controller_has_storage(app_id: String) -> Result<bool, ControllerError> {
     match SdkController::from_storage(app_id) {
         Ok(Some(_)) => Ok(true),
