@@ -22,7 +22,7 @@ def main():
     library_path = project_root / "target" / "release" / "libcontroller_c.dylib"
     if not library_path.exists():
         print("❌ Library not found. Please run the build script first:")
-        print("   ./scripts/build.sh")
+        print("   cargo build --release")
         return 1
     
     # Set the library path for dynamic loading
@@ -42,7 +42,7 @@ def main():
     except ImportError as e:
         print(f"❌ Import error: {e}")
         print("\nTroubleshooting:")
-        print("1. Make sure the build script has been run: ./scripts/build.sh")
+        print("1. Make sure the build script has been run: cargo build --release && ./scripts/build_python.sh")
         print("2. Check if the nanobind bindings are built correctly")
         print("3. Try running setup_python.py first")
         return 1

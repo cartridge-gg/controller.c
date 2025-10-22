@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Python example for Controller SDK using nanobind bindings.
+Python example for Controller SDK using UniFFI bindings.
 
 This example demonstrates:
 1. Generating or using a Stark key pair
@@ -10,7 +10,7 @@ This example demonstrates:
 5. Executing a transaction (transfer)
 
 Requirements:
-- Build the nanobind bindings first: run the build script
+- Build the UniFFI bindings first: ./scripts/build_python.sh
 - Install required Python packages: pip install secrets
 """
 
@@ -18,14 +18,42 @@ import secrets
 import sys
 import uuid
 import os
+import shutil
+from pathlib import Path
 
-# Add the bindings path to Python path
-# Assuming the compiled nanobind module is available
+# Setup paths
+repo_root = Path(__file__).parent.parent.parent
+bindings_path = repo_root / "bindings" / "python"
+lib_source = repo_root / "target" / "release" / "libcontroller_uniffi.dylib"
+lib_dest = bindings_path / "libcontroller_uniffi.dylib"
+
+# Copy library to bindings directory if it doesn't exist or is outdated
+if lib_source.exists():
+    if not lib_dest.exists() or lib_source.stat().st_mtime > lib_dest.stat().st_mtime:
+        print(f"Copying library from {lib_source} to {lib_dest}...")
+        shutil.copy2(lib_source, lib_dest)
+        print("✓ Library copied")
+else:
+    print(f"❌ Library not found at {lib_source}")
+    print("Please build the bindings first: ./scripts/build_python.sh")
+    sys.exit(1)
+
+# Add the bindings directory to the path
+sys.path.insert(0, str(bindings_path))
+
 try:
-    import controller_c
+    from controller_uniffi import (
+        Owner,
+        Controller,
+        Call,
+        SignerType,
+        Version,
+        ControllerError,
+        get_controller_class_hash,
+    )
 except ImportError as e:
-    print(f"❌ Failed to import controller_c module: {e}")
-    print("Make sure to build the nanobind bindings first!")
+    print(f"❌ Failed to import controller_uniffi module: {e}")
+    print("Make sure to build the UniFFI bindings first: ./scripts/build_python.sh")
     sys.exit(1)
 
 
@@ -38,11 +66,12 @@ def generate_stark_private_key():
 
 
 def main():
-    print("🚀 Controller Python Example")
+    print("🚀 Controller Python Example (UniFFI)")
     print("=" * 50)
 
     # Constants
     ETH_CONTRACT_ADDRESS = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+    STRK_CONTRACT_ADDRESS = "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d"
 
     # Configuration
     cartridge_api_url = "https://api.cartridge.gg"
@@ -60,17 +89,17 @@ def main():
     try:
         # Step 1: Get the class hash
         print("\n📋 Step 1: Getting class hash...")
-        class_hash = controller_c.CONTROLLERS.get_class_hash(controller_c.Version.LATEST)
+        class_hash = get_controller_class_hash(Version.LATEST)
         print(f"📄 Class hash: {class_hash}")
 
         # Step 2: Create owner from private key
         print("\n👤 Step 2: Creating owner from private key...")
-        owner = controller_c.DiplomatOwner.new_from_starknet_signer(private_key)
+        owner = Owner(private_key)
         print("✅ Owner created successfully")
 
         # Step 3: Create controller (headless)
         print("\n🎮 Step 3: Creating controller...")
-        controller = controller_c.Controller.new_headless(
+        controller = Controller.new_headless(
             app_id=app_id,
             username=username,
             class_hash=class_hash,
@@ -99,45 +128,42 @@ def main():
             # Step 5: Signup with controller
             print("\n✍️  Step 5: Signing up...")
             controller.signup(
-                signer_type=controller_c.SignerType.Starknet,
+                signer_type=SignerType.STARKNET,
                 session_expiration=19999999999999,
                 cartridge_api_url=cartridge_api_url
             )
             print("✅ Signup successful")
-        except Exception:
+        except ControllerError as e:
             error_message = controller.error_message()
-            print(f"❌ Error during execution: {error_message}")
+            print(f"❌ Error during signup: {error_message}")
+            print(f"   (This is expected if the account doesn't exist yet)")
 
         # Step 6: Create and execute a transaction
         print("\n💸 Step 6: Creating transaction...")
 
-        # Create call list
-        call_list = controller_c.DiplomatCallList.new()
-
-        # Create a transfer call
-        # Using the transfer selector for ERC20 transfer
-        transfer_selector = "0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e"
-        call = controller_c.DiplomatCall.new(ETH_CONTRACT_ADDRESS, transfer_selector)
-
-        # Add calldata (recipient, amount_low, amount_high)
-        call.push_calldata_str(controller_address)  # Send to self
-        call.push_calldata_str("0x0")  # amount_low = 0
-        call.push_calldata_str("0x0")  # amount_high = 0
-
-        # Add call to call list
-        call_list.add_call(call)
+        # Create a transfer call using the Call record
+        call = Call(
+            contract_address=ETH_CONTRACT_ADDRESS,
+            entrypoint="transfer",
+            calldata=[
+                controller_address,  # recipient (send to self)
+                "0x0",  # amount_low = 0
+                "0x0",  # amount_high = 0
+            ]
+        )
 
         print("📦 Transaction created")
 
         # Execute the transaction
         try:
             print("\n🚀 Step 7: Executing transaction...")
-            tx_hash = controller.execute(call_list)
+            tx_hash = controller.execute([call])
             print(f"✅ Transaction executed successfully!")
             print(f"📍 Transaction hash: {tx_hash}")
-        except Exception:
+        except ControllerError as e:
             error_message = controller.error_message()
             print(f"❌ Error during execution: {error_message}")
+            print(f"   (This is expected if the account is not deployed yet)")
 
         try:
             # Step 8: Try the simplified transfer method
@@ -148,19 +174,25 @@ def main():
             tx_hash = controller.transfer(recipient, amount)
             print(f"✅ Transfer successful!")
             print(f"📍 Transaction hash: {tx_hash}")
-        except Exception:
+        except ControllerError as e:
             error_message = controller.error_message()
-            print(f"❌ Error during execution: {error_message}")
-
+            print(f"❌ Error during transfer: {error_message}")
+            print(f"   (This is expected if the account is not deployed yet)")
 
         print("\n🎉 Example completed successfully!")
+        print("\nNote: Some operations may fail if the account is not deployed.")
+        print("To deploy, you would need to:")
+        print("  1. Complete the signup process")
+        print("  2. Fund the account")
+        print("  3. Then execute transactions")
 
-    except Exception:
-        error_message = controller_c.ControllerError.get_last_error_message()
-        if error_message != "No error occurred":
-            print(f"❌ Error during execution: {error_message}")
-        else:
-            print("✅ No error occurred")
+    except ControllerError as e:
+        print(f"❌ Controller Error: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
 
     return 0

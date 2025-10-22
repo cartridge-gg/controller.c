@@ -1,10 +1,6 @@
 [workspace]
-members = ["crates/bridge", "crates/generator"]
+members = ["crates/bridge"]
 resolver = "2"
 
-
 [workspace.dependencies]
-diplomat = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
-diplomat-runtime = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
-diplomat-tool = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
-diplomat_core = { git = "https://github.com/rust-diplomat/diplomat", rev = "fb5e716" }
+# No workspace dependencies needed - each crate specifies its own

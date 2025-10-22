@@ -1,57 +1,228 @@
-# Controller SDK C/Python Bindings
+# Controller UniFFI Bindings
 
-This project provides C and Python bindings for the Controller SDK using Diplomat. [Diplomat](https://rust-diplomat.github.io/diplomat/intro.html) provides an easy way to generate bindings to different languages.
+Multi-language bindings for the Cartridge Controller SDK using UniFFI.
 
-## Quick Start
+## Overview
 
-### Build the library and generate bindings
+This project provides language bindings for the Cartridge Controller SDK, enabling developers to interact with Starknet accounts and sessions from Python, Swift, Kotlin, C#, and Go.
 
+## Supported Languages
+
+- ✅ **Python** - Fully functional
+- ✅ **Swift** - Fully functional  
+- ✅ **Kotlin** - Fully functional
+- 🚧 **C#** - Basic support (requires uniffi-bindgen-cs)
+- 🚧 **Go** - Basic support (requires uniffi-bindgen-go)
+
+## Features
+
+### Controller
+- Account creation (standard and headless mode)
+- Storage persistence (load from storage)
+- User signup with Webauthn or Starknet signers
+- Transaction execution
+- Chain switching
+- Token transfers
+- Account delegation
+- Error tracking
+
+### SessionAccount
+- Session-based authentication
+- Transaction execution with session permissions
+- Outside execution support
+- Policy-based access control
+
+## Building
+
+### Prerequisites
 ```bash
-./scripts/build.sh <py-c>
+# Rust toolchain
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Build the Rust library
+cargo build --release
 ```
 
-### Run Examples
-
-#### C Example
+### Generate Bindings
 
 ```bash
-./examples/run.sh
+# Python
+./scripts/build_python.sh
+
+# Swift
+./scripts/build_swift.sh
+
+# Kotlin
+./scripts/build_kotlin.sh
 ```
 
-#### Python Example
+## Usage Examples
+
+### Python
+
+```python
+from controller_uniffi import Owner, Controller, SignerType
+
+# Create an owner
+owner = Owner("0x1234...")
+
+# Create a controller
+controller = Controller(
+    app_id="my_app",
+    username="user123",
+    class_hash="0x...",
+    rpc_url="https://api.cartridge.gg/x/starknet/sepolia",
+    owner=owner,
+    address="0x...",
+    chain_id="0x534e5f5345504f4c4941"
+)
+
+# Get controller info
+print(f"Address: {controller.address()}")
+print(f"Username: {controller.username()}")
+
+# Execute a transaction
+from controller_uniffi import Call
+
+call = Call(
+    contract_address="0x...",
+    entrypoint="transfer",
+    calldata=["0x...", "0x100"]
+)
+
+tx_hash = controller.execute([call])
+print(f"Transaction hash: {tx_hash}")
+```
+
+### Swift
+
+```swift
+import ControllerSDK
+
+// Create an owner
+let owner = try Owner(privateKey: "0x1234...")
+
+// Create a controller
+let controller = try Controller(
+    appId: "my_app",
+    username: "user123",
+    classHash: "0x...",
+    rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia",
+    owner: owner,
+    address: "0x...",
+    chainId: "0x534e5f5345504f4c4941"
+)
+
+// Get controller info
+print("Address: \(try controller.address())")
+print("Username: \(try controller.username())")
+```
+
+### Kotlin
+
+```kotlin
+import com.cartridge.controller.*
+
+// Create an owner
+val owner = Owner("0x1234...")
+
+// Create a controller
+val controller = Controller(
+    appId = "my_app",
+    username = "user123",
+    classHash = "0x...",
+    rpcUrl = "https://api.cartridge.gg/x/starknet/sepolia",
+    owner = owner,
+    address = "0x...",
+    chainId = "0x534e5f5345504f4c4941"
+)
+
+// Get controller info
+println("Address: ${controller.address()}")
+println("Username: ${controller.username()}")
+```
+
+## Architecture
+
+The project uses UniFFI to generate FFI bindings from Rust:
+
+```
+┌─────────────────────┐
+│   Rust Core         │
+│   (account_sdk)     │
+└──────────┬──────────┘
+           │
+           │ UniFFI
+           │
+    ┌──────┴──────┬──────────┬──────────┬──────────┐
+    │             │          │          │          │
+┌───▼───┐   ┌────▼────┐ ┌───▼────┐ ┌───▼────┐ ┌──▼───┐
+│Python │   │  Swift  │ │ Kotlin │ │   C#   │ │  Go  │
+└───────┘   └─────────┘ └────────┘ └────────┘ └──────┘
+```
+
+## Project Structure
+
+```
+controller.c/
+├── crates/
+│   └── bridge/          # UniFFI bridge crate
+│       ├── src/
+│       │   ├── lib.rs          # Main library entry
+│       │   ├── uniffi_impl.rs  # UniFFI implementations
+│       │   ├── controller.udl  # UniFFI interface definition
+│       │   └── bin/            # Bindgen binaries
+│       ├── Cargo.toml
+│       └── uniffi.toml         # UniFFI configuration
+├── bindings/           # Generated bindings
+│   ├── python/
+│   ├── swift/
+│   ├── kotlin/
+│   ├── csharp/
+│   └── go/
+├── examples/          # Example usage
+│   └── python/
+└── scripts/           # Build scripts
+```
+
+## Development
+
+### Running Tests
 
 ```bash
-./examples/python/setup_and_run.sh
+# Python example
+cd examples/python
+python3 test_controller.py
 ```
 
-## Examples
+### Adding New Functionality
 
-- **C Controller Example**: `examples/test_controller.c` - Basic C usage demonstration
-- **C Session flow Example**: `examples/test_session_account.c` - Basic C usage demonstration for the register session flow.
-- **Python Example**: `examples/python/` - Complete Python example with setup automation
+1. Update `uniffi_impl.rs` with new Rust implementations
+2. Rebuild the library: `cargo build --release`
+3. Regenerate bindings: `./scripts/build_*.sh`
+4. Test in your target language
 
-## Configuration
+## Migration from Diplomat
 
-### Change binding target language
+This project was converted from Diplomat to UniFFI for better cross-language support and maintenance. Key differences:
 
-[Generator/main.rs](./crates/generator/src/main.rs) accepts a command line argument to change the target-language from `py-nanobind` to `c`.
+- **Before (Diplomat):** Manual FFI definitions per language
+- **After (UniFFI):** Single UDL + Rust procmacros generate all bindings
+- **Benefit:** Easier to maintain, more languages supported
 
-### Python Bindings
+## License
 
-The Python bindings uses nanobind and provide a comprehensive example that includes:
+MIT
 
-- Automatic dependency installation
-- Library building and binding generation
-- Key pair generation for testing
-- Controller creation and management
-- Transaction execution examples
+## Contributing
 
-See `examples/python/README.md` for detailed Python setup instructions.
+Contributions are welcome! Please ensure:
+1. Rust code compiles without warnings
+2. All language bindings generate successfully
+3. Examples run correctly
 
-## Controller flow use case
+## Resources
 
-Create a controller from a backend using a starknet signer. Abstract the web3 experience to your users until you've reached the right place in your funnel, then you can ask them to take ownership of their controller.
-
-## Future improvements
-
-- JS/TS bindings generation: as discussed with @glihm, the optimal way of doing things would be to shift the `controller-rs` `account-wasm` part to this repo. We could then generate the wasm directly from here and keep one single interface for all bindings for the controller. However, building the wasm in here with Diplomat requires that the account-sdk be rid of all the wasm-bindgen dependencies, as the build fails with them.
+- [UniFFI Documentation](https://mozilla.github.io/uniffi-rs/)
+- [Cartridge Controller](https://github.com/cartridge-gg/controller-rs)
+- [Starknet](https://starknet.io)

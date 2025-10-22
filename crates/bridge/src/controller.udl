@@ -1,0 +1,164 @@
+namespace controller {
+    // Utility functions
+    [Throws=ControllerError]
+    boolean validate_felt(string felt);
+    
+    [Throws=ControllerError]
+    FieldElement get_public_key(FieldElement private_key);
+    
+    [Throws=ControllerError]
+    FieldElement signer_to_guid(FieldElement private_key);
+    
+    // Controller class hash helper
+    [Throws=ControllerError]
+    FieldElement get_controller_class_hash(Version version);
+    
+    // Check if controller has storage
+    [Throws=ControllerError]
+    boolean controller_has_storage(string app_id);
+};
+
+// Type aliases
+[Custom]
+typedef string FieldElement;
+
+// Error type
+[Error]
+enum ControllerError {
+    "InitializationError",
+    "SignupError",
+    "ExecutionError",
+    "NetworkError",
+    "StorageError",
+    "InvalidInput",
+    "DisconnectError",
+};
+
+// Enums
+enum SignerType {
+    "Webauthn",
+    "Starknet",
+};
+
+enum Version {
+    "V1_0_4",
+    "V1_0_5",
+    "V1_0_6",
+    "V1_0_7",
+    "V1_0_8",
+    "V1_0_9",
+    "Latest",
+};
+
+// Core types
+dictionary Call {
+    FieldElement contract_address;
+    string entrypoint;
+    sequence<FieldElement> calldata;
+};
+
+dictionary SessionPolicy {
+    FieldElement contract_address;
+    string entrypoint;
+};
+
+dictionary SessionPolicies {
+    sequence<SessionPolicy> policies;
+    FieldElement max_fee;
+};
+
+// Owner interface
+interface Owner {
+    [Throws=ControllerError, Name=new]
+    constructor(FieldElement private_key);
+};
+
+// Controller interface
+interface Controller {
+    [Throws=ControllerError, Name=new]
+    constructor(
+        string app_id,
+        string username,
+        FieldElement class_hash,
+        string rpc_url,
+        Owner owner,
+        FieldElement address,
+        FieldElement chain_id
+    );
+    
+    [Throws=ControllerError, Name=new_headless]
+    constructor(
+        string app_id,
+        string username,
+        FieldElement class_hash,
+        string rpc_url,
+        Owner owner,
+        FieldElement chain_id
+    );
+    
+    [Throws=ControllerError, Name=from_storage]
+    constructor(string app_id);
+    
+    [Throws=ControllerError]
+    void signup(SignerType signer_type, u64? session_expiration, string? cartridge_api_url);
+    
+    [Throws=ControllerError]
+    FieldElement address();
+    
+    [Throws=ControllerError]
+    string username();
+    
+    [Throws=ControllerError]
+    string app_id();
+    
+    [Throws=ControllerError]
+    FieldElement chain_id();
+    
+    [Throws=ControllerError]
+    void disconnect();
+    
+    [Throws=ControllerError]
+    FieldElement execute(sequence<Call> calls);
+    
+    [Throws=ControllerError]
+    void switch_chain(string rpc_url);
+    
+    [Throws=ControllerError]
+    FieldElement delegate_account();
+    
+    [Throws=ControllerError]
+    FieldElement transfer(FieldElement recipient, FieldElement amount);
+    
+    [Throws=ControllerError]
+    string error_message();
+    
+    void clear_last_error();
+};
+
+// SessionAccount interface
+interface SessionAccount {
+    [Throws=ControllerError, Name=new]
+    constructor(
+        string rpc_url,
+        FieldElement private_key,
+        FieldElement address,
+        FieldElement owner_guid,
+        FieldElement chain_id,
+        SessionPolicies policies,
+        u64 session_expiration
+    );
+    
+    [Throws=ControllerError, Name=create_from_subscribe]
+    constructor(
+        FieldElement private_key,
+        SessionPolicies policies,
+        string rpc_url,
+        string cartridge_api_url
+    );
+    
+    [Throws=ControllerError]
+    FieldElement execute(sequence<Call> calls);
+    
+    [Throws=ControllerError]
+    FieldElement execute_from_outside(sequence<Call> calls);
+};

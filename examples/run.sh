@@ -17,14 +17,10 @@ fi
 
 echo -e "${YELLOW}Building C example ${TEST_SCRIPT}...${NC}"
 
-# Ensure the Rust library is built first
-echo "Building Rust library..."
-cd "$PROJECT_ROOT"
-./scripts/build.sh c
-
 # Build the bridge crate as a dynamic library
-echo "Building controller-c library..."
-cargo build --release --package controller-c
+echo "Building controller-uniffi library..."
+cd "$PROJECT_ROOT"
+cargo build --release
 
 # Compile the C example
 echo -e "\n${YELLOW}Compiling ${TEST_SCRIPT}.c...${NC}"
@@ -35,7 +31,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     gcc -o "$SCRIPT_DIR/$TEST_SCRIPT" \
         "$SCRIPT_DIR/$TEST_SCRIPT.c" \
         -L"$PROJECT_ROOT/target/release" \
-        -lcontroller_c \
+        -lcontroller_uniffi \
         -framework CoreFoundation \
         -framework Security \
         -lpthread
@@ -44,7 +40,7 @@ else
     gcc -o "$SCRIPT_DIR/$TEST_SCRIPT" \
         "$SCRIPT_DIR/$TEST_SCRIPT.c" \
         -L"$PROJECT_ROOT/target/release" \
-        -lcontroller_c \
+        -lcontroller_uniffi \
         -lpthread \
         -ldl
 fi

@@ -71,7 +71,8 @@ python3 test_controller.py
 
 ```bash
 # 1. Build the library (from project root)
-./scripts/build.sh
+cargo build --release
+./scripts/build_python.sh
 
 # 2. Create virtual environment and install dependencies
 cd examples/python
@@ -150,7 +151,8 @@ except Exception as e:
 ### Import Errors
 
 If you get import errors:
-1. Make sure the Rust library is built: `./scripts/build.sh`
+1. Make sure the Rust library is built: `cargo build --release
+./scripts/build_python.sh`
 2. Check that nanobind is installed: `pip install nanobind`
 3. Verify the Python path includes the bindings directory
 4. Ensure the dynamic library path is set correctly
@@ -173,7 +175,8 @@ If you get runtime errors:
 To modify the example:
 1. Edit `test_controller.py`
 2. The bindings are auto-generated from the Rust code
-3. If you modify the Rust API, rebuild with `./scripts/build.sh`
+3. If you modify the Rust API, rebuild with `cargo build --release
+./scripts/build_python.sh`
 
 ## Security Note
 
