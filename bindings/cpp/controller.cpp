@@ -378,7 +378,7 @@ std::string Controller::error_message() {
         uniffi::FfiConverterControllerError::lift,
         ptr));
 }
-FieldElement Controller::execute(const std::vector<std::shared_ptr<Call>> &calls) {
+FieldElement Controller::execute(const std::vector<Call> &calls) {
     auto ptr = this->_uniffi_internal_clone_pointer();
     return uniffi::FfiConverterTypeFieldElement::lift(uniffi::rust_call(
         uniffi_controller_uniffi_fn_method_controller_execute,
@@ -497,14 +497,14 @@ std::shared_ptr<SessionAccount> SessionAccount::create_from_subscribe(const std:
         uniffi::FfiConverterControllerError::lift, uniffi::FfiConverterString::lower(private_key), uniffi::FfiConverterTypeSessionPolicies::lower(policies), uniffi::FfiConverterString::lower(rpc_url), uniffi::FfiConverterString::lower(cartridge_api_url))));
 }
 
-FieldElement SessionAccount::execute(const std::vector<std::shared_ptr<Call>> &calls) {
+FieldElement SessionAccount::execute(const std::vector<Call> &calls) {
     auto ptr = this->_uniffi_internal_clone_pointer();
     return uniffi::FfiConverterTypeFieldElement::lift(uniffi::rust_call(
         uniffi_controller_uniffi_fn_method_sessionaccount_execute,
         uniffi::FfiConverterControllerError::lift,
         ptr, uniffi::FfiConverterSequenceTypeCall::lower(calls)));
 }
-FieldElement SessionAccount::execute_from_outside(const std::vector<std::shared_ptr<Call>> &calls) {
+FieldElement SessionAccount::execute_from_outside(const std::vector<Call> &calls) {
     auto ptr = this->_uniffi_internal_clone_pointer();
     return uniffi::FfiConverterTypeFieldElement::lift(uniffi::rust_call(
         uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside,
@@ -639,7 +639,6 @@ RustBuffer FfiConverterTypeCall::lower(const Call &val) {
 }
 
 Call FfiConverterTypeCall::read(RustStream &stream) {
-    // DEBUG: record read with smart_ptr wrapping support
     return {
         FfiConverterTypeFieldElement::read(stream),
         FfiConverterString::read(stream),
@@ -682,7 +681,6 @@ RustBuffer FfiConverterTypeSessionPolicies::lower(const SessionPolicies &val) {
 }
 
 SessionPolicies FfiConverterTypeSessionPolicies::read(RustStream &stream) {
-    // DEBUG: record read with smart_ptr wrapping support
     return {
         FfiConverterSequenceTypeSessionPolicy::read(stream),
         FfiConverterTypeFieldElement::read(stream)
@@ -722,7 +720,6 @@ RustBuffer FfiConverterTypeSessionPolicy::lower(const SessionPolicy &val) {
 }
 
 SessionPolicy FfiConverterTypeSessionPolicy::read(RustStream &stream) {
-    // DEBUG: record read with smart_ptr wrapping support
     return {
         FfiConverterTypeFieldElement::read(stream),
         FfiConverterString::read(stream)
@@ -1043,7 +1040,7 @@ uint64_t FfiConverterOptionalString::allocation_size(const std::optional<std::st
 }
 
 
-std::vector<std::shared_ptr<Call>> FfiConverterSequenceTypeCall::lift(RustBuffer buf) {
+std::vector<Call> FfiConverterSequenceTypeCall::lift(RustBuffer buf) {
     auto stream = RustStream(&buf);
     auto ret = read(stream);
 
@@ -1052,7 +1049,7 @@ std::vector<std::shared_ptr<Call>> FfiConverterSequenceTypeCall::lift(RustBuffer
     return ret;
 }
 
-RustBuffer FfiConverterSequenceTypeCall::lower(const std::vector<std::shared_ptr<Call>> &val) {
+RustBuffer FfiConverterSequenceTypeCall::lower(const std::vector<Call> &val) {
     auto buf = rustbuffer_alloc(allocation_size(val));
     auto stream = RustStream(&buf);
 
@@ -1061,42 +1058,40 @@ RustBuffer FfiConverterSequenceTypeCall::lower(const std::vector<std::shared_ptr
     return buf;
 }
 
-std::vector<std::shared_ptr<Call>> FfiConverterSequenceTypeCall::read(RustStream &stream) {
-    // DEBUG: sequence read with element wrapping support, canonical=TypeCall
-    std::vector<std::shared_ptr<Call>> ret;
+std::vector<Call> FfiConverterSequenceTypeCall::read(RustStream &stream) {
+    std::vector<Call> ret;
     int32_t count;
     stream >> count;
 
     ret.reserve(count);
 
     for (decltype(count) i = 0; i < count; i++) {
-        // DEBUG: wrapping element in shared_ptr
-        ret.push_back(std::make_shared<Call>(FfiConverterTypeCall::read(stream)));
+        ret.push_back(FfiConverterTypeCall::read(stream));
     }
 
     return ret;
 }
 
-void FfiConverterSequenceTypeCall::write(RustStream &stream, const std::vector<std::shared_ptr<Call>> &val) {
+void FfiConverterSequenceTypeCall::write(RustStream &stream, const std::vector<Call> &val) {
     stream << static_cast<int32_t>(val.size());
 
     for (auto &elem : val) {
-        FfiConverterTypeCall::write(stream, *elem);
+        FfiConverterTypeCall::write(stream, elem);
     }
 }
 
-uint64_t FfiConverterSequenceTypeCall::allocation_size(const std::vector<std::shared_ptr<Call>> &val) {
+uint64_t FfiConverterSequenceTypeCall::allocation_size(const std::vector<Call> &val) {
     uint64_t size = sizeof(int32_t);
 
     for (auto &elem : val) {
-        size += FfiConverterTypeCall::allocation_size(*elem);
+        size += FfiConverterTypeCall::allocation_size(elem);
     }
 
     return size;
 }
 
 
-std::vector<std::shared_ptr<SessionPolicy>> FfiConverterSequenceTypeSessionPolicy::lift(RustBuffer buf) {
+std::vector<SessionPolicy> FfiConverterSequenceTypeSessionPolicy::lift(RustBuffer buf) {
     auto stream = RustStream(&buf);
     auto ret = read(stream);
 
@@ -1105,7 +1100,7 @@ std::vector<std::shared_ptr<SessionPolicy>> FfiConverterSequenceTypeSessionPolic
     return ret;
 }
 
-RustBuffer FfiConverterSequenceTypeSessionPolicy::lower(const std::vector<std::shared_ptr<SessionPolicy>> &val) {
+RustBuffer FfiConverterSequenceTypeSessionPolicy::lower(const std::vector<SessionPolicy> &val) {
     auto buf = rustbuffer_alloc(allocation_size(val));
     auto stream = RustStream(&buf);
 
@@ -1114,35 +1109,33 @@ RustBuffer FfiConverterSequenceTypeSessionPolicy::lower(const std::vector<std::s
     return buf;
 }
 
-std::vector<std::shared_ptr<SessionPolicy>> FfiConverterSequenceTypeSessionPolicy::read(RustStream &stream) {
-    // DEBUG: sequence read with element wrapping support, canonical=TypeSessionPolicy
-    std::vector<std::shared_ptr<SessionPolicy>> ret;
+std::vector<SessionPolicy> FfiConverterSequenceTypeSessionPolicy::read(RustStream &stream) {
+    std::vector<SessionPolicy> ret;
     int32_t count;
     stream >> count;
 
     ret.reserve(count);
 
     for (decltype(count) i = 0; i < count; i++) {
-        // DEBUG: wrapping element in shared_ptr
-        ret.push_back(std::make_shared<SessionPolicy>(FfiConverterTypeSessionPolicy::read(stream)));
+        ret.push_back(FfiConverterTypeSessionPolicy::read(stream));
     }
 
     return ret;
 }
 
-void FfiConverterSequenceTypeSessionPolicy::write(RustStream &stream, const std::vector<std::shared_ptr<SessionPolicy>> &val) {
+void FfiConverterSequenceTypeSessionPolicy::write(RustStream &stream, const std::vector<SessionPolicy> &val) {
     stream << static_cast<int32_t>(val.size());
 
     for (auto &elem : val) {
-        FfiConverterTypeSessionPolicy::write(stream, *elem);
+        FfiConverterTypeSessionPolicy::write(stream, elem);
     }
 }
 
-uint64_t FfiConverterSequenceTypeSessionPolicy::allocation_size(const std::vector<std::shared_ptr<SessionPolicy>> &val) {
+uint64_t FfiConverterSequenceTypeSessionPolicy::allocation_size(const std::vector<SessionPolicy> &val) {
     uint64_t size = sizeof(int32_t);
 
     for (auto &elem : val) {
-        size += FfiConverterTypeSessionPolicy::allocation_size(*elem);
+        size += FfiConverterTypeSessionPolicy::allocation_size(elem);
     }
 
     return size;
@@ -1168,7 +1161,6 @@ RustBuffer FfiConverterSequenceTypeFieldElement::lower(const std::vector<FieldEl
 }
 
 std::vector<FieldElement> FfiConverterSequenceTypeFieldElement::read(RustStream &stream) {
-    // DEBUG: sequence read with element wrapping support, canonical=TypeFieldElement
     std::vector<FieldElement> ret;
     int32_t count;
     stream >> count;
@@ -1176,7 +1168,6 @@ std::vector<FieldElement> FfiConverterSequenceTypeFieldElement::read(RustStream 
     ret.reserve(count);
 
     for (decltype(count) i = 0; i < count; i++) {
-        // DEBUG: not wrapping element
         ret.push_back(FfiConverterTypeFieldElement::read(stream));
     }
 

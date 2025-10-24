@@ -32,6 +32,12 @@ enum class Version;
 typedef std::string FieldElement;
 
 
+struct SessionPolicy {
+    FieldElement contract_address;
+    std::string entrypoint;
+};
+
+
 struct Call {
     FieldElement contract_address;
     std::string entrypoint;
@@ -39,14 +45,8 @@ struct Call {
 };
 
 
-struct SessionPolicy {
-    FieldElement contract_address;
-    std::string entrypoint;
-};
-
-
 struct SessionPolicies {
-    std::vector<std::shared_ptr<SessionPolicy>> policies;
+    std::vector<SessionPolicy> policies;
     FieldElement max_fee;
 };
 
@@ -80,7 +80,7 @@ struct Controller
     FieldElement delegate_account();
     void disconnect();
     std::string error_message();
-    FieldElement execute(const std::vector<std::shared_ptr<Call>> &calls);
+    FieldElement execute(const std::vector<Call> &calls);
     void signup(const SignerType &signer_type, std::optional<uint64_t> session_expiration, std::optional<std::string> cartridge_api_url);
     void switch_chain(const std::string &rpc_url);
     FieldElement transfer(const FieldElement &recipient, const FieldElement &amount);
@@ -150,8 +150,8 @@ struct SessionAccount
     ~SessionAccount();
     static std::shared_ptr<SessionAccount> init(const std::string &rpc_url, const std::string &private_key, const FieldElement &address, const FieldElement &owner_guid, const FieldElement &chain_id, const SessionPolicies &policies, uint64_t session_expiration);
     static std::shared_ptr<SessionAccount> create_from_subscribe(const std::string &private_key, const SessionPolicies &policies, const std::string &rpc_url, const std::string &cartridge_api_url);
-    FieldElement execute(const std::vector<std::shared_ptr<Call>> &calls);
-    FieldElement execute_from_outside(const std::vector<std::shared_ptr<Call>> &calls);
+    FieldElement execute(const std::vector<Call> &calls);
+    FieldElement execute_from_outside(const std::vector<Call> &calls);
 
     private:
     SessionAccount(const SessionAccount &);
@@ -522,19 +522,19 @@ struct FfiConverterOptionalString {
 };
 
 struct FfiConverterSequenceTypeCall {
-    static std::vector<std::shared_ptr<Call>> lift(RustBuffer);
-    static RustBuffer lower(const std::vector<std::shared_ptr<Call>> &);
-    static std::vector<std::shared_ptr<Call>> read(RustStream &);
-    static void write(RustStream &, const std::vector<std::shared_ptr<Call>> &);
-    static uint64_t allocation_size(const std::vector<std::shared_ptr<Call>> &);
+    static std::vector<Call> lift(RustBuffer);
+    static RustBuffer lower(const std::vector<Call> &);
+    static std::vector<Call> read(RustStream &);
+    static void write(RustStream &, const std::vector<Call> &);
+    static uint64_t allocation_size(const std::vector<Call> &);
 };
 
 struct FfiConverterSequenceTypeSessionPolicy {
-    static std::vector<std::shared_ptr<SessionPolicy>> lift(RustBuffer);
-    static RustBuffer lower(const std::vector<std::shared_ptr<SessionPolicy>> &);
-    static std::vector<std::shared_ptr<SessionPolicy>> read(RustStream &);
-    static void write(RustStream &, const std::vector<std::shared_ptr<SessionPolicy>> &);
-    static uint64_t allocation_size(const std::vector<std::shared_ptr<SessionPolicy>> &);
+    static std::vector<SessionPolicy> lift(RustBuffer);
+    static RustBuffer lower(const std::vector<SessionPolicy> &);
+    static std::vector<SessionPolicy> read(RustStream &);
+    static void write(RustStream &, const std::vector<SessionPolicy> &);
+    static uint64_t allocation_size(const std::vector<SessionPolicy> &);
 };
 
 struct FfiConverterSequenceTypeFieldElement {
