@@ -16,3 +16,4 @@ cp target/release/controller_uniffi.dll bindings/python/ || true
 
 echo "Python bindings generated in bindings/python/"
 
+

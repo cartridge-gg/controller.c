@@ -53,6 +53,10 @@ name = "uniffi-bindgen-python"
 path = "src/bin/uniffi-bindgen-python.rs"
 
 [[bin]]
+name = "uniffi-bindgen-cpp"
+path = "src/bin/uniffi-bindgen-cpp.rs"
+
+[[bin]]
 name = "uniffi-bindgen-csharp"
 path = "src/bin/uniffi-bindgen-csharp.rs"
 

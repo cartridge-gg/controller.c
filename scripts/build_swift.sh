@@ -11,3 +11,4 @@ cargo run --release --bin uniffi-bindgen-swift
 
 echo "Swift bindings generated in bindings/swift/"
 
+

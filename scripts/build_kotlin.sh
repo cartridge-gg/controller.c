@@ -11,3 +11,4 @@ cargo run --release --bin uniffi-bindgen-kotlin
 
 echo "Kotlin bindings generated in bindings/kotlin/"
 
+
