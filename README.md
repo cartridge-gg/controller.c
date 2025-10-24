@@ -4,13 +4,14 @@ Multi-language bindings for the Cartridge Controller SDK using UniFFI.
 
 ## Overview
 
-This project provides language bindings for the Cartridge Controller SDK, enabling developers to interact with Starknet accounts and sessions from Python, Swift, Kotlin, C#, and Go.
+This project provides language bindings for the Cartridge Controller SDK, enabling developers to interact with Starknet accounts and sessions from Python, Swift, Kotlin, C++, C#, and Go.
 
 ## Supported Languages
 
 - ✅ **Python** - Fully functional
 - ✅ **Swift** - Fully functional  
 - ✅ **Kotlin** - Fully functional
+- ✅ **C++** - Fully functional
 - 🚧 **C#** - Basic support (requires uniffi-bindgen-cs)
 - 🚧 **Go** - Basic support (requires uniffi-bindgen-go)
 
@@ -54,6 +55,9 @@ cargo build --release
 
 # Kotlin
 ./scripts/build_kotlin.sh
+
+# C++
+cargo run --bin uniffi-bindgen-cpp
 ```
 
 ## Usage Examples
@@ -142,6 +146,50 @@ println("Address: ${controller.address()}")
 println("Username: ${controller.username()}")
 ```
 
+### C++
+
+```cpp
+#include "controller.hpp"
+#include <iostream>
+
+int main() {
+    // Create an owner
+    auto owner = controller::Owner("0x1234...");
+
+    // Create a controller
+    auto ctrl = controller::Controller(
+        "my_app",        // app_id
+        "user123",       // username
+        "0x...",         // class_hash
+        "https://api.cartridge.gg/x/starknet/sepolia",  // rpc_url
+        owner,           // owner
+        "0x...",         // address
+        "0x534e5f5345504f4c4941"  // chain_id
+    );
+
+    // Get controller info
+    std::cout << "Address: " << ctrl.address() << std::endl;
+    std::cout << "Username: " << ctrl.username() << std::endl;
+
+    // Execute a transaction
+    controller::Call call{
+        "0x...",         // contract_address
+        "transfer",      // entrypoint
+        {"0x...", "0x100"}  // calldata
+    };
+
+    auto tx_hash = ctrl.execute({call});
+    std::cout << "Transaction hash: " << tx_hash << std::endl;
+
+    return 0;
+}
+```
+
+To compile and link:
+```bash
+g++ -std=c++17 my_app.cpp -I./bindings/cpp -L./target/release -lcontroller_uniffi -o my_app
+```
+
 ## Architecture
 
 The project uses UniFFI to generate FFI bindings from Rust:
@@ -154,11 +202,11 @@ The project uses UniFFI to generate FFI bindings from Rust:
            │
            │ UniFFI
            │
-    ┌──────┴──────┬──────────┬──────────┬──────────┐
-    │             │          │          │          │
-┌───▼───┐   ┌────▼────┐ ┌───▼────┐ ┌───▼────┐ ┌──▼───┐
-│Python │   │  Swift  │ │ Kotlin │ │   C#   │ │  Go  │
-└───────┘   └─────────┘ └────────┘ └────────┘ └──────┘
+    ┌──────┴──────┬──────────┬──────────┬──────────┬──────────┐
+    │             │          │          │          │          │
+┌───▼───┐   ┌────▼────┐ ┌───▼────┐ ┌───▼────┐ ┌───▼────┐ ┌──▼───┐
+│Python │   │  Swift  │ │ Kotlin │ │   C++  │ │   C#   │ │  Go  │
+└───────┘   └─────────┘ └────────┘ └────────┘ └────────┘ └──────┘
 ```
 
 ## Project Structure
@@ -178,10 +226,12 @@ controller.c/
 │   ├── python/
 │   ├── swift/
 │   ├── kotlin/
+│   ├── cpp/
 │   ├── csharp/
 │   └── go/
 ├── examples/          # Example usage
-│   └── python/
+│   ├── python/
+│   └── cpp/
 └── scripts/           # Build scripts
 ```
 
@@ -226,3 +276,4 @@ Contributions are welcome! Please ensure:
 - [UniFFI Documentation](https://mozilla.github.io/uniffi-rs/)
 - [Cartridge Controller](https://github.com/cartridge-gg/controller-rs)
 - [Starknet](https://starknet.io)
+- [uniffi-bindgen-cpp Fork](https://github.com/Larkooo/uniffi-bindgen-cpp)
