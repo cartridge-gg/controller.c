@@ -1,0 +1,11 @@
+[bindings.kotlin]
+package_name = "com.cartridge.controller"
+cdylib_name = "controller_uniffi"
+
+[bindings.swift]
+module_name = "controller_uniffi"
+
+[bindings.python]
+module_name = "controller_uniffi"
+
+
