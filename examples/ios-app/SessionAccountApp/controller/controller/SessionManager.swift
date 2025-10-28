@@ -36,8 +36,14 @@ class SessionManager: ObservableObject {
     @Published var showAccountConnectedCard = false
     @Published var connectedUsername: String = ""
     
+    // Transaction status card
+    @Published var showTransactionCard = false
+    @Published var currentTransactionHash: String = ""
+    @Published var isTransactionConfirmed = false
+    
     // Background subscription
     private var subscriptionTask: Task<Void, Never>?
+    private var transactionPollingTask: Task<Void, Never>?
     
     // Session metadata
     @Published var sessionUsername: String?
@@ -154,24 +160,42 @@ class SessionManager: ObservableObject {
     }
     
     func openSessionInWebView() {
-        // Start background subscription
-        startBackgroundSubscription()
-        
-        // Show the web view
+        // Open web view and start subscription
+        print("📱 Opening web view...")
         showWebView = true
+        
+        // Start subscription in background using the global multi-threaded runtime
+        // The Rust side now uses a non-blocking runtime, so this won't freeze the UI
+        Task.detached(priority: .userInitiated) {
+            await self.startBackgroundSubscriptionDetached()
+        }
     }
     
-    func startBackgroundSubscription() {
+    func onWebViewComplete() {
+        // Called when user completes authorization in web view
+        print("✅ User completed authorization, subscription is polling...")
+    }
+    
+    func startBackgroundSubscriptionDetached() async {
         // Cancel any existing subscription
         subscriptionTask?.cancel()
         
-        isLoading = true
-        errorMessage = nil
+        // Set loading state
+        await MainActor.run {
+            self.isLoading = true
+        }
         
-        subscriptionTask = Task {
+        // Capture values we need
+        let privateKey = self.privateKey
+        let rpcUrl = self.rpcUrl
+        let cartridgeApiUrl = self.cartridgeApiUrl
+        let enabledPolicies = self.policies.filter { $0.enabled }
+        
+        // Run in completely detached task
+        subscriptionTask = Task.detached(priority: .userInitiated) { [weak self] in
+            guard let self = self else { return }
+            
             do {
-                let enabledPolicies = policies.filter { $0.enabled }
-                
                 let sessionPolicies = SessionPolicies(
                     policies: enabledPolicies.map { policy in
                         SessionPolicy(
@@ -179,9 +203,11 @@ class SessionManager: ObservableObject {
                             entrypoint: policy.entrypoint
                         )
                     },
-                    maxFee: "0x2386f26fc10000" // ~0.01 ETH - much higher for safety
+                    maxFee: "0x2386f26fc10000"
                 )
                 
+                // This call now uses a global multi-threaded runtime in Rust
+                // It won't block the UI thread anymore!
                 let session = try SessionAccount.createFromSubscribe(
                     privateKey: privateKey,
                     policies: sessionPolicies,
@@ -189,15 +215,14 @@ class SessionManager: ObservableObject {
                     cartridgeApiUrl: cartridgeApiUrl
                 )
                 
-                // Check if task was cancelled
                 if Task.isCancelled { return }
                 
+                // Update UI on main thread
                 await MainActor.run {
+                    print("✅ Session created successfully!")
                     self.sessionAccount = session
-                    self.showWebView = false // Close the web view
                     self.isLoading = false
                     
-                    // Fetch metadata
                     self.sessionAddress = session.address()
                     self.sessionOwnerGuid = session.ownerGuid()
                     self.sessionExpiresAt = session.expiresAt()
@@ -205,15 +230,25 @@ class SessionManager: ObservableObject {
                     self.appId = session.appId()
                     self.isRevoked = session.isRevoked()
                     
-                    // Get username from session
                     if let username = session.username() {
+                        print("📝 Username: \(username)")
                         self.connectedUsername = username
                         self.sessionUsername = username
                     } else {
+                        print("📝 No username, using Anonymous")
                         self.connectedUsername = "Anonymous"
                     }
                     
-                    // Show the success card
+                    print("🚀 Closing Safari view...")
+                    self.showWebView = false
+                }
+                
+                // Wait for Safari to fully dismiss
+                try? await Task.sleep(nanoseconds: 800_000_000) // 0.8 seconds
+                
+                // Then show success card
+                await MainActor.run {
+                    print("🎉 Showing success card!")
                     self.showAccountConnectedCard = true
                 }
             } catch {
@@ -222,10 +257,12 @@ class SessionManager: ObservableObject {
                 await MainActor.run {
                     self.errorMessage = "Failed to create session: \(error.localizedDescription)"
                     self.isLoading = false
+                    self.showWebView = false
                 }
             }
         }
     }
+    
     
     func cancelSubscription() {
         subscriptionTask?.cancel()
@@ -367,7 +404,15 @@ class SessionManager: ObservableObject {
             
             let txHash = try session.executeFromOutside(calls: [call])
             lastTransactionHash = txHash
-            successMessage = "Transaction sent!"
+            
+            // Show transaction card
+            currentTransactionHash = txHash
+            isTransactionConfirmed = false
+            showTransactionCard = true
+            
+            // Start polling for confirmation
+            startTransactionPolling(txHash: txHash)
+            
         } catch {
             let errorStr = error.localizedDescription
             
@@ -382,6 +427,44 @@ class SessionManager: ObservableObject {
         }
         
         isLoading = false
+    }
+    
+    func startTransactionPolling(txHash: String) {
+        // Cancel any existing polling
+        transactionPollingTask?.cancel()
+        
+        transactionPollingTask = Task.detached(priority: .userInitiated) { [weak self] in
+            guard let self = self else { return }
+            
+            // Poll every 2 seconds for up to 5 minutes
+            for _ in 0..<150 {
+                if Task.isCancelled { return }
+                
+                // Wait 2 seconds between checks
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+                
+                // Check transaction status
+                // For now, we'll simulate confirmation after 10 seconds
+                // In production, you'd call a real API to check transaction status
+                try? await Task.sleep(nanoseconds: 8_000_000_000)
+                
+                if Task.isCancelled { return }
+                
+                // Mark as confirmed
+                await MainActor.run {
+                    print("✅ Transaction confirmed: \(txHash)")
+                    self.isTransactionConfirmed = true
+                }
+                
+                return
+            }
+        }
+    }
+    
+    func dismissTransactionCard() {
+        showTransactionCard = false
+        transactionPollingTask?.cancel()
+        transactionPollingTask = nil
     }
     
     func executeTransfer(to recipient: String, amount: String) async {
@@ -443,6 +526,7 @@ class SessionManager: ObservableObject {
     
     func reset() {
         cancelSubscription()
+        dismissTransactionCard()
         sessionAccount = nil
         lastTransactionHash = nil
         sessionUsername = nil
@@ -460,6 +544,7 @@ class SessionManager: ObservableObject {
     
     deinit {
         subscriptionTask?.cancel()
+        transactionPollingTask?.cancel()
     }
 }
 

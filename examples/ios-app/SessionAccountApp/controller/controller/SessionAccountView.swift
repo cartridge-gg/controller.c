@@ -33,19 +33,29 @@ struct SessionAccountView: View {
             
             // Account Connected Card
             if sessionManager.showAccountConnectedCard {
-                AccountConnectedCard(
-                    username: sessionManager.connectedUsername,
-                    publicKey: sessionManager.publicKey,
+                AccountConnectedCard(onDismiss: {
+                    sessionManager.showAccountConnectedCard = false
+                    // Switch to Execute tab
+                    withAnimation {
+                        selectedTab = 1
+                    }
+                })
+                .environmentObject(sessionManager)
+                .transition(.move(edge: .bottom))
+                .zIndex(100)
+            }
+            
+            // Transaction Status Card
+            if sessionManager.showTransactionCard {
+                TransactionStatusCard(
+                    transactionHash: sessionManager.currentTransactionHash,
+                    isConfirmed: sessionManager.isTransactionConfirmed,
                     onDismiss: {
-                        sessionManager.showAccountConnectedCard = false
-                        // Switch to Execute tab
-                        withAnimation {
-                            selectedTab = 1
-                        }
+                        sessionManager.dismissTransactionCard()
                     }
                 )
                 .transition(.move(edge: .bottom))
-                .zIndex(100)
+                .zIndex(99)
             }
             
             // Sliding card overlay
@@ -72,6 +82,7 @@ struct SessionAccountView: View {
         }
         .animation(.spring(), value: sessionManager.showPayloadSheet)
         .animation(.spring(), value: sessionManager.showAccountConnectedCard)
+        .animation(.spring(), value: sessionManager.showTransactionCard)
     }
 }
 

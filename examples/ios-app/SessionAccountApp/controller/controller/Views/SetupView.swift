@@ -8,26 +8,62 @@ import SwiftUI
 struct SetupView: View {
     @EnvironmentObject var sessionManager: SessionManager
     @State private var showAddPolicy = false
+    @State private var showPrivateKey = false
     
     var body: some View {
         NavigationView {
             List {
+                // Header Description
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Register a new session account with your Cartridge Controller")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                }
+                
                 // Key Section
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Private Key")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Private Key")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                if showPrivateKey {
+                                    Text(sessionManager.privateKey)
+                                        .font(.system(.caption2, design: .monospaced))
+                                        .lineLimit(1)
+                                        .truncationMode(.middle)
+                                } else {
+                                    Text(String(repeating: "•", count: 64))
+                                        .font(.system(.caption2, design: .monospaced))
+                                        .lineLimit(1)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            Button {
+                                showPrivateKey.toggle()
+                            } label: {
+                                Image(systemName: showPrivateKey ? "eye.slash.fill" : "eye.fill")
+                                    .foregroundColor(.blue)
+                                    .font(.title3)
+                            }
+                            .buttonStyle(.plain)
+                        }
                         
-                        Text(sessionManager.privateKey)
-                            .font(.system(.caption2, design: .monospaced))
-                            .lineLimit(1)
-                            .truncationMode(.middle)
+                        Divider()
+                            .padding(.vertical, 4)
                         
                         Text("Public Key")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                            .padding(.top, 4)
                         
                         Text(sessionManager.publicKey)
                             .font(.system(.caption2, design: .monospaced))
@@ -77,28 +113,64 @@ struct SetupView: View {
                                         .padding(.trailing, 8)
                                     Text("Waiting for Authorization...")
                                 }
-                                .frame(maxWidth: .infinity)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.vertical, 8)
                             } else {
-                                Label("Register Session", systemImage: "key.fill")
-                                    .frame(maxWidth: .infinity)
+                                HStack {
+                                    Spacer()
+                                    Image(systemName: "key.fill")
+                                    Text("Register Session")
+                                    Spacer()
+                                }
+                                .font(.headline)
+                                .padding(.vertical, 12)
                             }
                         }
                         .buttonStyle(.borderedProminent)
                         .disabled(sessionManager.policies.filter { $0.enabled }.isEmpty || sessionManager.isLoading)
                     } else {
-                        Label("Session Active", systemImage: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                            .frame(maxWidth: .infinity)
-                        
-                        Button(role: .destructive) {
-                            sessionManager.reset()
-                        } label: {
-                            Label("Reset Session", systemImage: "trash")
+                        // Session Active Card
+                        VStack(spacing: 16) {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.green)
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Session Active")
+                                        .font(.headline)
+                                        .foregroundColor(.green)
+                                    
+                                    if let username = sessionManager.sessionUsername {
+                                        Text("Logged in as \(username)")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                                
+                                Spacer()
+                            }
+                            
+                            Button(role: .destructive) {
+                                sessionManager.reset()
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    Image(systemName: "trash")
+                                    Text("Reset Session")
+                                    Spacer()
+                                }
+                                .padding(.vertical, 12)
+                            }
+                            .buttonStyle(.bordered)
                         }
+                        .padding(.vertical, 8)
                     }
                 } footer: {
                     if sessionManager.sessionAccount == nil {
                         Text("Register the session with your Cartridge account. The session will be created automatically after you complete the authorization.")
+                    } else {
+                        Text("Your session is active. Go to the Execute tab to send transactions.")
                     }
                 }
             }
@@ -106,24 +178,24 @@ struct SetupView: View {
             .sheet(isPresented: $showAddPolicy) {
                 AddPolicySheet()
             }
-            .fullScreenCover(isPresented: $sessionManager.showWebView) {
+            .fullScreenCover(isPresented: $sessionManager.showWebView, onDismiss: {
+                // Clean up if dismissed without completing
+                if sessionManager.sessionAccount == nil {
+                    sessionManager.cancelSubscription()
+                }
+            }) {
                 if let url = URL(string: sessionManager.generateSessionURL()) {
-                    SessionWebView(
+                    InAppSafariView(
                         url: url,
                         onComplete: {
-                            // Session creation is handled by background subscription
+                            // User completed authorization, now create session
+                            sessionManager.onWebViewComplete()
                         },
                         onError: { error in
                             sessionManager.errorMessage = error
-                            sessionManager.cancelSubscription()
+                            sessionManager.showWebView = false
                         }
                     )
-                    .onDisappear {
-                        // If user manually dismisses, cancel the subscription
-                        if sessionManager.sessionAccount == nil {
-                            sessionManager.cancelSubscription()
-                        }
-                    }
                 }
             }
         }
