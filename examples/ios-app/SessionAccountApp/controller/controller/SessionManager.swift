@@ -164,10 +164,13 @@ class SessionManager: ObservableObject {
         print("📱 Opening web view...")
         showWebView = true
         
-        // Start subscription in background using the global multi-threaded runtime
-        // The Rust side now uses a non-blocking runtime, so this won't freeze the UI
-        Task.detached(priority: .userInitiated) {
-            await self.startBackgroundSubscriptionDetached()
+        // Start subscription on a true background thread
+        // Even with multi-threaded Rust runtime, the FFI call is synchronous
+        // So we need to ensure it runs on a background dispatch queue
+        DispatchQueue.global(qos: .userInitiated).async {
+            Task {
+                await self.startBackgroundSubscriptionDetached()
+            }
         }
     }
     
@@ -191,7 +194,7 @@ class SessionManager: ObservableObject {
         let cartridgeApiUrl = self.cartridgeApiUrl
         let enabledPolicies = self.policies.filter { $0.enabled }
         
-        // Run in completely detached task
+        // Create a strongly-typed reference for the closure
         subscriptionTask = Task.detached(priority: .userInitiated) { [weak self] in
             guard let self = self else { return }
             
@@ -206,14 +209,23 @@ class SessionManager: ObservableObject {
                     maxFee: "0x2386f26fc10000"
                 )
                 
-                // This call now uses a global multi-threaded runtime in Rust
-                // It won't block the UI thread anymore!
-                let session = try SessionAccount.createFromSubscribe(
-                    privateKey: privateKey,
-                    policies: sessionPolicies,
-                    rpcUrl: rpcUrl,
-                    cartridgeApiUrl: cartridgeApiUrl
-                )
+                // Call blocking Rust FFI on a background dispatch queue
+                // This ensures it never touches the main thread
+                let session = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<SessionAccount, Error>) in
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        do {
+                            let result = try SessionAccount.createFromSubscribe(
+                                privateKey: privateKey,
+                                policies: sessionPolicies,
+                                rpcUrl: rpcUrl,
+                                cartridgeApiUrl: cartridgeApiUrl
+                            )
+                            continuation.resume(returning: result)
+                        } catch {
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                }
                 
                 if Task.isCancelled { return }
                 
