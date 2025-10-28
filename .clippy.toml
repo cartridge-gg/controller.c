@@ -5,5 +5,4 @@
 cognitive-complexity-threshold = 30
 too-many-arguments-threshold = 7
 type-complexity-threshold = 250
-single-char-lifetime-names-threshold = 4
 

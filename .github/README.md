@@ -13,7 +13,6 @@ This directory contains CI/CD workflows for the controller.c project.
 - **test**: Runs the test suite
 - **build**: Builds on Ubuntu and macOS
 - **build-ios**: Builds for iOS device and simulator targets
-- **security-audit**: Runs `cargo audit` for security vulnerabilities
 
 ### 🌙 rust-nightly.yml
 **Triggered on:** Daily at midnight UTC (or manual trigger)
