@@ -6,6 +6,7 @@ pub mod controller;
 pub mod session;
 pub mod utils;
 pub mod constants;
+pub mod runtime;
 
 // Declare the UDL file
 uniffi::include_scaffolding!("controller");

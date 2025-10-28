@@ -8,6 +8,7 @@ use url::Url;
 use crate::error::ControllerError;
 use crate::owner::Owner;
 use crate::types::{Call, FieldElement, SignerType};
+use crate::runtime::RUNTIME;
 use std::ops::Deref;
 
 // Controller implementation
@@ -115,11 +116,8 @@ impl Controller {
     ) -> Result<(), ControllerError> {
         let mut inner = self.inner.lock().unwrap();
         
-        let result = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::SignupError(e.to_string()))?
-            .block_on(inner.controller.signup(signer_type.into(), session_expiration, cartridge_api_url));
+        // Use global multi-threaded runtime
+        let result = RUNTIME.block_on(inner.controller.signup(signer_type.into(), session_expiration, cartridge_api_url));
 
         match result {
             Ok(_) => Ok(()),
@@ -167,11 +165,9 @@ impl Controller {
         let calls_vec = calls_vec?;
 
         let mut inner = self.inner.lock().unwrap();
-        let result = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::ExecutionError(e.to_string()))?
-            .block_on(inner.controller.execute_v3(calls_vec).send());
+        
+        // Use global multi-threaded runtime
+        let result = RUNTIME.block_on(inner.controller.execute_v3(calls_vec).send());
 
         match result {
             Ok(res) => Ok(FieldElement(format!("{:#x}", res.transaction_hash))),
@@ -189,11 +185,8 @@ impl Controller {
         let url = Url::parse(&rpc_url)
             .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
-        let result = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::NetworkError(e.to_string()))?
-            .block_on(inner.controller.switch_chain(url));
+        // Use global multi-threaded runtime
+        let result = RUNTIME.block_on(inner.controller.switch_chain(url));
 
         match result {
             Ok(_) => Ok(()),
@@ -208,10 +201,8 @@ impl Controller {
     pub fn delegate_account(&self) -> Result<FieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
         
-        let delegate = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::NetworkError(e.to_string()))?
+        // Use global multi-threaded runtime
+        let delegate = RUNTIME
             .block_on(inner.controller.delegate_account())
             .map_err(|e| ControllerError::NetworkError(e.to_string()))?;
 
@@ -236,11 +227,9 @@ impl Controller {
         };
 
         let mut inner = self.inner.lock().unwrap();
-        let result = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::ExecutionError(e.to_string()))?
-            .block_on(inner.controller.execute_v3(vec![call]).send());
+        
+        // Use global multi-threaded runtime
+        let result = RUNTIME.block_on(inner.controller.execute_v3(vec![call]).send());
 
         match result {
             Ok(res) => Ok(FieldElement(format!("{:#x}", res.transaction_hash))),
