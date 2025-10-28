@@ -1,0 +1,281 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Get version
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+
+  build-apple:
+    name: Build Apple Platforms
+    needs: create-release
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            name: macos-arm64
+          - target: x86_64-apple-darwin
+            name: macos-x86_64
+          - target: aarch64-apple-ios
+            name: ios-arm64
+          - target: aarch64-apple-ios-sim
+            name: ios-simulator-arm64
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+      
+      - name: Package binary
+        run: |
+          cd target/${{ matrix.target }}/release
+          tar czf controller_uniffi-${{ matrix.name }}.tar.gz libcontroller_uniffi.a libcontroller_uniffi.dylib
+          mv controller_uniffi-${{ matrix.name }}.tar.gz ../../../
+      
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./controller_uniffi-${{ matrix.name }}.tar.gz
+          asset_name: controller_uniffi-${{ matrix.name }}.tar.gz
+          asset_content_type: application/gzip
+
+  build-xcframework:
+    name: Build XCFramework
+    needs: create-release
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios,aarch64-apple-ios-sim
+      
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Build iOS targets
+        run: |
+          cargo build --release --target aarch64-apple-ios
+          cargo build --release --target aarch64-apple-ios-sim
+      
+      - name: Generate Swift bindings
+        run: ./scripts/build_swift.sh
+      
+      - name: Create XCFramework
+        run: |
+          rm -rf target/controller_uniffi.xcframework
+          xcodebuild -create-xcframework \
+            -library target/aarch64-apple-ios/release/libcontroller_uniffi.a \
+            -library target/aarch64-apple-ios-sim/release/libcontroller_uniffi.a \
+            -output target/controller_uniffi.xcframework
+      
+      - name: Package XCFramework with Swift bindings
+        run: |
+          mkdir -p controller_uniffi_ios
+          cp -r target/controller_uniffi.xcframework controller_uniffi_ios/
+          cp bindings/swift/controller_uniffi.swift controller_uniffi_ios/
+          cp bindings/swift/controller_uniffiFFI.h controller_uniffi_ios/
+          cp bindings/swift/controller_uniffi.modulemap controller_uniffi_ios/
+          tar czf controller_uniffi_ios.tar.gz controller_uniffi_ios
+      
+      - name: Upload XCFramework
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./controller_uniffi_ios.tar.gz
+          asset_name: controller_uniffi_ios.tar.gz
+          asset_content_type: application/gzip
+
+  build-linux:
+    name: Build Linux
+    needs: create-release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            name: linux-x86_64
+          - target: aarch64-unknown-linux-gnu
+            name: linux-aarch64
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      
+      - name: Install cross
+        run: cargo install cross
+      
+      - name: Build
+        run: cross build --release --target ${{ matrix.target }}
+      
+      - name: Package binary
+        run: |
+          cd target/${{ matrix.target }}/release
+          tar czf controller_uniffi-${{ matrix.name }}.tar.gz libcontroller_uniffi.so libcontroller_uniffi.a
+          mv controller_uniffi-${{ matrix.name }}.tar.gz ../../../
+      
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./controller_uniffi-${{ matrix.name }}.tar.gz
+          asset_name: controller_uniffi-${{ matrix.name }}.tar.gz
+          asset_content_type: application/gzip
+
+  build-bindings:
+    name: Build Language Bindings
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Build library
+        run: cargo build --release
+      
+      - name: Generate all bindings
+        run: |
+          ./scripts/build_swift.sh
+          ./scripts/build_kotlin.sh
+          ./scripts/build_python.sh
+          ./scripts/build_cpp.sh
+      
+      - name: Package bindings
+        run: |
+          mkdir -p controller_uniffi_bindings
+          cp -r bindings/* controller_uniffi_bindings/
+          tar czf controller_uniffi_bindings.tar.gz controller_uniffi_bindings
+      
+      - name: Upload Bindings
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./controller_uniffi_bindings.tar.gz
+          asset_name: controller_uniffi_bindings.tar.gz
+          asset_content_type: application/gzip
+
+  publish-checksums:
+    name: Publish Checksums
+    needs: [create-release, build-apple, build-xcframework, build-linux, build-bindings]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+      
+      - name: Generate checksums
+        run: |
+          echo "# Release Checksums" > CHECKSUMS.txt
+          echo "" >> CHECKSUMS.txt
+          for file in *.tar.gz; do
+            if [ -f "$file" ]; then
+              sha256sum "$file" >> CHECKSUMS.txt
+            fi
+          done
+      
+      - name: Upload Checksums
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./CHECKSUMS.txt
+          asset_name: CHECKSUMS.txt
+          asset_content_type: text/plain
+

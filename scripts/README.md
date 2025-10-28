@@ -55,6 +55,37 @@ Run all CI checks locally (format, clippy, tests, build).
 
 This is what you should run before pushing to ensure CI will pass!
 
+### Release
+
+#### `./scripts/release.sh <version>`
+Prepare and create a new release.
+
+```bash
+# Create a new release
+./scripts/release.sh v1.0.0
+```
+
+This will:
+- Run all CI checks
+- Build all targets locally
+- Generate changelog
+- Create and push git tag
+- Trigger GitHub Actions release workflow
+
+#### `./scripts/download-release.sh <version> <platform>`
+Download release artifacts.
+
+```bash
+# Download iOS XCFramework
+./scripts/download-release.sh v1.0.0 ios
+
+# Download macOS binary
+./scripts/download-release.sh v1.0.0 macos-arm64
+
+# Download all language bindings
+./scripts/download-release.sh v1.0.0 bindings
+```
+
 ### Building
 
 #### `./scripts/build_ios.sh`
@@ -142,6 +173,8 @@ Generate C++ bindings.
 | `test.sh` | Run tests |
 | `check.sh` | Run all CI checks |
 | `build_ios.sh` | Build iOS framework |
+| `release.sh <version>` | Create a new release |
+| `download-release.sh` | Download release artifacts |
 
 ## 💡 Tips
 
