@@ -31,6 +31,14 @@ class SessionManager: ObservableObject {
     @Published var successMessage: String?
     @Published var lastTransactionHash: String?
     
+    // Web view and card
+    @Published var showWebView = false
+    @Published var showAccountConnectedCard = false
+    @Published var connectedUsername: String = ""
+    
+    // Background subscription
+    private var subscriptionTask: Task<Void, Never>?
+    
     // Session metadata
     @Published var sessionUsername: String?
     @Published var sessionOwnerGuid: String?
@@ -143,6 +151,86 @@ class SessionManager: ObservableObject {
         policies=\(encodedPolicies)&\
         rpc_url=\(encodedRpcUrl)
         """
+    }
+    
+    func openSessionInWebView() {
+        // Start background subscription
+        startBackgroundSubscription()
+        
+        // Show the web view
+        showWebView = true
+    }
+    
+    func startBackgroundSubscription() {
+        // Cancel any existing subscription
+        subscriptionTask?.cancel()
+        
+        isLoading = true
+        errorMessage = nil
+        
+        subscriptionTask = Task {
+            do {
+                let enabledPolicies = policies.filter { $0.enabled }
+                
+                let sessionPolicies = SessionPolicies(
+                    policies: enabledPolicies.map { policy in
+                        SessionPolicy(
+                            contractAddress: policy.contractAddress,
+                            entrypoint: policy.entrypoint
+                        )
+                    },
+                    maxFee: "0x2386f26fc10000" // ~0.01 ETH - much higher for safety
+                )
+                
+                let session = try SessionAccount.createFromSubscribe(
+                    privateKey: privateKey,
+                    policies: sessionPolicies,
+                    rpcUrl: rpcUrl,
+                    cartridgeApiUrl: cartridgeApiUrl
+                )
+                
+                // Check if task was cancelled
+                if Task.isCancelled { return }
+                
+                await MainActor.run {
+                    self.sessionAccount = session
+                    self.showWebView = false // Close the web view
+                    self.isLoading = false
+                    
+                    // Fetch metadata
+                    self.sessionAddress = session.address()
+                    self.sessionOwnerGuid = session.ownerGuid()
+                    self.sessionExpiresAt = session.expiresAt()
+                    self.sessionId = session.sessionId()
+                    self.appId = session.appId()
+                    self.isRevoked = session.isRevoked()
+                    
+                    // Get username from session
+                    if let username = session.username() {
+                        self.connectedUsername = username
+                        self.sessionUsername = username
+                    } else {
+                        self.connectedUsername = "Anonymous"
+                    }
+                    
+                    // Show the success card
+                    self.showAccountConnectedCard = true
+                }
+            } catch {
+                if Task.isCancelled { return }
+                
+                await MainActor.run {
+                    self.errorMessage = "Failed to create session: \(error.localizedDescription)"
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+    
+    func cancelSubscription() {
+        subscriptionTask?.cancel()
+        subscriptionTask = nil
+        isLoading = false
     }
     
     func openSessionInBrowser() {
@@ -354,6 +442,7 @@ class SessionManager: ObservableObject {
     }
     
     func reset() {
+        cancelSubscription()
         sessionAccount = nil
         lastTransactionHash = nil
         sessionUsername = nil
@@ -364,7 +453,13 @@ class SessionManager: ObservableObject {
         appId = nil
         isRevoked = false
         isWaitingForBrowser = false
+        connectedUsername = ""
+        showAccountConnectedCard = false
         setupDefaultPolicies()
+    }
+    
+    deinit {
+        subscriptionTask?.cancel()
     }
 }
 

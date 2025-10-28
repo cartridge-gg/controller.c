@@ -69,5 +69,7 @@
 			<string>com.cartridge.sessionaccount</string>
 		</dict>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We use Face ID to securely authenticate your session with Cartridge</string>
 </dict>
 </plist>

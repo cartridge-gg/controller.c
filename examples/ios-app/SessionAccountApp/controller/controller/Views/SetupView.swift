@@ -67,49 +67,24 @@ struct SetupView: View {
                 // Actions Section
                 Section {
                     if sessionManager.sessionAccount == nil {
-                        if sessionManager.isWaitingForBrowser {
-                            VStack(spacing: 12) {
+                        Button {
+                            sessionManager.openSessionInWebView()
+                        } label: {
+                            if sessionManager.isLoading {
                                 HStack {
                                     ProgressView()
-                                    Text("Waiting for browser authorization...")
-                                        .font(.callout)
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .padding(.trailing, 8)
+                                    Text("Waiting for Authorization...")
                                 }
-                                .padding()
-                                
-                                Button {
-                                    Task {
-                                        await sessionManager.createSessionFromAPI()
-                                    }
-                                } label: {
-                                    if sessionManager.isLoading {
-                                        ProgressView()
-                                    } else {
-                                        Label("Subscribe & Create Session", systemImage: "arrow.down.circle")
-                                            .frame(maxWidth: .infinity)
-                                    }
-                                }
-                                .buttonStyle(.borderedProminent)
-                                .disabled(sessionManager.isLoading)
-                            }
-                        } else {
-                            Button {
-                                sessionManager.openSessionInBrowser()
-                            } label: {
-                                if sessionManager.isOpeningBrowser {
-                                    HStack {
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                        Text("Opening Browser...")
-                                    }
+                                .frame(maxWidth: .infinity)
+                            } else {
+                                Label("Register Session", systemImage: "key.fill")
                                     .frame(maxWidth: .infinity)
-                                } else {
-                                    Label("Open Browser to Authorize", systemImage: "safari")
-                                        .frame(maxWidth: .infinity)
-                                }
                             }
-                            .buttonStyle(.borderedProminent)
-                            .disabled(sessionManager.policies.filter { $0.enabled }.isEmpty || sessionManager.isOpeningBrowser)
                         }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(sessionManager.policies.filter { $0.enabled }.isEmpty || sessionManager.isLoading)
                     } else {
                         Label("Session Active", systemImage: "checkmark.circle.fill")
                             .foregroundColor(.green)
@@ -122,16 +97,34 @@ struct SetupView: View {
                         }
                     }
                 } footer: {
-                    if sessionManager.isWaitingForBrowser {
-                        Text("Complete authorization in browser, then return here. The session will be created automatically when you return!")
-                    } else {
-                        Text("1. Open browser to authorize the session\n2. Complete authorization in Keychain\n3. App will automatically create session when you return")
+                    if sessionManager.sessionAccount == nil {
+                        Text("Register the session with your Cartridge account. The session will be created automatically after you complete the authorization.")
                     }
                 }
             }
             .navigationTitle("Setup Session")
             .sheet(isPresented: $showAddPolicy) {
                 AddPolicySheet()
+            }
+            .fullScreenCover(isPresented: $sessionManager.showWebView) {
+                if let url = URL(string: sessionManager.generateSessionURL()) {
+                    SessionWebView(
+                        url: url,
+                        onComplete: {
+                            // Session creation is handled by background subscription
+                        },
+                        onError: { error in
+                            sessionManager.errorMessage = error
+                            sessionManager.cancelSubscription()
+                        }
+                    )
+                    .onDisappear {
+                        // If user manually dismisses, cancel the subscription
+                        if sessionManager.sessionAccount == nil {
+                            sessionManager.cancelSubscription()
+                        }
+                    }
+                }
             }
         }
     }

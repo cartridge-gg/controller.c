@@ -31,6 +31,23 @@ struct SessionAccountView: View {
                     .tag(2)
             }
             
+            // Account Connected Card
+            if sessionManager.showAccountConnectedCard {
+                AccountConnectedCard(
+                    username: sessionManager.connectedUsername,
+                    publicKey: sessionManager.publicKey,
+                    onDismiss: {
+                        sessionManager.showAccountConnectedCard = false
+                        // Switch to Execute tab
+                        withAnimation {
+                            selectedTab = 1
+                        }
+                    }
+                )
+                .transition(.move(edge: .bottom))
+                .zIndex(100)
+            }
+            
             // Sliding card overlay
             if sessionManager.showPayloadSheet {
                 Color.black.opacity(0.4)
@@ -53,14 +70,8 @@ struct SessionAccountView: View {
         } message: {
             Text(sessionManager.errorMessage ?? "")
         }
-        .alert("Success", isPresented: .constant(sessionManager.successMessage != nil)) {
-            Button("OK") {
-                sessionManager.clearSuccess()
-            }
-        } message: {
-            Text(sessionManager.successMessage ?? "")
-        }
         .animation(.spring(), value: sessionManager.showPayloadSheet)
+        .animation(.spring(), value: sessionManager.showAccountConnectedCard)
     }
 }
 
