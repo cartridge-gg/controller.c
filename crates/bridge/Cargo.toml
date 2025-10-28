@@ -7,7 +7,7 @@ description = "UniFFI bindings for the Controller SDK"
 license = "MIT"
 
 [lib]
-crate-type = ["cdylib", "lib"]
+crate-type = ["staticlib", "cdylib", "lib"]
 
 [dependencies]
 account_sdk = { git = "https://github.com/cartridge-gg/controller-rs", rev = "c189f64" }
