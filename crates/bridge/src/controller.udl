@@ -161,8 +161,6 @@ interface SessionAccount {
     
     [Throws=ControllerError]
     FieldElement execute_from_outside(sequence<Call> calls);
-<<<<<<< Updated upstream
-=======
     
     // Getter methods for session metadata
     string address();
@@ -176,5 +174,4 @@ interface SessionAccount {
     string? username();
     string? app_id();
     boolean is_revoked();
->>>>>>> Stashed changes
 };

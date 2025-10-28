@@ -17,8 +17,6 @@ use crate::types::{Call, FieldElement, SessionPolicies};
 pub(crate) struct SessionAccountInner {
     pub session_account: SdkSessionAccount,
     pub last_error: Option<String>,
-<<<<<<< Updated upstream
-=======
     pub owner_guid: Felt,
     pub expires_at: u64,
     // Additional metadata from GraphQL response (only populated when using create_from_subscribe)
@@ -26,7 +24,6 @@ pub(crate) struct SessionAccountInner {
     pub username: Option<String>,  // controller.accountID
     pub app_id: Option<String>,
     pub is_revoked: bool,
->>>>>>> Stashed changes
 }
 
 pub struct SessionAccount {
@@ -86,15 +83,12 @@ impl SessionAccount {
             inner: Arc::new(Mutex::new(SessionAccountInner {
                 session_account,
                 last_error: None,
-<<<<<<< Updated upstream
-=======
                 owner_guid: owner_guid_felt,
                 expires_at: session_expiration,
                 session_id: None,
                 username: None,
                 app_id: None,
                 is_revoked: false,
->>>>>>> Stashed changes
             })),
         })
     }
@@ -282,8 +276,6 @@ impl SessionAccount {
 
         Ok(session_account)
     }
-<<<<<<< Updated upstream
-=======
 
     /// Get the session account address
     pub fn address(&self) -> String {
@@ -339,6 +331,5 @@ impl SessionAccount {
         let inner = self.inner.lock().unwrap();
         inner.is_revoked
     }
->>>>>>> Stashed changes
 }
 

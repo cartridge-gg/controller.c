@@ -363,8 +363,6 @@ uint64_t uniffi_controller_uniffi_fn_constructor_sessionaccount_create_from_subs
 uint64_t uniffi_controller_uniffi_fn_constructor_sessionaccount_new(RustBuffer rpc_url, RustBuffer private_key, RustBuffer address, RustBuffer owner_guid, RustBuffer chain_id, RustBuffer policies, uint64_t session_expiration, RustCallStatus *_Nonnull out_status
 );
 #endif
-<<<<<<< Updated upstream
-=======
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_METHOD_SESSIONACCOUNT_ADDRESS
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_METHOD_SESSIONACCOUNT_ADDRESS
 RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_address(uint64_t ptr, RustCallStatus *_Nonnull out_status
@@ -380,7 +378,6 @@ RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_app_id(uint64_t ptr
 RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(uint64_t ptr, RustCallStatus *_Nonnull out_status
 );
 #endif
->>>>>>> Stashed changes
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_METHOD_SESSIONACCOUNT_EXECUTE
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_METHOD_SESSIONACCOUNT_EXECUTE
 RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_execute(uint64_t ptr, RustBuffer calls, RustCallStatus *_Nonnull out_status
@@ -391,8 +388,6 @@ RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_execute(uint64_t pt
 RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(uint64_t ptr, RustBuffer calls, RustCallStatus *_Nonnull out_status
 );
 #endif
-<<<<<<< Updated upstream
-=======
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_METHOD_SESSIONACCOUNT_EXPIRES_AT
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_METHOD_SESSIONACCOUNT_EXPIRES_AT
 uint64_t uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(uint64_t ptr, RustCallStatus *_Nonnull out_status
@@ -423,7 +418,6 @@ RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_session_id(uint64_t
 RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_username(uint64_t ptr, RustCallStatus *_Nonnull out_status
 );
 #endif
->>>>>>> Stashed changes
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_FUNC_CONTROLLER_HAS_STORAGE
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_FN_FUNC_CONTROLLER_HAS_STORAGE
 int8_t uniffi_controller_uniffi_fn_func_controller_has_storage(RustBuffer app_id, RustCallStatus *_Nonnull out_status
@@ -811,8 +805,6 @@ uint16_t uniffi_controller_uniffi_checksum_method_controller_username(void
     
 );
 #endif
-<<<<<<< Updated upstream
-=======
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_METHOD_SESSIONACCOUNT_ADDRESS
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_METHOD_SESSIONACCOUNT_ADDRESS
 uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_address(void
@@ -831,7 +823,6 @@ uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id(void
     
 );
 #endif
->>>>>>> Stashed changes
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_METHOD_SESSIONACCOUNT_EXECUTE
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_METHOD_SESSIONACCOUNT_EXECUTE
 uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_execute(void
@@ -844,8 +835,6 @@ uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_ou
     
 );
 #endif
-<<<<<<< Updated upstream
-=======
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_METHOD_SESSIONACCOUNT_EXPIRES_AT
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_METHOD_SESSIONACCOUNT_EXPIRES_AT
 uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at(void
@@ -882,7 +871,6 @@ uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_username(void
     
 );
 #endif
->>>>>>> Stashed changes
 #ifndef UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_CONSTRUCTOR_CONTROLLER_FROM_STORAGE
 #define UNIFFI_FFIDEF_UNIFFI_CONTROLLER_UNIFFI_CHECKSUM_CONSTRUCTOR_CONTROLLER_FROM_STORAGE
 uint16_t uniffi_controller_uniffi_checksum_constructor_controller_from_storage(void

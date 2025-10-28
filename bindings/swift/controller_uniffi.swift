@@ -870,21 +870,16 @@ public func FfiConverterTypeOwner_lower(_ value: Owner) -> UInt64 {
 
 public protocol SessionAccountProtocol: AnyObject, Sendable {
     
-<<<<<<< Updated upstream
-=======
     func address()  -> String
     
     func appId()  -> String?
     
     func chainId()  -> String
     
->>>>>>> Stashed changes
     func execute(calls: [Call]) throws  -> FieldElement
     
     func executeFromOutside(calls: [Call]) throws  -> FieldElement
     
-<<<<<<< Updated upstream
-=======
     func expiresAt()  -> UInt64
     
     func isExpired()  -> Bool
@@ -897,7 +892,6 @@ public protocol SessionAccountProtocol: AnyObject, Sendable {
     
     func username()  -> String?
     
->>>>>>> Stashed changes
 }
 open class SessionAccount: SessionAccountProtocol, @unchecked Sendable {
     fileprivate let handle: UInt64
@@ -972,8 +966,6 @@ public static func createFromSubscribe(privateKey: String, policies: SessionPoli
     
 
     
-<<<<<<< Updated upstream
-=======
 open func address() -> String  {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_controller_uniffi_fn_method_sessionaccount_address(
@@ -998,7 +990,6 @@ open func chainId() -> String  {
 })
 }
     
->>>>>>> Stashed changes
 open func execute(calls: [Call])throws  -> FieldElement  {
     return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
     uniffi_controller_uniffi_fn_method_sessionaccount_execute(
@@ -1017,8 +1008,6 @@ open func executeFromOutside(calls: [Call])throws  -> FieldElement  {
 })
 }
     
-<<<<<<< Updated upstream
-=======
 open func expiresAt() -> UInt64  {
     return try!  FfiConverterUInt64.lift(try! rustCall() {
     uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(
@@ -1067,7 +1056,6 @@ open func username() -> String?  {
 })
 }
     
->>>>>>> Stashed changes
 
     
 }
@@ -1828,8 +1816,6 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_method_controller_username() != 5497) {
         return InitializationResult.apiChecksumMismatch
     }
-<<<<<<< Updated upstream
-=======
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_address() != 14778) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -1839,15 +1825,12 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id() != 36850) {
         return InitializationResult.apiChecksumMismatch
     }
->>>>>>> Stashed changes
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_execute() != 61492) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside() != 27820) {
         return InitializationResult.apiChecksumMismatch
     }
-<<<<<<< Updated upstream
-=======
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at() != 21117) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -1866,7 +1849,6 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_username() != 22367) {
         return InitializationResult.apiChecksumMismatch
     }
->>>>>>> Stashed changes
     if (uniffi_controller_uniffi_checksum_constructor_controller_from_storage() != 39320) {
         return InitializationResult.apiChecksumMismatch
     }
