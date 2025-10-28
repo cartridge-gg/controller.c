@@ -23,7 +23,10 @@ fn main() {
         eprintln!();
         eprintln!("Examples:");
         eprintln!("  {}                    # Use defaults", args[0]);
-        eprintln!("  {} target/release/libcontroller_uniffi.dylib bindings/kotlin", args[0]);
+        eprintln!(
+            "  {} target/release/libcontroller_uniffi.dylib bindings/kotlin",
+            args[0]
+        );
         eprintln!();
         process::exit(0);
     }
@@ -42,13 +45,24 @@ fn main() {
     let default_out = "bindings/kotlin";
 
     // Parse arguments
-    let positional_args: Vec<&String> =
-        args.iter().skip(1).filter(|arg| !arg.starts_with("--")).collect();
+    let positional_args: Vec<&String> = args
+        .iter()
+        .skip(1)
+        .filter(|arg| !arg.starts_with("--"))
+        .collect();
 
-    let library_path =
-        Utf8PathBuf::from(positional_args.first().map(|s| s.as_str()).unwrap_or(&default_lib));
-    let out_dir =
-        Utf8PathBuf::from(positional_args.get(1).map(|s| s.as_str()).unwrap_or(default_out));
+    let library_path = Utf8PathBuf::from(
+        positional_args
+            .first()
+            .map(|s| s.as_str())
+            .unwrap_or(&default_lib),
+    );
+    let out_dir = Utf8PathBuf::from(
+        positional_args
+            .get(1)
+            .map(|s| s.as_str())
+            .unwrap_or(default_out),
+    );
 
     if !library_path.exists() {
         eprintln!("Error: Library file not found: {}", library_path);
@@ -60,7 +74,10 @@ fn main() {
 
     // Create output directory if it doesn't exist
     if let Err(e) = fs::create_dir_all(&out_dir) {
-        eprintln!("Error: Failed to create output directory {}: {}", out_dir, e);
+        eprintln!(
+            "Error: Failed to create output directory {}: {}",
+            out_dir, e
+        );
         process::exit(1);
     }
 
@@ -105,8 +122,11 @@ fn generate_kotlin_bindings(
 
     // Generate bindings using the Kotlin generator
     use uniffi_bindgen::GenerationSettings;
-    let settings =
-        GenerationSettings { out_dir: out_dir.clone(), try_format_code: false, cdylib: None };
+    let settings = GenerationSettings {
+        out_dir: out_dir.clone(),
+        try_format_code: false,
+        cdylib: None,
+    };
 
     generator.write_bindings(&settings, &components)?;
 

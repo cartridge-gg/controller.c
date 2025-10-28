@@ -7,8 +7,8 @@ use url::Url;
 
 use crate::error::ControllerError;
 use crate::owner::Owner;
-use crate::types::{Call, FieldElement, SignerType};
 use crate::runtime::RUNTIME;
+use crate::types::{Call, FieldElement, SignerType};
 use std::ops::Deref;
 
 // Controller implementation
@@ -33,13 +33,13 @@ impl Controller {
     ) -> Result<Self, ControllerError> {
         let class_hash_felt = Felt::from_hex(&class_hash.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let rpc_url_parsed = Url::parse(&rpc_url)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let address_felt = Felt::from_hex(&address.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let chain_id_felt = Felt::from_hex(&chain_id.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
 
@@ -71,10 +71,10 @@ impl Controller {
     ) -> Result<Self, ControllerError> {
         let class_hash_felt = Felt::from_hex(&class_hash.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let rpc_url_parsed = Url::parse(&rpc_url)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let chain_id_felt = Felt::from_hex(&chain_id.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
 
@@ -103,7 +103,10 @@ impl Controller {
                     last_error: None,
                 })),
             }),
-            Ok(None) => Err(ControllerError::StorageError(format!("No stored controller found for app_id: {}", app_id))),
+            Ok(None) => Err(ControllerError::StorageError(format!(
+                "No stored controller found for app_id: {}",
+                app_id
+            ))),
             Err(e) => Err(ControllerError::StorageError(e.to_string())),
         }
     }
@@ -115,9 +118,13 @@ impl Controller {
         cartridge_api_url: Option<String>,
     ) -> Result<(), ControllerError> {
         let mut inner = self.inner.lock().unwrap();
-        
+
         // Use global multi-threaded runtime
-        let result = RUNTIME.block_on(inner.controller.signup(signer_type.into(), session_expiration, cartridge_api_url));
+        let result = RUNTIME.block_on(inner.controller.signup(
+            signer_type.into(),
+            session_expiration,
+            cartridge_api_url,
+        ));
 
         match result {
             Ok(_) => Ok(()),
@@ -165,7 +172,7 @@ impl Controller {
         let calls_vec = calls_vec?;
 
         let mut inner = self.inner.lock().unwrap();
-        
+
         // Use global multi-threaded runtime
         let result = RUNTIME.block_on(inner.controller.execute_v3(calls_vec).send());
 
@@ -181,9 +188,8 @@ impl Controller {
 
     pub fn switch_chain(&self, rpc_url: String) -> Result<(), ControllerError> {
         let mut inner = self.inner.lock().unwrap();
-        
-        let url = Url::parse(&rpc_url)
-            .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
+
+        let url = Url::parse(&rpc_url).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
         // Use global multi-threaded runtime
         let result = RUNTIME.block_on(inner.controller.switch_chain(url));
@@ -200,7 +206,7 @@ impl Controller {
 
     pub fn delegate_account(&self) -> Result<FieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
-        
+
         // Use global multi-threaded runtime
         let delegate = RUNTIME
             .block_on(inner.controller.delegate_account())
@@ -217,8 +223,8 @@ impl Controller {
         let recipient_felt = Felt::from_hex(&recipient.0)
             .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
-        let amount_felt = Felt::from_hex(&amount.0)
-            .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
+        let amount_felt =
+            Felt::from_hex(&amount.0).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
         let call = starknet::core::types::Call {
             to: STRK_CONTRACT_ADDRESS,
@@ -227,7 +233,7 @@ impl Controller {
         };
 
         let mut inner = self.inner.lock().unwrap();
-        
+
         // Use global multi-threaded runtime
         let result = RUNTIME.block_on(inner.controller.execute_v3(vec![call]).send());
 
@@ -260,4 +266,3 @@ pub fn controller_has_storage(app_id: String) -> Result<bool, ControllerError> {
         Err(e) => Err(ControllerError::StorageError(e.to_string())),
     }
 }
-

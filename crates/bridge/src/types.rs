@@ -1,5 +1,5 @@
-use starknet::core::types::Felt;
 use crate::error::ControllerError;
+use starknet::core::types::Felt;
 
 // Custom type conversions
 #[derive(Clone, Debug)]
@@ -35,15 +35,12 @@ impl TryFrom<&Call> for starknet::core::types::Call {
     fn try_from(call: &Call) -> Result<Self, Self::Error> {
         let contract_address = Felt::from_hex(&call.contract_address.0)
             .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
-        
+
         let selector = starknet::core::utils::get_selector_from_name(&call.entrypoint)
             .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
-        
-        let calldata: Result<Vec<Felt>, _> = call
-            .calldata
-            .iter()
-            .map(|s| Felt::from_hex(&s.0))
-            .collect();
+
+        let calldata: Result<Vec<Felt>, _> =
+            call.calldata.iter().map(|s| Felt::from_hex(&s.0)).collect();
         let calldata = calldata.map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
         Ok(starknet::core::types::Call {
@@ -73,13 +70,11 @@ impl TryFrom<&SessionPolicies> for Vec<account_sdk::account::session::policy::Po
         for policy in &policies.policies {
             let contract_address = Felt::from_hex(&policy.contract_address.0)
                 .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
-            
+
             let selector = starknet::core::utils::get_selector_from_name(&policy.entrypoint)
                 .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
-            let sdk_policy = account_sdk::account::session::policy::Policy::new_call(
-                contract_address,
-                selector,
-            );
+            let sdk_policy =
+                account_sdk::account::session::policy::Policy::new_call(contract_address, selector);
             result.push(sdk_policy);
         }
         Ok(result)

@@ -1,0 +1,9 @@
+# Clippy configuration
+# See: https://rust-lang.github.io/rust-clippy/master/
+
+# Warn on common mistakes
+cognitive-complexity-threshold = 30
+too-many-arguments-threshold = 7
+type-complexity-threshold = 250
+single-char-lifetime-names-threshold = 4
+

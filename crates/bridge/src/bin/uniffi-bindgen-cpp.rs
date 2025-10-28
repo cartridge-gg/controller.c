@@ -1,5 +1,5 @@
-use std::{env, process};
 use camino::Utf8PathBuf;
+use std::{env, process};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -12,7 +12,9 @@ fn main() {
         eprintln!();
         eprintln!("Arguments:");
         eprintln!("  udl_path              Path to the .udl file (default: src/controller.udl)");
-        eprintln!("  output_dir            Output directory for bindings (default: ../../bindings/cpp)");
+        eprintln!(
+            "  output_dir            Output directory for bindings (default: ../../bindings/cpp)"
+        );
         eprintln!();
         eprintln!("Options:");
         eprintln!("  --config <path>       Path to uniffi.toml config file");
@@ -49,13 +51,24 @@ fn main() {
     let default_out = "../../bindings/cpp";
 
     // Parse arguments
-    let positional_args: Vec<&String> =
-        args.iter().skip(1).filter(|arg| !arg.starts_with("--")).collect();
+    let positional_args: Vec<&String> = args
+        .iter()
+        .skip(1)
+        .filter(|arg| !arg.starts_with("--"))
+        .collect();
 
-    let udl_path =
-        Utf8PathBuf::from(positional_args.first().map(|s| s.as_str()).unwrap_or(default_udl));
-    let out_dir =
-        Utf8PathBuf::from(positional_args.get(1).map(|s| s.as_str()).unwrap_or(default_out));
+    let udl_path = Utf8PathBuf::from(
+        positional_args
+            .first()
+            .map(|s| s.as_str())
+            .unwrap_or(default_udl),
+    );
+    let out_dir = Utf8PathBuf::from(
+        positional_args
+            .get(1)
+            .map(|s| s.as_str())
+            .unwrap_or(default_out),
+    );
 
     if !udl_path.exists() {
         eprintln!("Error: UDL file not found: {}", udl_path);
@@ -66,7 +79,10 @@ fn main() {
 
     // Create output directory if it doesn't exist
     if let Err(e) = std::fs::create_dir_all(&out_dir) {
-        eprintln!("Error: Failed to create output directory {}: {}", out_dir, e);
+        eprintln!(
+            "Error: Failed to create output directory {}: {}",
+            out_dir, e
+        );
         process::exit(1);
     }
 
@@ -132,5 +148,3 @@ fn main() {
         }
     }
 }
-
-

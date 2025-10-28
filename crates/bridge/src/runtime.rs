@@ -1,5 +1,5 @@
-use tokio::runtime::Runtime;
 use lazy_static::lazy_static;
+use tokio::runtime::Runtime;
 
 lazy_static! {
     /// Global multi-threaded Tokio runtime
@@ -12,4 +12,3 @@ lazy_static! {
             .expect("Failed to create Tokio runtime")
     };
 }
-

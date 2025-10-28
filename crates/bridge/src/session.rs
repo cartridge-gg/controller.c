@@ -1,6 +1,7 @@
 use account_sdk::account::outside_execution::OutsideExecutionAccount;
 use account_sdk::account::session::account::SessionAccount as SdkSessionAccount;
 use account_sdk::provider::{CartridgeJsonRpcProvider, CartridgeProvider};
+use chrono::Utc;
 use starknet::accounts::{Account, ConnectedAccount};
 use starknet::core::types::Felt;
 use starknet::core::utils::cairo_short_string_to_felt;
@@ -8,11 +9,10 @@ use starknet::macros::short_string;
 use starknet_signers::SigningKey;
 use std::sync::{Arc, Mutex};
 use url::Url;
-use chrono::Utc;
 
 use crate::error::ControllerError;
-use crate::types::{Call, FieldElement, SessionPolicies};
 use crate::runtime::RUNTIME;
+use crate::types::{Call, FieldElement, SessionPolicies};
 
 // Session Account implementation
 pub(crate) struct SessionAccountInner {
@@ -22,7 +22,7 @@ pub(crate) struct SessionAccountInner {
     pub expires_at: u64,
     // Additional metadata from GraphQL response (only populated when using create_from_subscribe)
     pub session_id: Option<String>,
-    pub username: Option<String>,  // controller.accountID
+    pub username: Option<String>, // controller.accountID
     pub app_id: Option<String>,
     pub is_revoked: bool,
 }
@@ -43,7 +43,7 @@ impl SessionAccount {
     ) -> Result<Self, ControllerError> {
         let rpc_url_parsed = Url::parse(&rpc_url)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let provider = CartridgeJsonRpcProvider::new(rpc_url_parsed);
 
         let address_felt = Felt::from_hex(&address.0)
@@ -57,12 +57,13 @@ impl SessionAccount {
 
         let private_key_felt = Felt::from_hex(&private_key)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let signing_key = SigningKey::from_secret_scalar(private_key_felt);
         let signer = account_sdk::signers::Signer::Starknet(signing_key);
 
-        let policy_vec: Vec<account_sdk::account::session::policy::Policy> = (&policies).try_into()?;
-        
+        let policy_vec: Vec<account_sdk::account::session::policy::Policy> =
+            (&policies).try_into()?;
+
         let session = account_sdk::account::session::hash::Session::new(
             policy_vec,
             session_expiration,
@@ -100,7 +101,7 @@ impl SessionAccount {
         let calls_vec = calls_vec?;
 
         let mut inner = self.inner.lock().unwrap();
-        
+
         // Use global multi-threaded runtime
         let result = RUNTIME.block_on(inner.session_account.execute_v3(calls_vec).send());
 
@@ -115,10 +116,8 @@ impl SessionAccount {
     }
 
     pub fn execute_from_outside(&self, calls: Vec<Call>) -> Result<FieldElement, ControllerError> {
-        use account_sdk::account::outside_execution::{
-            OutsideExecution, OutsideExecutionCaller,
-        };
         use account_sdk::abigen::controller::OutsideExecutionV3;
+        use account_sdk::account::outside_execution::{OutsideExecution, OutsideExecutionCaller};
 
         let calls_vec: Result<Vec<starknet::core::types::Call>, _> =
             calls.iter().map(|c| c.try_into()).collect();
@@ -126,7 +125,7 @@ impl SessionAccount {
 
         let caller = OutsideExecutionCaller::Any;
         let now = Utc::now().timestamp() as u64;
-        
+
         // Convert starknet::core::types::Call to account_sdk::abigen::controller::Call
         let sdk_calls: Vec<account_sdk::abigen::controller::Call> = calls_vec
             .iter()
@@ -136,7 +135,7 @@ impl SessionAccount {
                 calldata: c.calldata.clone(),
             })
             .collect();
-        
+
         let outside_execution = OutsideExecutionV3 {
             caller: caller.into(),
             execute_after: 0_u64,
@@ -149,26 +148,27 @@ impl SessionAccount {
 
         // Use global multi-threaded runtime
         let result = RUNTIME.block_on(async {
-                let signed = inner.session_account
-                    .sign_outside_execution(OutsideExecution::V3(outside_execution.clone()))
-                    .await
-                    .map_err(|e| ControllerError::ExecutionError(e.to_string()))?;
+            let signed = inner
+                .session_account
+                .sign_outside_execution(OutsideExecution::V3(outside_execution.clone()))
+                .await
+                .map_err(|e| ControllerError::ExecutionError(e.to_string()))?;
 
-                let address = inner.session_account.address();
-                let provider = inner.session_account.provider();
-                
-                let res = provider
-                    .add_execute_outside_transaction(
-                        OutsideExecution::V3(outside_execution),
-                        address,
-                        signed.signature,
-                        None,
-                    )
-                    .await
-                    .map_err(|e| ControllerError::ExecutionError(e.to_string()))?;
+            let address = inner.session_account.address();
+            let provider = inner.session_account.provider();
 
-                Ok::<String, ControllerError>(res.transaction_hash.to_hex_string())
-            });
+            let res = provider
+                .add_execute_outside_transaction(
+                    OutsideExecution::V3(outside_execution),
+                    address,
+                    signed.signature,
+                    None,
+                )
+                .await
+                .map_err(|e| ControllerError::ExecutionError(e.to_string()))?;
+
+            Ok::<String, ControllerError>(res.transaction_hash.to_hex_string())
+        });
 
         match result {
             Ok(tx_hash) => Ok(FieldElement(tx_hash)),
@@ -189,10 +189,10 @@ impl SessionAccount {
         // Parse private key and create signer
         let private_key_felt = Felt::from_hex(&private_key)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
-        
+
         let signing_key = SigningKey::from_secret_scalar(private_key_felt);
         let signer = account_sdk::signers::Signer::Starknet(signing_key);
-        
+
         // Get session key GUID
         let session_key_guid: Felt = signer.clone().into();
 
@@ -206,11 +206,9 @@ impl SessionAccount {
             .map_err(|e| ControllerError::SignupError(format!("Failed to subscribe: {}", e)))?;
 
         // Extract data from response
-        let data = response_data
-            .subscribe_create_session
-            .ok_or_else(|| ControllerError::SignupError(
-                "No data inside the subscribe create session".to_string(),
-            ))?;
+        let data = response_data.subscribe_create_session.ok_or_else(|| {
+            ControllerError::SignupError("No data inside the subscribe create session".to_string())
+        })?;
 
         // Validate authorization
         if data.authorization.is_empty() {
@@ -237,8 +235,9 @@ impl SessionAccount {
         // Extract session parameters
         let address = FieldElement(data.controller.address.clone());
         let owner_guid = FieldElement(data.authorization[1].clone());
-        let chain_id_felt = cairo_short_string_to_felt(&data.chain_id)
-            .map_err(|e| ControllerError::InitializationError(format!("Failed to parse chainId: {}", e)))?;
+        let chain_id_felt = cairo_short_string_to_felt(&data.chain_id).map_err(|e| {
+            ControllerError::InitializationError(format!("Failed to parse chainId: {}", e))
+        })?;
         let chain_id = FieldElement(format!("{:#x}", chain_id_felt));
 
         // Extract additional metadata
@@ -356,4 +355,3 @@ impl SessionAccount {
         now >= inner.expires_at
     }
 }
-
