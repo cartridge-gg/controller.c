@@ -12,6 +12,7 @@ use chrono::Utc;
 
 use crate::error::ControllerError;
 use crate::types::{Call, FieldElement, SessionPolicies};
+use crate::runtime::RUNTIME;
 
 // Session Account implementation
 pub(crate) struct SessionAccountInner {
@@ -100,11 +101,8 @@ impl SessionAccount {
 
         let mut inner = self.inner.lock().unwrap();
         
-        let result = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::ExecutionError(e.to_string()))?
-            .block_on(inner.session_account.execute_v3(calls_vec).send());
+        // Use global multi-threaded runtime
+        let result = RUNTIME.block_on(inner.session_account.execute_v3(calls_vec).send());
 
         match result {
             Ok(res) => Ok(FieldElement(format!("{:#x}", res.transaction_hash))),
@@ -149,11 +147,8 @@ impl SessionAccount {
 
         let mut inner = self.inner.lock().unwrap();
 
-        let result = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::ExecutionError(e.to_string()))?
-            .block_on(async {
+        // Use global multi-threaded runtime
+        let result = RUNTIME.block_on(async {
                 let signed = inner.session_account
                     .sign_outside_execution(OutsideExecution::V3(outside_execution.clone()))
                     .await
@@ -202,10 +197,8 @@ impl SessionAccount {
         let session_key_guid: Felt = signer.clone().into();
 
         // Call the GraphQL API to create the session
-        let response_data = tokio::runtime::Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .map_err(|e| ControllerError::InitializationError(e.to_string()))?
+        // Use global multi-threaded runtime to avoid blocking the caller's thread
+        let response_data = RUNTIME
             .block_on(account_sdk::session::subscribe_create_session(
                 session_key_guid,
                 cartridge_api_url,
@@ -269,7 +262,7 @@ impl SessionAccount {
         {
             let mut inner = session_account.inner.lock().unwrap();
             inner.session_id = session_id;
-            inner.username = username;
+            inner.username = Some(username);
             inner.app_id = app_id;
             inner.is_revoked = is_revoked;
         }
