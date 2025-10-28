@@ -6,9 +6,6 @@ authors = ["Cartridge"]
 description = "UniFFI bindings for the Controller SDK"
 license = "MIT"
 
-[workspace]
-# This is a standalone package, not part of a workspace
-
 [lib]
 crate-type = ["staticlib", "cdylib", "lib"]
 
