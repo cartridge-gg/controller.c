@@ -161,4 +161,20 @@ interface SessionAccount {
     
     [Throws=ControllerError]
     FieldElement execute_from_outside(sequence<Call> calls);
+<<<<<<< Updated upstream
+=======
+    
+    // Getter methods for session metadata
+    string address();
+    string chain_id();
+    string owner_guid();
+    u64 expires_at();
+    boolean is_expired();
+    
+    // Additional metadata from GraphQL response
+    string? session_id();
+    string? username();
+    string? app_id();
+    boolean is_revoked();
+>>>>>>> Stashed changes
 };

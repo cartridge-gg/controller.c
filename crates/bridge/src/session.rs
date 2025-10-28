@@ -17,6 +17,16 @@ use crate::types::{Call, FieldElement, SessionPolicies};
 pub(crate) struct SessionAccountInner {
     pub session_account: SdkSessionAccount,
     pub last_error: Option<String>,
+<<<<<<< Updated upstream
+=======
+    pub owner_guid: Felt,
+    pub expires_at: u64,
+    // Additional metadata from GraphQL response (only populated when using create_from_subscribe)
+    pub session_id: Option<String>,
+    pub username: Option<String>,  // controller.accountID
+    pub app_id: Option<String>,
+    pub is_revoked: bool,
+>>>>>>> Stashed changes
 }
 
 pub struct SessionAccount {
@@ -76,6 +86,15 @@ impl SessionAccount {
             inner: Arc::new(Mutex::new(SessionAccountInner {
                 session_account,
                 last_error: None,
+<<<<<<< Updated upstream
+=======
+                owner_guid: owner_guid_felt,
+                expires_at: session_expiration,
+                session_id: None,
+                username: None,
+                app_id: None,
+                is_revoked: false,
+>>>>>>> Stashed changes
             })),
         })
     }
@@ -235,8 +254,14 @@ impl SessionAccount {
             .map_err(|e| ControllerError::InitializationError(format!("Failed to parse chainId: {}", e)))?;
         let chain_id = FieldElement(format!("{:#x}", chain_id_felt));
 
+        // Extract additional metadata
+        let session_id = Some(data.id.clone());
+        let username = data.controller.account_id.clone();
+        let app_id = Some(data.app_id.clone());
+        let is_revoked = data.is_revoked;
+
         // Create the session account using the regular constructor
-        Self::new(
+        let mut session_account = Self::new(
             rpc_url,
             private_key,
             address,
@@ -244,7 +269,76 @@ impl SessionAccount {
             chain_id,
             policies,
             data.expires_at,
-        )
+        )?;
+
+        // Update the inner struct with additional metadata
+        {
+            let mut inner = session_account.inner.lock().unwrap();
+            inner.session_id = session_id;
+            inner.username = username;
+            inner.app_id = app_id;
+            inner.is_revoked = is_revoked;
+        }
+
+        Ok(session_account)
     }
+<<<<<<< Updated upstream
+=======
+
+    /// Get the session account address
+    pub fn address(&self) -> String {
+        let inner = self.inner.lock().unwrap();
+        format!("{:#x}", inner.session_account.address())
+    }
+
+    /// Get the chain ID
+    pub fn chain_id(&self) -> String {
+        let inner = self.inner.lock().unwrap();
+        format!("{:#x}", inner.session_account.chain_id())
+    }
+
+    /// Get the owner GUID
+    pub fn owner_guid(&self) -> String {
+        let inner = self.inner.lock().unwrap();
+        format!("{:#x}", inner.owner_guid)
+    }
+
+    /// Get the session expiration timestamp (Unix timestamp in seconds)
+    pub fn expires_at(&self) -> u64 {
+        let inner = self.inner.lock().unwrap();
+        inner.expires_at
+    }
+
+    /// Check if the session is expired
+    pub fn is_expired(&self) -> bool {
+        let inner = self.inner.lock().unwrap();
+        let now = Utc::now().timestamp() as u64;
+        now >= inner.expires_at
+    }
+
+    /// Get the session ID
+    pub fn session_id(&self) -> Option<String> {
+        let inner = self.inner.lock().unwrap();
+        inner.session_id.clone()
+    }
+
+    /// Get the username (controller.accountID)
+    pub fn username(&self) -> Option<String> {
+        let inner = self.inner.lock().unwrap();
+        inner.username.clone()
+    }
+
+    /// Get the app ID
+    pub fn app_id(&self) -> Option<String> {
+        let inner = self.inner.lock().unwrap();
+        inner.app_id.clone()
+    }
+
+    /// Check if the session is revoked
+    pub fn is_revoked(&self) -> bool {
+        let inner = self.inner.lock().unwrap();
+        inner.is_revoked
+    }
+>>>>>>> Stashed changes
 }
 
