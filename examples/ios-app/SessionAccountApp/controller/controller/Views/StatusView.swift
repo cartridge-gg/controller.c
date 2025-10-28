@@ -41,6 +41,15 @@ struct StatusView: View {
                         }
                     }
                     
+                    if let username = sessionManager.sessionUsername {
+                        HStack {
+                            Text("Username")
+                            Spacer()
+                            Text(username)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
                     if let ownerGuid = sessionManager.sessionOwnerGuid {
                         HStack {
                             Text("Owner GUID")
@@ -82,6 +91,37 @@ struct StatusView: View {
                         Spacer()
                         Text("\(sessionManager.policies.filter { $0.enabled }.count)")
                             .foregroundColor(.secondary)
+                    }
+                    
+                    if sessionManager.isRevoked {
+                        HStack {
+                            Text("Revoked")
+                            Spacer()
+                            Label("Yes", systemImage: "exclamationmark.triangle.fill")
+                                .foregroundColor(.red)
+                        }
+                    }
+                    
+                    if let sessionId = sessionManager.sessionId {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Session ID")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
+                            Text(sessionId)
+                                .font(.system(.caption2, design: .monospaced))
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    
+                    if let appId = sessionManager.appId {
+                        HStack {
+                            Text("App ID")
+                            Spacer()
+                            Text(appId)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 } header: {
                     Text("Session Info")

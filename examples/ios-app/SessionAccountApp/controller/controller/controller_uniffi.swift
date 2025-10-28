@@ -872,6 +872,8 @@ public protocol SessionAccountProtocol: AnyObject, Sendable {
     
     func address()  -> String
     
+    func appId()  -> String?
+    
     func chainId()  -> String
     
     func execute(calls: [Call]) throws  -> FieldElement
@@ -882,7 +884,13 @@ public protocol SessionAccountProtocol: AnyObject, Sendable {
     
     func isExpired()  -> Bool
     
+    func isRevoked()  -> Bool
+    
     func ownerGuid()  -> String
+    
+    func sessionId()  -> String?
+    
+    func username()  -> String?
     
 }
 open class SessionAccount: SessionAccountProtocol, @unchecked Sendable {
@@ -966,6 +974,14 @@ open func address() -> String  {
 })
 }
     
+open func appId() -> String?  {
+    return try!  FfiConverterOptionString.lift(try! rustCall() {
+    uniffi_controller_uniffi_fn_method_sessionaccount_app_id(
+            self.uniffiCloneHandle(),$0
+    )
+})
+}
+    
 open func chainId() -> String  {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(
@@ -1008,9 +1024,33 @@ open func isExpired() -> Bool  {
 })
 }
     
+open func isRevoked() -> Bool  {
+    return try!  FfiConverterBool.lift(try! rustCall() {
+    uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked(
+            self.uniffiCloneHandle(),$0
+    )
+})
+}
+    
 open func ownerGuid() -> String  {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid(
+            self.uniffiCloneHandle(),$0
+    )
+})
+}
+    
+open func sessionId() -> String?  {
+    return try!  FfiConverterOptionString.lift(try! rustCall() {
+    uniffi_controller_uniffi_fn_method_sessionaccount_session_id(
+            self.uniffiCloneHandle(),$0
+    )
+})
+}
+    
+open func username() -> String?  {
+    return try!  FfiConverterOptionString.lift(try! rustCall() {
+    uniffi_controller_uniffi_fn_method_sessionaccount_username(
             self.uniffiCloneHandle(),$0
     )
 })
@@ -1779,6 +1819,9 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_address() != 14778) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_controller_uniffi_checksum_method_sessionaccount_app_id() != 33071) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id() != 36850) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -1794,7 +1837,16 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired() != 37606) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked() != 17252) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid() != 15668) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_method_sessionaccount_session_id() != 35493) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_method_sessionaccount_username() != 22367) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_controller_uniffi_checksum_constructor_controller_from_storage() != 39320) {

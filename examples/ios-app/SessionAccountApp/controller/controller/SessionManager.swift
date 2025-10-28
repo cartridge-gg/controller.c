@@ -32,9 +32,13 @@ class SessionManager: ObservableObject {
     @Published var lastTransactionHash: String?
     
     // Session metadata
+    @Published var sessionUsername: String?
     @Published var sessionOwnerGuid: String?
     @Published var sessionAddress: String?
     @Published var sessionExpiresAt: UInt64?
+    @Published var sessionId: String?
+    @Published var appId: String?
+    @Published var isRevoked: Bool = false
     @Published var isWaitingForBrowser = false
     @Published var sessionPayload: String?
     @Published var showPayloadSheet = false
@@ -202,6 +206,10 @@ class SessionManager: ObservableObject {
                 sessionAddress = session.address()
                 sessionOwnerGuid = session.ownerGuid()
                 sessionExpiresAt = session.expiresAt()
+                sessionUsername = session.username()
+                sessionId = session.sessionId()
+                appId = session.appId()
+                isRevoked = session.isRevoked()
             }
             
             isWaitingForBrowser = false
@@ -227,16 +235,26 @@ class SessionManager: ObservableObject {
             sessionAddress = nil
             sessionOwnerGuid = nil
             sessionExpiresAt = nil
+            sessionUsername = nil
+            sessionId = nil
+            appId = nil
+            isRevoked = false
             return
         }
         
         sessionAddress = session.address()
         sessionOwnerGuid = session.ownerGuid()
         sessionExpiresAt = session.expiresAt()
+        sessionUsername = session.username()
+        sessionId = session.sessionId()
+        appId = session.appId()
+        isRevoked = session.isRevoked()
         
-        // Check if session is expired
+        // Check if session is expired or revoked
         if session.isExpired() {
             errorMessage = "⚠️ Session has expired. Please create a new session."
+        } else if session.isRevoked() {
+            errorMessage = "⚠️ Session has been revoked. Please create a new session."
         }
     }
     
@@ -259,7 +277,7 @@ class SessionManager: ObservableObject {
                 calldata: calldata
             )
             
-            let txHash = try session.execute(calls: [call])
+            let txHash = try session.executeFromOutside(calls: [call])
             lastTransactionHash = txHash
             successMessage = "Transaction sent!"
         } catch {
@@ -267,7 +285,7 @@ class SessionManager: ObservableObject {
             
             // Provide helpful error messages
             if errorStr.lowercased().contains("insufficient") {
-                errorMessage = "⚠️ Insufficient ETH for gas. Session accounts need ETH to pay fees. Fund the account or use a Controller account instead."
+                errorMessage = "⚠️ Insufficient STRK for gas. Session accounts need STRK to pay fees. Fund the account or use a Controller account instead."
             } else if errorStr.contains("not deployed") || errorStr.contains("NotDeployed") {
                 errorMessage = "Account not deployed. Deploy it first before executing transactions."
             } else {
@@ -338,9 +356,13 @@ class SessionManager: ObservableObject {
     func reset() {
         sessionAccount = nil
         lastTransactionHash = nil
+        sessionUsername = nil
         sessionOwnerGuid = nil
         sessionAddress = nil
         sessionExpiresAt = nil
+        sessionId = nil
+        appId = nil
+        isRevoked = false
         isWaitingForBrowser = false
         setupDefaultPolicies()
     }

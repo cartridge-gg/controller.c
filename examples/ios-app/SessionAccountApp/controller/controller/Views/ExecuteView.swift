@@ -50,7 +50,10 @@ struct ExecuteView: View {
                     .foregroundColor(isExpired ? .red : .green)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    if let ownerGuid = sessionManager.sessionOwnerGuid {
+                    if let username = sessionManager.sessionUsername {
+                        Text(username)
+                            .font(.headline)
+                    } else if let ownerGuid = sessionManager.sessionOwnerGuid {
                         Text(ownerGuid.prefix(10) + "..." + ownerGuid.suffix(6))
                             .font(.system(.headline, design: .monospaced))
                     } else {
@@ -60,6 +63,10 @@ struct ExecuteView: View {
                     
                     if isExpired {
                         Label("Session Expired", systemImage: "xmark.circle")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    } else if sessionManager.isRevoked {
+                        Label("Session Revoked", systemImage: "exclamationmark.triangle")
                             .font(.caption)
                             .foregroundColor(.red)
                     } else {
