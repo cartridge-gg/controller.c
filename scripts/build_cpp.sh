@@ -32,7 +32,7 @@ echo "✓ Library built successfully"
 # Generate C++ bindings
 echo ""
 echo "🔨 Generating C++ bindings..."
-cd crates/bridge
+cd "$PROJECT_ROOT"
 
 cargo run --bin uniffi-bindgen-cpp --release
 
