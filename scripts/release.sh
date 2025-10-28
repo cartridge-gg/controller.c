@@ -55,15 +55,15 @@ echo ""
 
 # Step 3: Update version in Cargo.toml if needed
 echo -e "${YELLOW}Step 3/7:${NC} Checking Cargo.toml version..."
-CARGO_VERSION=$(grep '^version = ' crates/bridge/Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+CARGO_VERSION=$(grep '^version = ' Cargo.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
 VERSION_NUMBER=${VERSION#v}
 if [ "$CARGO_VERSION" != "$VERSION_NUMBER" ]; then
     echo -e "${YELLOW}⚠ Cargo.toml version ($CARGO_VERSION) doesn't match release version ($VERSION_NUMBER)${NC}"
     read -p "Update Cargo.toml? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        sed -i.bak "s/^version = \".*\"/version = \"$VERSION_NUMBER\"/" crates/bridge/Cargo.toml
-        rm crates/bridge/Cargo.toml.bak
+        sed -i.bak "s/^version = \".*\"/version = \"$VERSION_NUMBER\"/" Cargo.toml
+        rm Cargo.toml.bak
         echo -e "${GREEN}✓ Updated Cargo.toml${NC}"
     fi
 else

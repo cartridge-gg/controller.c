@@ -47,7 +47,7 @@ git status
 ./scripts/check.sh
 
 # Update version in Cargo.toml if needed
-vim crates/bridge/Cargo.toml
+vim Cargo.toml
 ```
 
 ### 2. Create Tag

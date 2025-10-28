@@ -247,7 +247,7 @@ impl SessionAccount {
         let is_revoked = data.is_revoked;
 
         // Create the session account using the regular constructor
-        let mut session_account = Self::new(
+        let session_account = Self::new(
             rpc_url,
             private_key,
             address,
@@ -322,36 +322,5 @@ impl SessionAccount {
     pub fn is_revoked(&self) -> bool {
         let inner = self.inner.lock().unwrap();
         inner.is_revoked
-    }
-
-    /// Get the session account address
-    pub fn address(&self) -> String {
-        let inner = self.inner.lock().unwrap();
-        format!("{:#x}", inner.session_account.address())
-    }
-
-    /// Get the chain ID
-    pub fn chain_id(&self) -> String {
-        let inner = self.inner.lock().unwrap();
-        format!("{:#x}", inner.session_account.chain_id())
-    }
-
-    /// Get the owner GUID
-    pub fn owner_guid(&self) -> String {
-        let inner = self.inner.lock().unwrap();
-        format!("{:#x}", inner.owner_guid)
-    }
-
-    /// Get the session expiration timestamp (Unix timestamp in seconds)
-    pub fn expires_at(&self) -> u64 {
-        let inner = self.inner.lock().unwrap();
-        inner.expires_at
-    }
-
-    /// Check if the session is expired
-    pub fn is_expired(&self) -> bool {
-        let inner = self.inner.lock().unwrap();
-        let now = Utc::now().timestamp() as u64;
-        now >= inner.expires_at
     }
 }
