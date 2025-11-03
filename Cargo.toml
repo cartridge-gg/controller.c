@@ -29,7 +29,7 @@ thiserror = "2"
 uniffi = { version = "0.30", features = ["bindgen", "cli"] }
 uniffi_bindgen = "0.30"
 camino = "1.1"
-which = "7.0"
+which = "8.0"
 walkdir = "2.5"
 cargo_metadata = "0.19"
 
