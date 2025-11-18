@@ -70,4 +70,3 @@ echo "  1. Open Xcode"
 echo "  2. Clean build folder (Cmd+Shift+K)"
 echo "  3. Build and run (Cmd+R)"
 echo ""
-

@@ -12,7 +12,7 @@ use url::Url;
 
 use crate::error::ControllerError;
 use crate::runtime::RUNTIME;
-use crate::types::{Call, FieldElement, SessionPolicies};
+use crate::types::{Call, ControllerFieldElement, SessionPolicies};
 
 // Session Account implementation
 pub(crate) struct SessionAccountInner {
@@ -35,9 +35,9 @@ impl SessionAccount {
     pub fn new(
         rpc_url: String,
         private_key: String,
-        address: FieldElement,
-        owner_guid: FieldElement,
-        chain_id: FieldElement,
+        address: ControllerFieldElement,
+        owner_guid: ControllerFieldElement,
+        chain_id: ControllerFieldElement,
         policies: SessionPolicies,
         session_expiration: u64,
     ) -> Result<Self, ControllerError> {
@@ -95,7 +95,7 @@ impl SessionAccount {
         })
     }
 
-    pub fn execute(&self, calls: Vec<Call>) -> Result<FieldElement, ControllerError> {
+    pub fn execute(&self, calls: Vec<Call>) -> Result<ControllerFieldElement, ControllerError> {
         let calls_vec: Result<Vec<starknet::core::types::Call>, _> =
             calls.iter().map(|c| c.try_into()).collect();
         let calls_vec = calls_vec?;
@@ -106,7 +106,10 @@ impl SessionAccount {
         let result = RUNTIME.block_on(inner.session_account.execute_v3(calls_vec).send());
 
         match result {
-            Ok(res) => Ok(FieldElement(format!("{:#x}", res.transaction_hash))),
+            Ok(res) => Ok(ControllerFieldElement(format!(
+                "{:#x}",
+                res.transaction_hash
+            ))),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());
@@ -115,7 +118,10 @@ impl SessionAccount {
         }
     }
 
-    pub fn execute_from_outside(&self, calls: Vec<Call>) -> Result<FieldElement, ControllerError> {
+    pub fn execute_from_outside(
+        &self,
+        calls: Vec<Call>,
+    ) -> Result<ControllerFieldElement, ControllerError> {
         use account_sdk::abigen::controller::OutsideExecutionV3;
         use account_sdk::account::outside_execution::{OutsideExecution, OutsideExecutionCaller};
 
@@ -171,7 +177,7 @@ impl SessionAccount {
         });
 
         match result {
-            Ok(tx_hash) => Ok(FieldElement(tx_hash)),
+            Ok(tx_hash) => Ok(ControllerFieldElement(tx_hash)),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());
@@ -233,12 +239,12 @@ impl SessionAccount {
         }
 
         // Extract session parameters
-        let address = FieldElement(data.controller.address.clone());
-        let owner_guid = FieldElement(data.authorization[1].clone());
+        let address = ControllerFieldElement(data.controller.address.clone());
+        let owner_guid = ControllerFieldElement(data.authorization[1].clone());
         let chain_id_felt = cairo_short_string_to_felt(&data.chain_id).map_err(|e| {
             ControllerError::InitializationError(format!("Failed to parse chainId: {}", e))
         })?;
-        let chain_id = FieldElement(format!("{:#x}", chain_id_felt));
+        let chain_id = ControllerFieldElement(format!("{:#x}", chain_id_felt));
 
         // Extract additional metadata
         let session_id = Some(data.id.clone());

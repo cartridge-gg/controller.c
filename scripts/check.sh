@@ -71,4 +71,3 @@ else
     echo -e "${BLUE}Fix the issues above before committing${NC}"
     exit 1
 fi
-

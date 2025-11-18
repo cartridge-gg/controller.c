@@ -129,120 +129,120 @@ extern "C" {
     uint64_t callback_data, 
     UniffiForeignFutureResultVoid result
     );
-    uint64_t uniffi_controller_uniffi_fn_clone_controller(
-        uint64_t handle, 
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_clone_controlleraccount(
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
-    void uniffi_controller_uniffi_fn_free_controller(
-        uint64_t handle, 
+    void uniffi_controller_uniffi_fn_free_controlleraccount(
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_constructor_controller_from_storage(
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage(
         RustBuffer app_id, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_constructor_controller_new(
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_constructor_controlleraccount_new(
         RustBuffer app_id, 
         RustBuffer username, 
         RustBuffer class_hash, 
         RustBuffer rpc_url, 
-        uint64_t owner, 
+        /*handle*/ uint64_t owner, 
         RustBuffer address, 
         RustBuffer chain_id, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_constructor_controller_new_headless(
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless(
         RustBuffer app_id, 
         RustBuffer username, 
         RustBuffer class_hash, 
         RustBuffer rpc_url, 
-        uint64_t owner, 
+        /*handle*/ uint64_t owner, 
         RustBuffer chain_id, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_address(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_address(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_app_id(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_app_id(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_chain_id(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_chain_id(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    void uniffi_controller_uniffi_fn_method_controller_clear_last_error(
-        uint64_t ptr, 
+    void uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_delegate_account(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    void uniffi_controller_uniffi_fn_method_controller_disconnect(
-        uint64_t ptr, 
+    void uniffi_controller_uniffi_fn_method_controlleraccount_disconnect(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_error_message(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_error_message(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_execute(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_execute(
+        /*handle*/ uint64_t ptr, 
         RustBuffer calls, 
         RustCallStatus *uniffi_out_err
     );
-    void uniffi_controller_uniffi_fn_method_controller_signup(
-        uint64_t ptr, 
+    void uniffi_controller_uniffi_fn_method_controlleraccount_signup(
+        /*handle*/ uint64_t ptr, 
         RustBuffer signer_type, 
         RustBuffer session_expiration, 
         RustBuffer cartridge_api_url, 
         RustCallStatus *uniffi_out_err
     );
-    void uniffi_controller_uniffi_fn_method_controller_switch_chain(
-        uint64_t ptr, 
+    void uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain(
+        /*handle*/ uint64_t ptr, 
         RustBuffer rpc_url, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_transfer(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_transfer(
+        /*handle*/ uint64_t ptr, 
         RustBuffer recipient, 
         RustBuffer amount, 
         RustCallStatus *uniffi_out_err
     );
-    RustBuffer uniffi_controller_uniffi_fn_method_controller_username(
-        uint64_t ptr, 
+    RustBuffer uniffi_controller_uniffi_fn_method_controlleraccount_username(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_clone_owner(
-        uint64_t handle, 
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_clone_owner(
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void uniffi_controller_uniffi_fn_free_owner(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_constructor_owner_new(
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_constructor_owner_new(
         RustBuffer private_key, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_clone_sessionaccount(
-        uint64_t handle, 
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_clone_sessionaccount(
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void uniffi_controller_uniffi_fn_free_sessionaccount(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_constructor_sessionaccount_create_from_subscribe(
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_constructor_sessionaccount_create_from_subscribe(
         RustBuffer private_key, 
         RustBuffer policies, 
         RustBuffer rpc_url, 
         RustBuffer cartridge_api_url, 
         RustCallStatus *uniffi_out_err
     );
-    uint64_t uniffi_controller_uniffi_fn_constructor_sessionaccount_new(
+    /*handle*/ uint64_t uniffi_controller_uniffi_fn_constructor_sessionaccount_new(
         RustBuffer rpc_url, 
         RustBuffer private_key, 
         RustBuffer address, 
@@ -252,14 +252,50 @@ extern "C" {
         uint64_t session_expiration, 
         RustCallStatus *uniffi_out_err
     );
+    RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_address(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_app_id(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
     RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_execute(
-        uint64_t ptr, 
+        /*handle*/ uint64_t ptr, 
         RustBuffer calls, 
         RustCallStatus *uniffi_out_err
     );
     RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(
-        uint64_t ptr, 
+        /*handle*/ uint64_t ptr, 
         RustBuffer calls, 
+        RustCallStatus *uniffi_out_err
+    );
+    uint64_t uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    int8_t uniffi_controller_uniffi_fn_method_sessionaccount_is_expired(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    int8_t uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_session_id(
+        /*handle*/ uint64_t ptr, 
+        RustCallStatus *uniffi_out_err
+    );
+    RustBuffer uniffi_controller_uniffi_fn_method_sessionaccount_username(
+        /*handle*/ uint64_t ptr, 
         RustCallStatus *uniffi_out_err
     );
     int8_t uniffi_controller_uniffi_fn_func_controller_has_storage(
@@ -300,183 +336,183 @@ extern "C" {
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_u8(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_u8(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_u8(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     uint8_t ffi_controller_uniffi_rust_future_complete_u8(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_i8(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_i8(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_i8(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     int8_t ffi_controller_uniffi_rust_future_complete_i8(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_u16(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_u16(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_u16(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     uint16_t ffi_controller_uniffi_rust_future_complete_u16(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_i16(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_i16(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_i16(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     int16_t ffi_controller_uniffi_rust_future_complete_i16(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_u32(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_u32(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_u32(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     uint32_t ffi_controller_uniffi_rust_future_complete_u32(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_i32(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_i32(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_i32(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     int32_t ffi_controller_uniffi_rust_future_complete_i32(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_u64(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_u64(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_u64(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     uint64_t ffi_controller_uniffi_rust_future_complete_u64(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_i64(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_i64(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_i64(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     int64_t ffi_controller_uniffi_rust_future_complete_i64(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_f32(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_f32(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_f32(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     float ffi_controller_uniffi_rust_future_complete_f32(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_f64(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_f64(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_f64(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     double ffi_controller_uniffi_rust_future_complete_f64(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_rust_buffer(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_rust_buffer(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_rust_buffer(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     RustBuffer ffi_controller_uniffi_rust_future_complete_rust_buffer(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     void ffi_controller_uniffi_rust_future_poll_void(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         UniffiRustFutureContinuationCallback callback, 
-        uint64_t callback_data
+        /*handle*/ uint64_t callback_data
     );
     void ffi_controller_uniffi_rust_future_cancel_void(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_free_void(
-        uint64_t handle
+        /*handle*/ uint64_t handle
     );
     void ffi_controller_uniffi_rust_future_complete_void(
-        uint64_t handle, 
+        /*handle*/ uint64_t handle, 
         RustCallStatus *uniffi_out_err
     );
     uint16_t uniffi_controller_uniffi_checksum_func_controller_has_storage(
@@ -489,39 +525,57 @@ extern "C" {
     );
     uint16_t uniffi_controller_uniffi_checksum_func_validate_felt(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_address(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_address(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_app_id(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_app_id(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_chain_id(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_clear_last_error(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_delegate_account(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_disconnect(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_error_message(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_error_message(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_execute(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_execute(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_signup(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_signup(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_switch_chain(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_transfer(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_transfer(
     );
-    uint16_t uniffi_controller_uniffi_checksum_method_controller_username(
+    uint16_t uniffi_controller_uniffi_checksum_method_controlleraccount_username(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_address(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_app_id(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id(
     );
     uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_execute(
     );
     uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside(
     );
-    uint16_t uniffi_controller_uniffi_checksum_constructor_controller_from_storage(
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at(
     );
-    uint16_t uniffi_controller_uniffi_checksum_constructor_controller_new(
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired(
     );
-    uint16_t uniffi_controller_uniffi_checksum_constructor_controller_new_headless(
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_session_id(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_method_sessionaccount_username(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_constructor_controlleraccount_new(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless(
     );
     uint16_t uniffi_controller_uniffi_checksum_constructor_owner_new(
     );
@@ -909,6 +963,125 @@ template <> struct Bridging<UniffiForeignFutureDroppedCallback> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturedroppedcallback::UniffiForeignFutureDroppedCallback
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturedroppedcallback {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_handle) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_handle = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_handle);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_handle
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureDroppedCallback: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_handle) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_handle);
+    }
+
+    static UniffiForeignFutureDroppedCallback
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturedroppedcallback
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_handle) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_handle](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_handle);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturedroppedcallback
     // Implementation of free callback function CallbackInterfaceFree
 
     // Implementation of callback function calling from Rust to JS CallbackInterfaceClone
@@ -930,7 +1103,7 @@ namespace uniffi::controller::cb::callbackinterfaceclone {
 
     // We need to store a lambda in a global so we can call it from
     // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t)> rsLambda = nullptr;
+    static std::function<uint64_t(uint64_t)> rsLambda = nullptr;
 
     // This is the main body of the callback. It's called from the lambda,
     // which itself is called from the callback function which is passed to Rust.
@@ -962,7 +1135,7 @@ namespace uniffi::controller::cb::callbackinterfaceclone {
         }
     }
 
-    static void callback(uint64_t rs_handle) {
+    static uint64_t callback(uint64_t rs_handle) {
         // If the runtime has shutdown, then there is no point in trying to
         // call into Javascript. BUT how do we tell if the runtime has shutdown?
         //
@@ -973,12 +1146,12 @@ namespace uniffi::controller::cb::callbackinterfaceclone {
         if (rsLambda == nullptr) {
             // This only occurs when destructors are calling into Rust free/drop,
             // which causes the JS callback to be dropped.
-            return;
+            return 0;  // Return zero for handle/uint64_t return types
         }
 
         // The runtime, the actual callback jsi::funtion, and the callInvoker
         // are all in the lambda.
-        rsLambda(
+        return rsLambda(
             rs_handle);
     }
 
@@ -1135,6 +1308,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteU8> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu8::UniffiForeignFutureCompleteU8
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu8 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU8)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU8 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU8>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU8: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU8 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteU8
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu8
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU8 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu8
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1209,6 +1506,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteI8> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletei8::UniffiForeignFutureCompleteI8
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei8 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI8)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI8 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI8>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI8: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI8 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteI8
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei8
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI8 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei8
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1283,6 +1704,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteU16> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu16::UniffiForeignFutureCompleteU16
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu16 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU16)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU16 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU16>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU16: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU16 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteU16
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu16
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU16 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu16
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1357,6 +1902,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteI16> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletei16::UniffiForeignFutureCompleteI16
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei16 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI16)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI16 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI16>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI16: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI16 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteI16
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei16
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI16 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei16
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1431,6 +2100,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteU32> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu32::UniffiForeignFutureCompleteU32
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu32 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU32)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU32 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU32>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU32: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU32 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteU32
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu32
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU32 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu32
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1505,6 +2298,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteI32> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletei32::UniffiForeignFutureCompleteI32
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei32 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI32)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI32 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI32>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI32: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI32 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteI32
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei32
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI32 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei32
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1579,6 +2496,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteU64> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu64::UniffiForeignFutureCompleteU64
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu64 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU64)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU64 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU64>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU64: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU64 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteU64
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu64
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU64 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu64
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1653,6 +2694,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteI64> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletei64::UniffiForeignFutureCompleteI64
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei64 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI64)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI64 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI64>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI64: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI64 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteI64
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei64
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI64 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei64
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1727,6 +2892,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteF32> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletef32::UniffiForeignFutureCompleteF32
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletef32 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultF32)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultF32 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultF32>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteF32: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultF32 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteF32
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletef32
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultF32 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletef32
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1801,6 +3090,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteF64> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletef64::UniffiForeignFutureCompleteF64
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletef64 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultF64)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultF64 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultF64>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteF64: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultF64 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteF64
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletef64
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultF64 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletef64
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1875,6 +3288,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteRustBuffer> {
   }
 };
 } // namespace uniffi::controller
+
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompleterustbuffer::UniffiForeignFutureCompleteRustBuffer
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleterustbuffer {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultRustBuffer)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultRustBuffer rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultRustBuffer>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteRustBuffer: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultRustBuffer rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteRustBuffer
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleterustbuffer
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultRustBuffer rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleterustbuffer
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1946,6 +3483,130 @@ template <> struct Bridging<UniffiForeignFutureCompleteVoid> {
 };
 } // namespace uniffi::controller
 
+// Namespace for makeCallbackFunction compatibility
+// For JS-to-Rust callbacks (like future dropped callbacks),
+// we generate the CallbackFunction implementation
+
+// Callback function: uniffi::controller::cb::foreignfuturecompletevoid::UniffiForeignFutureCompleteVoid
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletevoid {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultVoid)> rsLambda = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultVoid rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultVoid>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteVoid: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultVoid rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda.
+        //
+        // If rsLamda is null, then there is no runtime to call into.
+        if (rsLambda == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    static UniffiForeignFutureCompleteVoid
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletevoid
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultVoid rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(rt, jsLambda);
+        };
+        return callback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletevoid
+
 
 namespace uniffi::controller {
 using namespace facebook;
@@ -2000,140 +3661,140 @@ NativeController::NativeController(
             return this->cpp_uniffi_internal_fn_func_ffi__arraybuffer_to_string(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_clone_controller"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_clone_controlleraccount"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_clone_controller"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_clone_controlleraccount"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_clone_controller(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_clone_controlleraccount(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_free_controller"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_free_controlleraccount"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_free_controller"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_free_controlleraccount"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_free_controller(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_free_controlleraccount(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_constructor_controller_from_storage"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_constructor_controller_from_storage"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_constructor_controller_from_storage(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_constructor_controller_new"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_new"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_constructor_controller_new"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_new"),
         7,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_constructor_controller_new(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_constructor_controlleraccount_new(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_constructor_controller_new_headless"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_constructor_controller_new_headless"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless"),
         6,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_constructor_controller_new_headless(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_address"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_address"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_address"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_address"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_address(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_address(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_app_id"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_app_id"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_app_id"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_app_id"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_app_id(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_app_id(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_chain_id"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_chain_id"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_chain_id"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_chain_id"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_chain_id(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_chain_id(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_clear_last_error"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_clear_last_error"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_clear_last_error(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_delegate_account"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_delegate_account"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_delegate_account(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_disconnect"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_disconnect"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_disconnect"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_disconnect"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_disconnect(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_disconnect(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_error_message"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_error_message"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_error_message"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_error_message"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_error_message(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_error_message(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_execute"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_execute"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_execute"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_execute"),
         2,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_execute(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_execute(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_signup"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_signup"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_signup"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_signup"),
         4,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_signup(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_signup(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_switch_chain"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_switch_chain"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain"),
         2,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_switch_chain(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_transfer"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_transfer"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_transfer"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_transfer"),
         3,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_transfer(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_transfer(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_fn_method_controller_username"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_username"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controller_username"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_username"),
         1,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_fn_method_controller_username(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_fn_method_controlleraccount_username(rt, thisVal, args, count);
         }
     );
     props["ubrn_uniffi_controller_uniffi_fn_clone_owner"] = jsi::Function::createFromHostFunction(
@@ -2192,6 +3853,30 @@ NativeController::NativeController(
             return this->cpp_uniffi_controller_uniffi_fn_constructor_sessionaccount_new(rt, thisVal, args, count);
         }
     );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_address"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_address"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_address(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_app_id"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_app_id"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_app_id(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_chain_id"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_chain_id"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(rt, thisVal, args, count);
+        }
+    );
     props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_execute"] = jsi::Function::createFromHostFunction(
         rt,
         jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_execute"),
@@ -2206,6 +3891,54 @@ NativeController::NativeController(
         2,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
             return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_expires_at"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_expires_at"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_is_expired"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_is_expired"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_is_expired(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_session_id"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_session_id"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_session_id(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_username"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_username"),
+        1,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_method_sessionaccount_username(rt, thisVal, args, count);
         }
     );
     props["ubrn_uniffi_controller_uniffi_fn_func_controller_has_storage"] = jsi::Function::createFromHostFunction(
@@ -2288,100 +4021,124 @@ NativeController::NativeController(
             return this->cpp_uniffi_controller_uniffi_checksum_func_validate_felt(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_address"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_address"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_address"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_address"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_address(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_address(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_app_id"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_app_id"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_app_id"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_app_id"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_app_id(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_app_id(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_chain_id"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_chain_id"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_chain_id(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_clear_last_error"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_clear_last_error"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_clear_last_error(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_delegate_account"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_delegate_account"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_delegate_account(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_disconnect"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_disconnect"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_disconnect(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_error_message"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_error_message"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_error_message"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_error_message"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_error_message(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_error_message(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_execute"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_execute"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_execute"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_execute"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_execute(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_execute(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_signup"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_signup"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_signup"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_signup"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_signup(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_signup(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_switch_chain"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_switch_chain"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_switch_chain(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_transfer"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_transfer"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_transfer"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_transfer"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_transfer(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_transfer(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_method_controller_username"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_username"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controller_username"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_username"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_method_controller_username(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_username(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_address"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_address"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_address(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_app_id"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_app_id"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_app_id(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id(rt, thisVal, args, count);
         }
     );
     props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_execute"] = jsi::Function::createFromHostFunction(
@@ -2400,28 +4157,76 @@ NativeController::NativeController(
             return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_constructor_controller_from_storage"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_constructor_controller_from_storage"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_constructor_controller_from_storage(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_constructor_controller_new"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_constructor_controller_new"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_constructor_controller_new(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired(rt, thisVal, args, count);
         }
     );
-    props["ubrn_uniffi_controller_uniffi_checksum_constructor_controller_new_headless"] = jsi::Function::createFromHostFunction(
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_constructor_controller_new_headless"),
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_uniffi_controller_uniffi_checksum_constructor_controller_new_headless(rt, thisVal, args, count);
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_session_id"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_session_id"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_session_id(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_username"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_username"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_username(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless(rt, thisVal, args, count);
         }
     );
     props["ubrn_uniffi_controller_uniffi_checksum_constructor_owner_new"] = jsi::Function::createFromHostFunction(
@@ -2456,12 +4261,12 @@ NativeController::NativeController(
             return this->cpp_ffi_controller_uniffi_uniffi_contract_version(rt, thisVal, args, count);
         }
     );
-    props["ubrn_ffi_Controller__bless_pointer"] = jsi::Function::createFromHostFunction(
+    props["ubrn_ffi_ControllerAccount__bless_pointer"] = jsi::Function::createFromHostFunction(
         rt,
-        jsi::PropNameID::forAscii(rt, "ubrn_ffi_Controller__bless_pointer"),
+        jsi::PropNameID::forAscii(rt, "ubrn_ffi_ControllerAccount__bless_pointer"),
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
-            return this->cpp_ffi_Controller__bless_pointer(rt, thisVal, args, count);
+            return this->cpp_ffi_ControllerAccount__bless_pointer(rt, thisVal, args, count);
         }
     );
     props["ubrn_ffi_Owner__bless_pointer"] = jsi::Function::createFromHostFunction(
@@ -2534,12 +4339,11 @@ jsi::Value NativeController::cpp_uniffi_internal_fn_func_ffi__string_to_arraybuf
 
 jsi::Value NativeController::cpp_uniffi_internal_fn_func_ffi__arraybuffer_to_string(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
     return uniffi_jsi::Bridging<std::string>::arraybuffer_to_string(rt, args[0]);
-}jsi::Value NativeController::cpp_ffi_Controller__bless_pointer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+}jsi::Value NativeController::cpp_ffi_ControllerAccount__bless_pointer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
     auto pointer = uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]);
     auto static destructor = [](uint64_t p) {
-        auto pointer = reinterpret_cast<void *>(static_cast<uintptr_t>(p));
         RustCallStatus status = {0};
-        uniffi_controller_uniffi_fn_free_controller(pointer, &status);
+        uniffi_controller_uniffi_fn_free_controlleraccount(p, &status);
     };
     auto ptrObj = std::make_shared<uniffi_jsi::DestructibleObject>(pointer, destructor);
     auto obj = jsi::Object::createFromHostObject(rt, ptrObj);
@@ -2547,9 +4351,8 @@ jsi::Value NativeController::cpp_uniffi_internal_fn_func_ffi__arraybuffer_to_str
 }jsi::Value NativeController::cpp_ffi_Owner__bless_pointer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
     auto pointer = uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]);
     auto static destructor = [](uint64_t p) {
-        auto pointer = reinterpret_cast<void *>(static_cast<uintptr_t>(p));
         RustCallStatus status = {0};
-        uniffi_controller_uniffi_fn_free_owner(pointer, &status);
+        uniffi_controller_uniffi_fn_free_owner(p, &status);
     };
     auto ptrObj = std::make_shared<uniffi_jsi::DestructibleObject>(pointer, destructor);
     auto obj = jsi::Object::createFromHostObject(rt, ptrObj);
@@ -2557,9 +4360,8 @@ jsi::Value NativeController::cpp_uniffi_internal_fn_func_ffi__arraybuffer_to_str
 }jsi::Value NativeController::cpp_ffi_SessionAccount__bless_pointer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
     auto pointer = uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]);
     auto static destructor = [](uint64_t p) {
-        auto pointer = reinterpret_cast<void *>(static_cast<uintptr_t>(p));
         RustCallStatus status = {0};
-        uniffi_controller_uniffi_fn_free_sessionaccount(pointer, &status);
+        uniffi_controller_uniffi_fn_free_sessionaccount(p, &status);
     };
     auto ptrObj = std::make_shared<uniffi_jsi::DestructibleObject>(pointer, destructor);
     auto obj = jsi::Object::createFromHostObject(rt, ptrObj);
@@ -2567,89 +4369,19 @@ jsi::Value NativeController::cpp_uniffi_internal_fn_func_ffi__arraybuffer_to_str
 }
 
 // Methods calling directly into the uniffi generated C API of the Rust crate.
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_clone_controller(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_clone_controlleraccount(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_clone_controller(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_clone_controlleraccount(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
 
         
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_free_controller(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_free_controlleraccount(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_free_controller(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return jsi::Value::undefined();
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_controller_from_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_constructor_controller_from_storage(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_controller_new(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_constructor_controller_new(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[4]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[5]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[6]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_controller_new_headless(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_constructor_controller_new_headless(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[4]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[5]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_address(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_address(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_app_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_app_id(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_chain_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_chain_id(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_clear_last_error(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_method_controller_clear_last_error(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        uniffi_controller_uniffi_fn_free_controlleraccount(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2657,9 +4389,39 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_c
         
         return jsi::Value::undefined();
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_delegate_account(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_delegate_account(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_controlleraccount_new(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_constructor_controlleraccount_new(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[4]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[5]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[6]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[4]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[5]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_address(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_address(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2667,9 +4429,29 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_d
         
         return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_disconnect(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_app_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_method_controller_disconnect(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_app_id(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_chain_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_chain_id(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2677,9 +4459,9 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_d
         
         return jsi::Value::undefined();
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_error_message(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_error_message(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2687,19 +4469,9 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_e
         
         return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_execute(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_disconnect(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_execute(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_signup(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_method_controller_signup(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), 
+        uniffi_controller_uniffi_fn_method_controlleraccount_disconnect(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2707,19 +4479,9 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_s
         
         return jsi::Value::undefined();
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_switch_chain(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_error_message(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_method_controller_switch_chain(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
-            &status
-        );
-        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
-
-        
-        return jsi::Value::undefined();
-}
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_transfer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_transfer(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), 
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_error_message(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2727,9 +4489,49 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_t
         
         return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_execute(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_controller_username(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_execute(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_signup(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        uniffi_controller_uniffi_fn_method_controlleraccount_signup(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return jsi::Value::undefined();
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return jsi::Value::undefined();
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_transfer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_transfer(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controlleraccount_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_controlleraccount_username(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2739,17 +4541,17 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_controller_u
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_clone_owner(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_clone_owner(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_clone_owner(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
 
         
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_free_owner(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_free_owner(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        uniffi_controller_uniffi_fn_free_owner(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2765,21 +4567,21 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_owner_n
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
 
         
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_clone_sessionaccount(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_clone_sessionaccount(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        auto value = uniffi_controller_uniffi_fn_clone_sessionaccount(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
 
         
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_free_sessionaccount(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        uniffi_controller_uniffi_fn_free_sessionaccount(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), 
+        uniffi_controller_uniffi_fn_free_sessionaccount(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2795,7 +4597,7 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_session
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
 
         
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_sessionaccount_new(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
@@ -2805,11 +4607,41 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_constructor_session
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
 
         
-        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+        return uniffi_jsi::Bridging</*handle*/ uint64_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_address(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_address(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_app_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_app_id(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_execute(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_execute(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_execute(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2819,7 +4651,67 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccou
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_is_expired(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_is_expired(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi_jsi::Bridging<int8_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi_jsi::Bridging<int8_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_session_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_session_id(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_method_sessionaccount_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_method_sessionaccount_username(uniffi_jsi::Bridging</*handle*/ uint64_t>::fromJs(rt, callInvoker, args[0]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -2912,85 +4804,106 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_func_validate
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_address(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_address(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_address(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_address(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_app_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_app_id(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_app_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_app_id(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_chain_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_chain_id(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_clear_last_error(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_clear_last_error(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_delegate_account(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_delegate_account(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_disconnect(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_disconnect(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_error_message(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_error_message(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_error_message(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_error_message(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_execute(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_execute(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_execute(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_execute(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_signup(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_signup(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_signup(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_signup(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_switch_chain(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_switch_chain(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_transfer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_transfer(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_transfer(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_transfer(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controller_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_method_controller_username(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_controlleraccount_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_controlleraccount_username(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_address(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_address(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_app_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_app_id(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id(
         );
 
         
@@ -3010,22 +4923,64 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessio
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_constructor_controller_from_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_constructor_controller_from_storage(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_constructor_controller_new(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_constructor_controller_new(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired(
         );
 
         
         return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
 }
-jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_constructor_controller_new_headless(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
-        auto value = uniffi_controller_uniffi_checksum_constructor_controller_new_headless(
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_session_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_session_id(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_method_sessionaccount_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_method_sessionaccount_username(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_constructor_controlleraccount_new(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless(
         );
 
         

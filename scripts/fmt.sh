@@ -32,4 +32,3 @@ else
     cargo fmt --all
     echo -e "${GREEN}✓ Code formatted successfully${NC}"
 fi
-

@@ -3,9 +3,9 @@ use starknet::core::types::Felt;
 
 // Custom type conversions
 #[derive(Clone, Debug)]
-pub struct FieldElement(pub String);
+pub struct ControllerFieldElement(pub String);
 
-uniffi::custom_newtype!(FieldElement, String);
+uniffi::custom_newtype!(ControllerFieldElement, String);
 
 // Signer type enum
 pub enum SignerType {
@@ -24,9 +24,9 @@ impl From<SignerType> for account_sdk::signers::types::SignerType {
 
 // Call structure
 pub struct Call {
-    pub contract_address: FieldElement,
+    pub contract_address: ControllerFieldElement,
     pub entrypoint: String,
-    pub calldata: Vec<FieldElement>,
+    pub calldata: Vec<ControllerFieldElement>,
 }
 
 impl TryFrom<&Call> for starknet::core::types::Call {
@@ -53,13 +53,13 @@ impl TryFrom<&Call> for starknet::core::types::Call {
 
 // Session policy
 pub struct SessionPolicy {
-    pub contract_address: FieldElement,
+    pub contract_address: ControllerFieldElement,
     pub entrypoint: String,
 }
 
 pub struct SessionPolicies {
     pub policies: Vec<SessionPolicy>,
-    pub max_fee: FieldElement,
+    pub max_fee: ControllerFieldElement,
 }
 
 impl TryFrom<&SessionPolicies> for Vec<account_sdk::account::session::policy::Policy> {

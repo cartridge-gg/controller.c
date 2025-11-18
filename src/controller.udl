@@ -4,14 +4,14 @@ namespace controller {
     boolean validate_felt(string felt);
     
     [Throws=ControllerError]
-    FieldElement get_public_key(FieldElement private_key);
+    ControllerFieldElement get_public_key(ControllerFieldElement private_key);
     
     [Throws=ControllerError]
-    FieldElement signer_to_guid(FieldElement private_key);
+    ControllerFieldElement signer_to_guid(ControllerFieldElement private_key);
     
     // Controller class hash helper
     [Throws=ControllerError]
-    FieldElement get_controller_class_hash(Version version);
+    ControllerFieldElement get_controller_class_hash(Version version);
     
     // Check if controller has storage
     [Throws=ControllerError]
@@ -20,7 +20,7 @@ namespace controller {
 
 // Type aliases
 [Custom]
-typedef string FieldElement;
+typedef string ControllerFieldElement;
 
 // Error type
 [Error]
@@ -52,19 +52,19 @@ enum Version {
 
 // Core types
 dictionary Call {
-    FieldElement contract_address;
+    ControllerFieldElement contract_address;
     string entrypoint;
-    sequence<FieldElement> calldata;
+    sequence<ControllerFieldElement> calldata;
 };
 
 dictionary SessionPolicy {
-    FieldElement contract_address;
+    ControllerFieldElement contract_address;
     string entrypoint;
 };
 
 dictionary SessionPolicies {
     sequence<SessionPolicy> policies;
-    FieldElement max_fee;
+    ControllerFieldElement max_fee;
 };
 
 // Owner interface
@@ -73,27 +73,27 @@ interface Owner {
     constructor(string private_key);
 };
 
-// Controller interface
-interface Controller {
+// ControllerAccount interface
+interface ControllerAccount {
     [Throws=ControllerError, Name=new]
     constructor(
         string app_id,
         string username,
-        FieldElement class_hash,
+        ControllerFieldElement class_hash,
         string rpc_url,
         Owner owner,
-        FieldElement address,
-        FieldElement chain_id
+        ControllerFieldElement address,
+        ControllerFieldElement chain_id
     );
     
     [Throws=ControllerError, Name=new_headless]
     constructor(
         string app_id,
         string username,
-        FieldElement class_hash,
+        ControllerFieldElement class_hash,
         string rpc_url,
         Owner owner,
-        FieldElement chain_id
+        ControllerFieldElement chain_id
     );
     
     [Throws=ControllerError, Name=from_storage]
@@ -103,7 +103,7 @@ interface Controller {
     void signup(SignerType signer_type, u64? session_expiration, string? cartridge_api_url);
     
     [Throws=ControllerError]
-    FieldElement address();
+    ControllerFieldElement address();
     
     [Throws=ControllerError]
     string username();
@@ -112,22 +112,22 @@ interface Controller {
     string app_id();
     
     [Throws=ControllerError]
-    FieldElement chain_id();
+    ControllerFieldElement chain_id();
     
     [Throws=ControllerError]
     void disconnect();
     
     [Throws=ControllerError]
-    FieldElement execute(sequence<Call> calls);
+    ControllerFieldElement execute(sequence<Call> calls);
     
     [Throws=ControllerError]
     void switch_chain(string rpc_url);
     
     [Throws=ControllerError]
-    FieldElement delegate_account();
+    ControllerFieldElement delegate_account();
     
     [Throws=ControllerError]
-    FieldElement transfer(FieldElement recipient, FieldElement amount);
+    ControllerFieldElement transfer(ControllerFieldElement recipient, ControllerFieldElement amount);
     
     [Throws=ControllerError]
     string error_message();
@@ -141,9 +141,9 @@ interface SessionAccount {
     constructor(
         string rpc_url,
         string private_key,
-        FieldElement address,
-        FieldElement owner_guid,
-        FieldElement chain_id,
+        ControllerFieldElement address,
+        ControllerFieldElement owner_guid,
+        ControllerFieldElement chain_id,
         SessionPolicies policies,
         u64 session_expiration
     );
@@ -157,10 +157,10 @@ interface SessionAccount {
     );
     
     [Throws=ControllerError]
-    FieldElement execute(sequence<Call> calls);
+    ControllerFieldElement execute(sequence<Call> calls);
     
     [Throws=ControllerError]
-    FieldElement execute_from_outside(sequence<Call> calls);
+    ControllerFieldElement execute_from_outside(sequence<Call> calls);
     
     // Getter methods for session metadata
     string address();

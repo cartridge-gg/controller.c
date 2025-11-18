@@ -100,4 +100,3 @@ echo -e "${GREEN}✅ Release artifacts ready!${NC}"
 echo ""
 echo "Downloaded: $ARTIFACT"
 echo "Extracted to: ${ARTIFACT%.tar.gz}"
-
