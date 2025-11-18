@@ -29,7 +29,9 @@ impl From<Version> for account_sdk::artifacts::Version {
 }
 
 /// Get the class hash for a specific controller version
-pub fn get_controller_class_hash(version: Version) -> Result<ControllerFieldElement, ControllerError> {
+pub fn get_controller_class_hash(
+    version: Version,
+) -> Result<ControllerFieldElement, ControllerError> {
     let sdk_version: account_sdk::artifacts::Version = version.into();
     let class_hash = SDK_CONTROLLERS
         .get(&sdk_version)

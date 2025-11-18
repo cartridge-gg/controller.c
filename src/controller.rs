@@ -138,7 +138,10 @@ impl ControllerAccount {
 
     pub fn address(&self) -> Result<ControllerFieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
-        Ok(ControllerFieldElement(format!("{:#x}", inner.controller.address)))
+        Ok(ControllerFieldElement(format!(
+            "{:#x}",
+            inner.controller.address
+        )))
     }
 
     pub fn username(&self) -> Result<String, ControllerError> {
@@ -153,7 +156,10 @@ impl ControllerAccount {
 
     pub fn chain_id(&self) -> Result<ControllerFieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
-        Ok(ControllerFieldElement(format!("{:#x}", inner.controller.chain_id)))
+        Ok(ControllerFieldElement(format!(
+            "{:#x}",
+            inner.controller.chain_id
+        )))
     }
 
     pub fn disconnect(&self) -> Result<(), ControllerError> {
@@ -177,7 +183,10 @@ impl ControllerAccount {
         let result = RUNTIME.block_on(inner.controller.execute_v3(calls_vec).send());
 
         match result {
-            Ok(res) => Ok(ControllerFieldElement(format!("{:#x}", res.transaction_hash))),
+            Ok(res) => Ok(ControllerFieldElement(format!(
+                "{:#x}",
+                res.transaction_hash
+            ))),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());
@@ -238,7 +247,10 @@ impl ControllerAccount {
         let result = RUNTIME.block_on(inner.controller.execute_v3(vec![call]).send());
 
         match result {
-            Ok(res) => Ok(ControllerFieldElement(format!("{:#x}", res.transaction_hash))),
+            Ok(res) => Ok(ControllerFieldElement(format!(
+                "{:#x}",
+                res.transaction_hash
+            ))),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());

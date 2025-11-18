@@ -17,7 +17,9 @@ pub fn validate_felt(felt: String) -> Result<bool, ControllerError> {
     }
 }
 
-pub fn get_public_key(private_key: ControllerFieldElement) -> Result<ControllerFieldElement, ControllerError> {
+pub fn get_public_key(
+    private_key: ControllerFieldElement,
+) -> Result<ControllerFieldElement, ControllerError> {
     let felt =
         Felt::from_hex(&private_key.0).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
@@ -25,7 +27,9 @@ pub fn get_public_key(private_key: ControllerFieldElement) -> Result<ControllerF
     Ok(ControllerFieldElement(format!("{:#x}", public_key)))
 }
 
-pub fn signer_to_guid(private_key: ControllerFieldElement) -> Result<ControllerFieldElement, ControllerError> {
+pub fn signer_to_guid(
+    private_key: ControllerFieldElement,
+) -> Result<ControllerFieldElement, ControllerError> {
     let felt =
         Felt::from_hex(&private_key.0).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 

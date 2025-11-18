@@ -106,7 +106,10 @@ impl SessionAccount {
         let result = RUNTIME.block_on(inner.session_account.execute_v3(calls_vec).send());
 
         match result {
-            Ok(res) => Ok(ControllerFieldElement(format!("{:#x}", res.transaction_hash))),
+            Ok(res) => Ok(ControllerFieldElement(format!(
+                "{:#x}",
+                res.transaction_hash
+            ))),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());
@@ -115,7 +118,10 @@ impl SessionAccount {
         }
     }
 
-    pub fn execute_from_outside(&self, calls: Vec<Call>) -> Result<ControllerFieldElement, ControllerError> {
+    pub fn execute_from_outside(
+        &self,
+        calls: Vec<Call>,
+    ) -> Result<ControllerFieldElement, ControllerError> {
         use account_sdk::abigen::controller::OutsideExecutionV3;
         use account_sdk::account::outside_execution::{OutsideExecution, OutsideExecutionCaller};
 
