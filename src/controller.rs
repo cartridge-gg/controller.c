@@ -8,7 +8,7 @@ use url::Url;
 use crate::error::ControllerError;
 use crate::owner::Owner;
 use crate::runtime::RUNTIME;
-use crate::types::{Call, FieldElement, SignerType};
+use crate::types::{Call, ControllerFieldElement, SignerType};
 use std::ops::Deref;
 
 // Controller implementation
@@ -17,19 +17,19 @@ pub(crate) struct ControllerInner {
     pub last_error: Option<String>,
 }
 
-pub struct Controller {
+pub struct ControllerAccount {
     pub(crate) inner: Arc<Mutex<ControllerInner>>,
 }
 
-impl Controller {
+impl ControllerAccount {
     pub fn new(
         app_id: String,
         username: String,
-        class_hash: FieldElement,
+        class_hash: ControllerFieldElement,
         rpc_url: String,
         owner: Arc<Owner>,
-        address: FieldElement,
-        chain_id: FieldElement,
+        address: ControllerFieldElement,
+        chain_id: ControllerFieldElement,
     ) -> Result<Self, ControllerError> {
         let class_hash_felt = Felt::from_hex(&class_hash.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
@@ -64,10 +64,10 @@ impl Controller {
     pub fn new_headless(
         app_id: String,
         username: String,
-        class_hash: FieldElement,
+        class_hash: ControllerFieldElement,
         rpc_url: String,
         owner: Arc<Owner>,
-        chain_id: FieldElement,
+        chain_id: ControllerFieldElement,
     ) -> Result<Self, ControllerError> {
         let class_hash_felt = Felt::from_hex(&class_hash.0)
             .map_err(|e| ControllerError::InitializationError(e.to_string()))?;
@@ -136,9 +136,9 @@ impl Controller {
         }
     }
 
-    pub fn address(&self) -> Result<FieldElement, ControllerError> {
+    pub fn address(&self) -> Result<ControllerFieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
-        Ok(FieldElement(format!("{:#x}", inner.controller.address)))
+        Ok(ControllerFieldElement(format!("{:#x}", inner.controller.address)))
     }
 
     pub fn username(&self) -> Result<String, ControllerError> {
@@ -151,9 +151,9 @@ impl Controller {
         Ok(inner.controller.app_id.clone())
     }
 
-    pub fn chain_id(&self) -> Result<FieldElement, ControllerError> {
+    pub fn chain_id(&self) -> Result<ControllerFieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
-        Ok(FieldElement(format!("{:#x}", inner.controller.chain_id)))
+        Ok(ControllerFieldElement(format!("{:#x}", inner.controller.chain_id)))
     }
 
     pub fn disconnect(&self) -> Result<(), ControllerError> {
@@ -166,7 +166,7 @@ impl Controller {
         Ok(())
     }
 
-    pub fn execute(&self, calls: Vec<Call>) -> Result<FieldElement, ControllerError> {
+    pub fn execute(&self, calls: Vec<Call>) -> Result<ControllerFieldElement, ControllerError> {
         let calls_vec: Result<Vec<starknet::core::types::Call>, _> =
             calls.iter().map(|c| c.try_into()).collect();
         let calls_vec = calls_vec?;
@@ -177,7 +177,7 @@ impl Controller {
         let result = RUNTIME.block_on(inner.controller.execute_v3(calls_vec).send());
 
         match result {
-            Ok(res) => Ok(FieldElement(format!("{:#x}", res.transaction_hash))),
+            Ok(res) => Ok(ControllerFieldElement(format!("{:#x}", res.transaction_hash))),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());
@@ -204,7 +204,7 @@ impl Controller {
         }
     }
 
-    pub fn delegate_account(&self) -> Result<FieldElement, ControllerError> {
+    pub fn delegate_account(&self) -> Result<ControllerFieldElement, ControllerError> {
         let inner = self.inner.lock().unwrap();
 
         // Use global multi-threaded runtime
@@ -212,14 +212,14 @@ impl Controller {
             .block_on(inner.controller.delegate_account())
             .map_err(|e| ControllerError::NetworkError(e.to_string()))?;
 
-        Ok(FieldElement(format!("{:#x}", delegate)))
+        Ok(ControllerFieldElement(format!("{:#x}", delegate)))
     }
 
     pub fn transfer(
         &self,
-        recipient: FieldElement,
-        amount: FieldElement,
-    ) -> Result<FieldElement, ControllerError> {
+        recipient: ControllerFieldElement,
+        amount: ControllerFieldElement,
+    ) -> Result<ControllerFieldElement, ControllerError> {
         let recipient_felt = Felt::from_hex(&recipient.0)
             .map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
@@ -238,7 +238,7 @@ impl Controller {
         let result = RUNTIME.block_on(inner.controller.execute_v3(vec![call]).send());
 
         match result {
-            Ok(res) => Ok(FieldElement(format!("{:#x}", res.transaction_hash))),
+            Ok(res) => Ok(ControllerFieldElement(format!("{:#x}", res.transaction_hash))),
             Err(e) => {
                 let err_msg = e.to_string();
                 inner.last_error = Some(err_msg.clone());

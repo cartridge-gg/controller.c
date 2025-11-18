@@ -2,7 +2,7 @@ use starknet::core::types::Felt;
 use starknet_signers::SigningKey;
 
 use crate::error::ControllerError;
-use crate::types::FieldElement;
+use crate::types::ControllerFieldElement;
 
 /// Utility functions
 pub fn validate_felt(felt: String) -> Result<bool, ControllerError> {
@@ -17,15 +17,15 @@ pub fn validate_felt(felt: String) -> Result<bool, ControllerError> {
     }
 }
 
-pub fn get_public_key(private_key: FieldElement) -> Result<FieldElement, ControllerError> {
+pub fn get_public_key(private_key: ControllerFieldElement) -> Result<ControllerFieldElement, ControllerError> {
     let felt =
         Felt::from_hex(&private_key.0).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
     let public_key = starknet_crypto::get_public_key(&felt);
-    Ok(FieldElement(format!("{:#x}", public_key)))
+    Ok(ControllerFieldElement(format!("{:#x}", public_key)))
 }
 
-pub fn signer_to_guid(private_key: FieldElement) -> Result<FieldElement, ControllerError> {
+pub fn signer_to_guid(private_key: ControllerFieldElement) -> Result<ControllerFieldElement, ControllerError> {
     let felt =
         Felt::from_hex(&private_key.0).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
 
@@ -33,5 +33,5 @@ pub fn signer_to_guid(private_key: FieldElement) -> Result<FieldElement, Control
     let signer = account_sdk::signers::Signer::Starknet(signing_key);
     let guid: Felt = signer.into();
 
-    Ok(FieldElement(format!("{:#x}", guid)))
+    Ok(ControllerFieldElement(format!("{:#x}", guid)))
 }

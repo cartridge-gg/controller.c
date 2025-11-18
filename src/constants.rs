@@ -1,5 +1,5 @@
 use crate::error::ControllerError;
-use crate::types::FieldElement;
+use crate::types::ControllerFieldElement;
 use account_sdk::artifacts::CONTROLLERS as SDK_CONTROLLERS;
 
 // Version enum for controller class hashes
@@ -29,11 +29,11 @@ impl From<Version> for account_sdk::artifacts::Version {
 }
 
 /// Get the class hash for a specific controller version
-pub fn get_controller_class_hash(version: Version) -> Result<FieldElement, ControllerError> {
+pub fn get_controller_class_hash(version: Version) -> Result<ControllerFieldElement, ControllerError> {
     let sdk_version: account_sdk::artifacts::Version = version.into();
     let class_hash = SDK_CONTROLLERS
         .get(&sdk_version)
         .ok_or_else(|| ControllerError::InvalidInput("Version not found".to_string()))?;
 
-    Ok(FieldElement(format!("{:#x}", class_hash.hash)))
+    Ok(ControllerFieldElement(format!("{:#x}", class_hash.hash)))
 }

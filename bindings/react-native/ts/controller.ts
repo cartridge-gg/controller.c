@@ -81,8 +81,8 @@ export function controllerHasStorage(appId: string): boolean /*throws*/ {
             /*liftString:*/ FfiConverterString.lift,
     ));
     }
-export function getControllerClassHash(version: Version): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+export function getControllerClassHash(version: Version): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
@@ -93,25 +93,25 @@ export function getControllerClassHash(version: Version): FieldElement /*throws*
             /*liftString:*/ FfiConverterString.lift,
     ));
     }
-export function getPublicKey(privateKey: FieldElement): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+export function getPublicKey(privateKey: ControllerFieldElement): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
                 return nativeModule().ubrn_uniffi_controller_uniffi_fn_func_get_public_key(
-        FfiConverterTypeFieldElement.lower(privateKey),
+        FfiConverterTypeControllerFieldElement.lower(privateKey),
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
     ));
     }
-export function signerToGuid(privateKey: FieldElement): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+export function signerToGuid(privateKey: ControllerFieldElement): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
                 return nativeModule().ubrn_uniffi_controller_uniffi_fn_func_signer_to_guid(
-        FfiConverterTypeFieldElement.lower(privateKey),
+        FfiConverterTypeControllerFieldElement.lower(privateKey),
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -136,9 +136,9 @@ export function validateFelt(felt: string): boolean /*throws*/ {
 
 
 export type Call = {
-    contractAddress: FieldElement,
+    contractAddress: ControllerFieldElement,
     entrypoint: string,
-    calldata: Array<FieldElement>
+    calldata: Array<ControllerFieldElement>
 }
 
 /**
@@ -175,20 +175,20 @@ const FfiConverterTypeCall = (() => {
     class FFIConverter extends AbstractFfiConverterByteArray<TypeName> {
         read(from: RustBuffer): TypeName {
             return {
-                contractAddress: FfiConverterTypeFieldElement.read(from), 
+                contractAddress: FfiConverterTypeControllerFieldElement.read(from), 
                 entrypoint: FfiConverterString.read(from), 
-                calldata: FfiConverterArrayTypeFieldElement.read(from)
+                calldata: FfiConverterArrayTypeControllerFieldElement.read(from)
             };
         }
         write(value: TypeName, into: RustBuffer): void {
-            FfiConverterTypeFieldElement.write(value.contractAddress, into);
+            FfiConverterTypeControllerFieldElement.write(value.contractAddress, into);
             FfiConverterString.write(value.entrypoint, into);
-            FfiConverterArrayTypeFieldElement.write(value.calldata, into);
+            FfiConverterArrayTypeControllerFieldElement.write(value.calldata, into);
         }
         allocationSize(value: TypeName): number {
-            return FfiConverterTypeFieldElement.allocationSize(value.contractAddress) + 
+            return FfiConverterTypeControllerFieldElement.allocationSize(value.contractAddress) + 
             FfiConverterString.allocationSize(value.entrypoint) + 
-            FfiConverterArrayTypeFieldElement.allocationSize(value.calldata);
+            FfiConverterArrayTypeControllerFieldElement.allocationSize(value.calldata);
             
         }
     };
@@ -198,7 +198,7 @@ const FfiConverterTypeCall = (() => {
 
 export type SessionPolicies = {
     policies: Array<SessionPolicy>,
-    maxFee: FieldElement
+    maxFee: ControllerFieldElement
 }
 
 /**
@@ -236,16 +236,16 @@ const FfiConverterTypeSessionPolicies = (() => {
         read(from: RustBuffer): TypeName {
             return {
                 policies: FfiConverterArrayTypeSessionPolicy.read(from), 
-                maxFee: FfiConverterTypeFieldElement.read(from)
+                maxFee: FfiConverterTypeControllerFieldElement.read(from)
             };
         }
         write(value: TypeName, into: RustBuffer): void {
             FfiConverterArrayTypeSessionPolicy.write(value.policies, into);
-            FfiConverterTypeFieldElement.write(value.maxFee, into);
+            FfiConverterTypeControllerFieldElement.write(value.maxFee, into);
         }
         allocationSize(value: TypeName): number {
             return FfiConverterArrayTypeSessionPolicy.allocationSize(value.policies) + 
-            FfiConverterTypeFieldElement.allocationSize(value.maxFee);
+            FfiConverterTypeControllerFieldElement.allocationSize(value.maxFee);
             
         }
     };
@@ -254,7 +254,7 @@ const FfiConverterTypeSessionPolicies = (() => {
 
 
 export type SessionPolicy = {
-    contractAddress: FieldElement,
+    contractAddress: ControllerFieldElement,
     entrypoint: string
 }
 
@@ -292,16 +292,16 @@ const FfiConverterTypeSessionPolicy = (() => {
     class FFIConverter extends AbstractFfiConverterByteArray<TypeName> {
         read(from: RustBuffer): TypeName {
             return {
-                contractAddress: FfiConverterTypeFieldElement.read(from), 
+                contractAddress: FfiConverterTypeControllerFieldElement.read(from), 
                 entrypoint: FfiConverterString.read(from)
             };
         }
         write(value: TypeName, into: RustBuffer): void {
-            FfiConverterTypeFieldElement.write(value.contractAddress, into);
+            FfiConverterTypeControllerFieldElement.write(value.contractAddress, into);
             FfiConverterString.write(value.entrypoint, into);
         }
         allocationSize(value: TypeName): number {
-            return FfiConverterTypeFieldElement.allocationSize(value.contractAddress) + 
+            return FfiConverterTypeControllerFieldElement.allocationSize(value.contractAddress) + 
             FfiConverterString.allocationSize(value.entrypoint);
             
         }
@@ -327,9 +327,9 @@ const FfiConverterString = uniffiCreateFfiConverterString(stringConverter);
  * Typealias from the type name used in the UDL file to the builtin type.  This
  * is needed because the UDL type name is used in function/method signatures.
  */
-export type FieldElement = string;
-// FfiConverter for FieldElement, a type alias for string.
-const FfiConverterTypeFieldElement = FfiConverterString;
+export type ControllerFieldElement = string;
+// FfiConverter for ControllerFieldElement, a type alias for string.
+const FfiConverterTypeControllerFieldElement = FfiConverterString;
 
 
 
@@ -660,58 +660,58 @@ const FfiConverterTypeVersion = (() => {
 
 
 
-export interface ControllerInterface {
+export interface ControllerAccountInterface {
     
-    address()  /*throws*/: FieldElement;
+    address()  /*throws*/: ControllerFieldElement;
     appId()  /*throws*/: string;
-    chainId()  /*throws*/: FieldElement;
+    chainId()  /*throws*/: ControllerFieldElement;
     clearLastError() : void;
-    delegateAccount()  /*throws*/: FieldElement;
+    delegateAccount()  /*throws*/: ControllerFieldElement;
     disconnect()  /*throws*/: void;
     errorMessage()  /*throws*/: string;
-    execute(calls: Array<Call>)  /*throws*/: FieldElement;
+    execute(calls: Array<Call>)  /*throws*/: ControllerFieldElement;
     signup(signerType: SignerType, sessionExpiration: /*u64*/bigint | undefined, cartridgeApiUrl: string | undefined)  /*throws*/: void;
     switchChain(rpcUrl: string)  /*throws*/: void;
-    transfer(recipient: FieldElement, amount: FieldElement)  /*throws*/: FieldElement;
+    transfer(recipient: ControllerFieldElement, amount: ControllerFieldElement)  /*throws*/: ControllerFieldElement;
     username()  /*throws*/: string;
 }
 
 
-export class Controller extends UniffiAbstractObject implements ControllerInterface {
+export class ControllerAccount extends UniffiAbstractObject implements ControllerAccountInterface {
 
-    readonly [uniffiTypeNameSymbol] = "Controller";
+    readonly [uniffiTypeNameSymbol] = "ControllerAccount";
     readonly [destructorGuardSymbol]: UniffiRustArcPtr;
     readonly [pointerLiteralSymbol]: UnsafeMutableRawPointer;
-    constructor(appId: string, username: string, classHash: FieldElement, rpcUrl: string, owner: OwnerInterface, address: FieldElement, chainId: FieldElement) /*throws*/ {
+    constructor(appId: string, username: string, classHash: ControllerFieldElement, rpcUrl: string, owner: OwnerInterface, address: ControllerFieldElement, chainId: ControllerFieldElement) /*throws*/ {
         super();
         const pointer =
             
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_controller_new(
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_new(
         FfiConverterString.lower(appId),
         FfiConverterString.lower(username),
-        FfiConverterTypeFieldElement.lower(classHash),
+        FfiConverterTypeControllerFieldElement.lower(classHash),
         FfiConverterString.lower(rpcUrl),
         FfiConverterTypeOwner.lower(owner),
-        FfiConverterTypeFieldElement.lower(address),
-        FfiConverterTypeFieldElement.lower(chainId),
+        FfiConverterTypeControllerFieldElement.lower(address),
+        FfiConverterTypeControllerFieldElement.lower(chainId),
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
     );
         this[pointerLiteralSymbol] = pointer;
-        this[destructorGuardSymbol] = uniffiTypeControllerObjectFactory.bless(pointer);
+        this[destructorGuardSymbol] = uniffiTypeControllerAccountObjectFactory.bless(pointer);
     }
 
     
-public static fromStorage(appId: string): ControllerInterface /*throws*/ {
-    return FfiConverterTypeController.lift(
+public static fromStorage(appId: string): ControllerAccountInterface /*throws*/ {
+    return FfiConverterTypeControllerAccount.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_controller_from_storage(
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage(
         FfiConverterString.lower(appId),
                 callStatus);
             },
@@ -719,18 +719,18 @@ public static fromStorage(appId: string): ControllerInterface /*throws*/ {
     ));
     }
     
-public static newHeadless(appId: string, username: string, classHash: FieldElement, rpcUrl: string, owner: OwnerInterface, chainId: FieldElement): ControllerInterface /*throws*/ {
-    return FfiConverterTypeController.lift(
+public static newHeadless(appId: string, username: string, classHash: ControllerFieldElement, rpcUrl: string, owner: OwnerInterface, chainId: ControllerFieldElement): ControllerAccountInterface /*throws*/ {
+    return FfiConverterTypeControllerAccount.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_controller_new_headless(
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless(
         FfiConverterString.lower(appId),
         FfiConverterString.lower(username),
-        FfiConverterTypeFieldElement.lower(classHash),
+        FfiConverterTypeControllerFieldElement.lower(classHash),
         FfiConverterString.lower(rpcUrl),
         FfiConverterTypeOwner.lower(owner),
-        FfiConverterTypeFieldElement.lower(chainId),
+        FfiConverterTypeControllerFieldElement.lower(chainId),
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -739,12 +739,12 @@ public static newHeadless(appId: string, username: string, classHash: FieldEleme
     
 
     
-public address(): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public address(): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_address(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_address(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -756,19 +756,19 @@ public appId(): string /*throws*/ {
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_app_id(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_app_id(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
     ));
     }
     
-public chainId(): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public chainId(): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_chain_id(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_chain_id(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -776,19 +776,19 @@ public chainId(): FieldElement /*throws*/ {
     }
     
 public clearLastError(): void {uniffiCaller.rustCall(
-            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_clear_last_error(uniffiTypeControllerObjectFactory.clonePointer(this), 
+            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
     );
     }
     
-public delegateAccount(): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public delegateAccount(): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_delegate_account(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -798,7 +798,7 @@ public delegateAccount(): FieldElement /*throws*/ {
 public disconnect(): void /*throws*/ {
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
-            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_disconnect(uniffiTypeControllerObjectFactory.clonePointer(this), 
+            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_disconnect(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -810,19 +810,19 @@ public errorMessage(): string /*throws*/ {
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_error_message(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_error_message(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
     ));
     }
     
-public execute(calls: Array<Call>): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public execute(calls: Array<Call>): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_execute(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_execute(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
         FfiConverterArrayTypeCall.lower(calls),
                 callStatus);
             },
@@ -833,7 +833,7 @@ public execute(calls: Array<Call>): FieldElement /*throws*/ {
 public signup(signerType: SignerType, sessionExpiration: /*u64*/bigint | undefined, cartridgeApiUrl: string | undefined): void /*throws*/ {
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
-            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_signup(uniffiTypeControllerObjectFactory.clonePointer(this), 
+            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_signup(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
         FfiConverterTypeSignerType.lower(signerType),
         FfiConverterOptionalUInt64.lower(sessionExpiration),
         FfiConverterOptionalString.lower(cartridgeApiUrl),
@@ -846,7 +846,7 @@ public signup(signerType: SignerType, sessionExpiration: /*u64*/bigint | undefin
 public switchChain(rpcUrl: string): void /*throws*/ {
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
-            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_switch_chain(uniffiTypeControllerObjectFactory.clonePointer(this), 
+            /*caller:*/ (callStatus) => { nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
         FfiConverterString.lower(rpcUrl),
                 callStatus);
             },
@@ -854,14 +854,14 @@ public switchChain(rpcUrl: string): void /*throws*/ {
     );
     }
     
-public transfer(recipient: FieldElement, amount: FieldElement): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public transfer(recipient: ControllerFieldElement, amount: ControllerFieldElement): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_transfer(uniffiTypeControllerObjectFactory.clonePointer(this), 
-        FfiConverterTypeFieldElement.lower(recipient),
-        FfiConverterTypeFieldElement.lower(amount),
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_transfer(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
+        FfiConverterTypeControllerFieldElement.lower(recipient),
+        FfiConverterTypeControllerFieldElement.lower(amount),
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -873,7 +873,7 @@ public username(): string /*throws*/ {
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
-                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controller_username(uniffiTypeControllerObjectFactory.clonePointer(this), 
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_controlleraccount_username(uniffiTypeControllerAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -887,28 +887,28 @@ public username(): string /*throws*/ {
     uniffiDestroy(): void {
         const ptr = (this as any)[destructorGuardSymbol];
         if (ptr !== undefined) {
-            const pointer = uniffiTypeControllerObjectFactory.pointer(this);
-            uniffiTypeControllerObjectFactory.freePointer(pointer);
-            uniffiTypeControllerObjectFactory.unbless(ptr);
+            const pointer = uniffiTypeControllerAccountObjectFactory.pointer(this);
+            uniffiTypeControllerAccountObjectFactory.freePointer(pointer);
+            uniffiTypeControllerAccountObjectFactory.unbless(ptr);
             delete (this as any)[destructorGuardSymbol];
         }
     }
 
-    static instanceOf(obj: any): obj is Controller {
-        return uniffiTypeControllerObjectFactory.isConcreteType(obj);
+    static instanceOf(obj: any): obj is ControllerAccount {
+        return uniffiTypeControllerAccountObjectFactory.isConcreteType(obj);
     }
 
     
 }
 
-const uniffiTypeControllerObjectFactory: UniffiObjectFactory<ControllerInterface> = (() => {
+const uniffiTypeControllerAccountObjectFactory: UniffiObjectFactory<ControllerAccountInterface> = (() => {
     
     return {
-    create(pointer: UnsafeMutableRawPointer): ControllerInterface {
-        const instance = Object.create(Controller.prototype);
+    create(pointer: UnsafeMutableRawPointer): ControllerAccountInterface {
+        const instance = Object.create(ControllerAccount.prototype);
         instance[pointerLiteralSymbol] = pointer;
         instance[destructorGuardSymbol] = this.bless(pointer);
-        instance[uniffiTypeNameSymbol] = "Controller";
+        instance[uniffiTypeNameSymbol] = "ControllerAccount";
         return instance;
     },
 
@@ -916,7 +916,7 @@ const uniffiTypeControllerObjectFactory: UniffiObjectFactory<ControllerInterface
     bless(p: UnsafeMutableRawPointer): UniffiRustArcPtr {
         return uniffiCaller.rustCall(
             /*caller:*/ (status) =>
-                nativeModule().ubrn_ffi_Controller__bless_pointer(p, status),
+                nativeModule().ubrn_ffi_ControllerAccount__bless_pointer(p, status),
             /*liftString:*/ FfiConverterString.lift
         );
     },
@@ -925,34 +925,34 @@ const uniffiTypeControllerObjectFactory: UniffiObjectFactory<ControllerInterface
         ptr.markDestroyed();
     },
 
-    pointer(obj: ControllerInterface): UnsafeMutableRawPointer {
+    pointer(obj: ControllerAccountInterface): UnsafeMutableRawPointer {
         if ((obj as any)[destructorGuardSymbol] === undefined) {
             throw new UniffiInternalError.UnexpectedNullPointer();
         }
         return (obj as any)[pointerLiteralSymbol];
     },
 
-    clonePointer(obj: ControllerInterface): UnsafeMutableRawPointer {
+    clonePointer(obj: ControllerAccountInterface): UnsafeMutableRawPointer {
         const pointer = this.pointer(obj);
         return uniffiCaller.rustCall(
-            /*caller:*/ (callStatus) => nativeModule().ubrn_uniffi_controller_uniffi_fn_clone_controller(pointer, callStatus),
+            /*caller:*/ (callStatus) => nativeModule().ubrn_uniffi_controller_uniffi_fn_clone_controlleraccount(pointer, callStatus),
             /*liftString:*/ FfiConverterString.lift
         );
     },
 
     freePointer(pointer: UnsafeMutableRawPointer): void {
         uniffiCaller.rustCall(
-            /*caller:*/ (callStatus) => nativeModule().ubrn_uniffi_controller_uniffi_fn_free_controller(pointer, callStatus),
+            /*caller:*/ (callStatus) => nativeModule().ubrn_uniffi_controller_uniffi_fn_free_controlleraccount(pointer, callStatus),
             /*liftString:*/ FfiConverterString.lift
         );
     },
 
-    isConcreteType(obj: any): obj is ControllerInterface {
-        return obj[destructorGuardSymbol] && obj[uniffiTypeNameSymbol] === "Controller";
+    isConcreteType(obj: any): obj is ControllerAccountInterface {
+        return obj[destructorGuardSymbol] && obj[uniffiTypeNameSymbol] === "ControllerAccount";
     },
 }})();
-// FfiConverter for ControllerInterface
-const FfiConverterTypeController =  new FfiConverterObject(uniffiTypeControllerObjectFactory);
+// FfiConverter for ControllerAccountInterface
+const FfiConverterTypeControllerAccount =  new FfiConverterObject(uniffiTypeControllerAccountObjectFactory);
 
 
 export interface OwnerInterface {
@@ -1062,8 +1062,17 @@ const FfiConverterTypeOwner =  new FfiConverterObject(uniffiTypeOwnerObjectFacto
 
 export interface SessionAccountInterface {
     
-    execute(calls: Array<Call>)  /*throws*/: FieldElement;
-    executeFromOutside(calls: Array<Call>)  /*throws*/: FieldElement;
+    address() : string;
+    appId() : string | undefined;
+    chainId() : string;
+    execute(calls: Array<Call>)  /*throws*/: ControllerFieldElement;
+    executeFromOutside(calls: Array<Call>)  /*throws*/: ControllerFieldElement;
+    expiresAt() : /*u64*/bigint;
+    isExpired() : boolean;
+    isRevoked() : boolean;
+    ownerGuid() : string;
+    sessionId() : string | undefined;
+    username() : string | undefined;
 }
 
 
@@ -1072,7 +1081,7 @@ export class SessionAccount extends UniffiAbstractObject implements SessionAccou
     readonly [uniffiTypeNameSymbol] = "SessionAccount";
     readonly [destructorGuardSymbol]: UniffiRustArcPtr;
     readonly [pointerLiteralSymbol]: UnsafeMutableRawPointer;
-    constructor(rpcUrl: string, privateKey: string, address: FieldElement, ownerGuid: FieldElement, chainId: FieldElement, policies: SessionPolicies, sessionExpiration: /*u64*/bigint) /*throws*/ {
+    constructor(rpcUrl: string, privateKey: string, address: ControllerFieldElement, ownerGuid: ControllerFieldElement, chainId: ControllerFieldElement, policies: SessionPolicies, sessionExpiration: /*u64*/bigint) /*throws*/ {
         super();
         const pointer =
             
@@ -1082,9 +1091,9 @@ export class SessionAccount extends UniffiAbstractObject implements SessionAccou
                 return nativeModule().ubrn_uniffi_controller_uniffi_fn_constructor_sessionaccount_new(
         FfiConverterString.lower(rpcUrl),
         FfiConverterString.lower(privateKey),
-        FfiConverterTypeFieldElement.lower(address),
-        FfiConverterTypeFieldElement.lower(ownerGuid),
-        FfiConverterTypeFieldElement.lower(chainId),
+        FfiConverterTypeControllerFieldElement.lower(address),
+        FfiConverterTypeControllerFieldElement.lower(ownerGuid),
+        FfiConverterTypeControllerFieldElement.lower(chainId),
         FfiConverterTypeSessionPolicies.lower(policies),
         FfiConverterUInt64.lower(sessionExpiration),
                 callStatus);
@@ -1114,8 +1123,38 @@ public static createFromSubscribe(privateKey: string, policies: SessionPolicies,
     
 
     
-public execute(calls: Array<Call>): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public address(): string {
+    return FfiConverterString.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_address(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public appId(): string | undefined {
+    return FfiConverterOptionalString.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_app_id(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public chainId(): string {
+    return FfiConverterString.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_chain_id(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public execute(calls: Array<Call>): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
@@ -1127,13 +1166,73 @@ public execute(calls: Array<Call>): FieldElement /*throws*/ {
     ));
     }
     
-public executeFromOutside(calls: Array<Call>): FieldElement /*throws*/ {
-    return FfiConverterTypeFieldElement.lift(
+public executeFromOutside(calls: Array<Call>): ControllerFieldElement /*throws*/ {
+    return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
             /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
             /*caller:*/ (callStatus) => {
                 return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_execute_from_outside(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
         FfiConverterArrayTypeCall.lower(calls),
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public expiresAt(): /*u64*/bigint {
+    return FfiConverterUInt64.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_expires_at(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public isExpired(): boolean {
+    return FfiConverterBool.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_is_expired(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public isRevoked(): boolean {
+    return FfiConverterBool.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_is_revoked(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public ownerGuid(): string {
+    return FfiConverterString.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_owner_guid(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public sessionId(): string | undefined {
+    return FfiConverterOptionalString.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_session_id(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+    
+public username(): string | undefined {
+    return FfiConverterOptionalString.lift(uniffiCaller.rustCall(
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_username(uniffiTypeSessionAccountObjectFactory.clonePointer(this), 
                 callStatus);
             },
             /*liftString:*/ FfiConverterString.lift,
@@ -1231,8 +1330,8 @@ const FfiConverterArrayTypeCall = new FfiConverterArray(FfiConverterTypeCall);
 const FfiConverterArrayTypeSessionPolicy = new FfiConverterArray(FfiConverterTypeSessionPolicy);
 
 
-// FfiConverter for Array<FieldElement>
-const FfiConverterArrayTypeFieldElement = new FfiConverterArray(FfiConverterTypeFieldElement);
+// FfiConverter for Array<ControllerFieldElement>
+const FfiConverterArrayTypeControllerFieldElement = new FfiConverterArray(FfiConverterTypeControllerFieldElement);
 
 /**
  * This should be called before anything else.
@@ -1255,68 +1354,95 @@ function uniffiEnsureInitialized() {
     if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_controller_has_storage() !== 40864) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_controller_has_storage");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_get_controller_class_hash() !== 11028) {
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_get_controller_class_hash() !== 53006) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_get_controller_class_hash");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_get_public_key() !== 36036) {
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_get_public_key() !== 43455) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_get_public_key");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_signer_to_guid() !== 34619) {
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_signer_to_guid() !== 46384) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_signer_to_guid");
     }
     if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_validate_felt() !== 45886) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_validate_felt");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_address() !== 58142) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_address");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_address() !== 26106) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_address");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_app_id() !== 56550) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_app_id");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_app_id() !== 16856) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_app_id");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_chain_id() !== 39031) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_chain_id");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id() !== 17535) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_clear_last_error() !== 47063) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_clear_last_error");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error() !== 4396) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_delegate_account() !== 31461) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_delegate_account");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account() !== 35092) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_disconnect() !== 25464) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_disconnect");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect() !== 22110) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_error_message() !== 27332) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_error_message");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_error_message() !== 10095) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_error_message");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_execute() !== 41685) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_execute");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_execute() !== 21076) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_execute");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_signup() !== 53849) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_signup");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_signup() !== 15081) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_signup");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_switch_chain() !== 37555) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_switch_chain");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain() !== 38838) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_transfer() !== 64142) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_transfer");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_transfer() !== 14676) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_transfer");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controller_username() !== 5497) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controller_username");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_controlleraccount_username() !== 61539) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_controlleraccount_username");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_execute() !== 61492) {
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_address() !== 14778) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_address");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_app_id() !== 33071) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_app_id");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id() !== 36850) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_chain_id");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_execute() !== 42467) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_execute");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside() !== 27820) {
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside() !== 4484) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_execute_from_outside");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_controller_from_storage() !== 39320) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_controller_from_storage");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at() !== 21117) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_expires_at");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_controller_new() !== 18866) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_controller_new");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired() !== 37606) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_is_expired");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_controller_new_headless() !== 44171) {
-        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_controller_new_headless");
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked() !== 17252) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_is_revoked");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid() !== 15668) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_owner_guid");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_session_id() !== 35493) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_session_id");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_method_sessionaccount_username() !== 22367) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_method_sessionaccount_username");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage() !== 53452) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new() !== 11383) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_controlleraccount_new");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless() !== 47497) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless");
     }
     if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_owner_new() !== 62973) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_owner_new");
@@ -1324,7 +1450,7 @@ function uniffiEnsureInitialized() {
     if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_sessionaccount_create_from_subscribe() !== 29386) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_sessionaccount_create_from_subscribe");
     }
-    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_sessionaccount_new() !== 1841) {
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_constructor_sessionaccount_new() !== 5711) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_constructor_sessionaccount_new");
     }
 
@@ -1334,9 +1460,9 @@ export default Object.freeze({
   initialize: uniffiEnsureInitialized,
   converters: {
     FfiConverterTypeCall,
-    FfiConverterTypeController,
+    FfiConverterTypeControllerAccount,
     FfiConverterTypeControllerError,
-    FfiConverterTypeFieldElement,
+    FfiConverterTypeControllerFieldElement,
     FfiConverterTypeOwner,
     FfiConverterTypeSessionAccount,
     FfiConverterTypeSessionPolicies,

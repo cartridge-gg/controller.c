@@ -500,7 +500,7 @@ fileprivate struct FfiConverterString: FfiConverter {
 
 
 
-public protocol ControllerProtocol: AnyObject, Sendable {
+public protocol ControllerAccountProtocol: AnyObject, Sendable {
     
     func address() throws  -> FieldElement
     
@@ -527,7 +527,7 @@ public protocol ControllerProtocol: AnyObject, Sendable {
     func username() throws  -> String
     
 }
-open class Controller: ControllerProtocol, @unchecked Sendable {
+open class ControllerAccount: ControllerAccountProtocol, @unchecked Sendable {
     fileprivate let handle: UInt64
 
     /// Used to instantiate a [FFIObject] without an actual handle, for fakes in tests, mostly.
@@ -564,12 +564,12 @@ open class Controller: ControllerProtocol, @unchecked Sendable {
     @_documentation(visibility: private)
 #endif
     public func uniffiCloneHandle() -> UInt64 {
-        return try! rustCall { uniffi_controller_uniffi_fn_clone_controller(self.handle, $0) }
+        return try! rustCall { uniffi_controller_uniffi_fn_clone_controlleraccount(self.handle, $0) }
     }
 public convenience init(appId: String, username: String, classHash: FieldElement, rpcUrl: String, owner: Owner, address: FieldElement, chainId: FieldElement)throws  {
     let handle =
         try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_constructor_controller_new(
+    uniffi_controller_uniffi_fn_constructor_controlleraccount_new(
         FfiConverterString.lower(appId),
         FfiConverterString.lower(username),
         FfiConverterTypeFieldElement_lower(classHash),
@@ -583,21 +583,21 @@ public convenience init(appId: String, username: String, classHash: FieldElement
 }
 
     deinit {
-        try! rustCall { uniffi_controller_uniffi_fn_free_controller(handle, $0) }
+        try! rustCall { uniffi_controller_uniffi_fn_free_controlleraccount(handle, $0) }
     }
 
     
-public static func fromStorage(appId: String)throws  -> Controller  {
-    return try  FfiConverterTypeController_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_constructor_controller_from_storage(
+public static func fromStorage(appId: String)throws  -> ControllerAccount  {
+    return try  FfiConverterTypeControllerAccount_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_constructor_controlleraccount_from_storage(
         FfiConverterString.lower(appId),$0
     )
 })
 }
     
-public static func newHeadless(appId: String, username: String, classHash: FieldElement, rpcUrl: String, owner: Owner, chainId: FieldElement)throws  -> Controller  {
-    return try  FfiConverterTypeController_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_constructor_controller_new_headless(
+public static func newHeadless(appId: String, username: String, classHash: FieldElement, rpcUrl: String, owner: Owner, chainId: FieldElement)throws  -> ControllerAccount  {
+    return try  FfiConverterTypeControllerAccount_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_constructor_controlleraccount_new_headless(
         FfiConverterString.lower(appId),
         FfiConverterString.lower(username),
         FfiConverterTypeFieldElement_lower(classHash),
@@ -612,7 +612,7 @@ public static func newHeadless(appId: String, username: String, classHash: Field
     
 open func address()throws  -> FieldElement  {
     return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_address(
+    uniffi_controller_uniffi_fn_method_controlleraccount_address(
             self.uniffiCloneHandle(),$0
     )
 })
@@ -620,7 +620,7 @@ open func address()throws  -> FieldElement  {
     
 open func appId()throws  -> String  {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_app_id(
+    uniffi_controller_uniffi_fn_method_controlleraccount_app_id(
             self.uniffiCloneHandle(),$0
     )
 })
@@ -628,14 +628,14 @@ open func appId()throws  -> String  {
     
 open func chainId()throws  -> FieldElement  {
     return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_chain_id(
+    uniffi_controller_uniffi_fn_method_controlleraccount_chain_id(
             self.uniffiCloneHandle(),$0
     )
 })
 }
     
 open func clearLastError()  {try! rustCall() {
-    uniffi_controller_uniffi_fn_method_controller_clear_last_error(
+    uniffi_controller_uniffi_fn_method_controlleraccount_clear_last_error(
             self.uniffiCloneHandle(),$0
     )
 }
@@ -643,14 +643,14 @@ open func clearLastError()  {try! rustCall() {
     
 open func delegateAccount()throws  -> FieldElement  {
     return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_delegate_account(
+    uniffi_controller_uniffi_fn_method_controlleraccount_delegate_account(
             self.uniffiCloneHandle(),$0
     )
 })
 }
     
 open func disconnect()throws   {try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_disconnect(
+    uniffi_controller_uniffi_fn_method_controlleraccount_disconnect(
             self.uniffiCloneHandle(),$0
     )
 }
@@ -658,7 +658,7 @@ open func disconnect()throws   {try rustCallWithError(FfiConverterTypeController
     
 open func errorMessage()throws  -> String  {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_error_message(
+    uniffi_controller_uniffi_fn_method_controlleraccount_error_message(
             self.uniffiCloneHandle(),$0
     )
 })
@@ -666,7 +666,7 @@ open func errorMessage()throws  -> String  {
     
 open func execute(calls: [Call])throws  -> FieldElement  {
     return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_execute(
+    uniffi_controller_uniffi_fn_method_controlleraccount_execute(
             self.uniffiCloneHandle(),
         FfiConverterSequenceTypeCall.lower(calls),$0
     )
@@ -674,7 +674,7 @@ open func execute(calls: [Call])throws  -> FieldElement  {
 }
     
 open func signup(signerType: SignerType, sessionExpiration: UInt64?, cartridgeApiUrl: String?)throws   {try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_signup(
+    uniffi_controller_uniffi_fn_method_controlleraccount_signup(
             self.uniffiCloneHandle(),
         FfiConverterTypeSignerType_lower(signerType),
         FfiConverterOptionUInt64.lower(sessionExpiration),
@@ -684,7 +684,7 @@ open func signup(signerType: SignerType, sessionExpiration: UInt64?, cartridgeAp
 }
     
 open func switchChain(rpcUrl: String)throws   {try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_switch_chain(
+    uniffi_controller_uniffi_fn_method_controlleraccount_switch_chain(
             self.uniffiCloneHandle(),
         FfiConverterString.lower(rpcUrl),$0
     )
@@ -693,7 +693,7 @@ open func switchChain(rpcUrl: String)throws   {try rustCallWithError(FfiConverte
     
 open func transfer(recipient: FieldElement, amount: FieldElement)throws  -> FieldElement  {
     return try  FfiConverterTypeFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_transfer(
+    uniffi_controller_uniffi_fn_method_controlleraccount_transfer(
             self.uniffiCloneHandle(),
         FfiConverterTypeFieldElement_lower(recipient),
         FfiConverterTypeFieldElement_lower(amount),$0
@@ -703,7 +703,7 @@ open func transfer(recipient: FieldElement, amount: FieldElement)throws  -> Fiel
     
 open func username()throws  -> String  {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
-    uniffi_controller_uniffi_fn_method_controller_username(
+    uniffi_controller_uniffi_fn_method_controlleraccount_username(
             self.uniffiCloneHandle(),$0
     )
 })
@@ -717,24 +717,24 @@ open func username()throws  -> String  {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
-public struct FfiConverterTypeController: FfiConverter {
+public struct FfiConverterTypeControllerAccount: FfiConverter {
     typealias FfiType = UInt64
-    typealias SwiftType = Controller
+    typealias SwiftType = ControllerAccount
 
-    public static func lift(_ handle: UInt64) throws -> Controller {
-        return Controller(unsafeFromHandle: handle)
+    public static func lift(_ handle: UInt64) throws -> ControllerAccount {
+        return ControllerAccount(unsafeFromHandle: handle)
     }
 
-    public static func lower(_ value: Controller) -> UInt64 {
+    public static func lower(_ value: ControllerAccount) -> UInt64 {
         return value.uniffiCloneHandle()
     }
 
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Controller {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ControllerAccount {
         let handle: UInt64 = try readInt(&buf)
         return try lift(handle)
     }
 
-    public static func write(_ value: Controller, into buf: inout [UInt8]) {
+    public static func write(_ value: ControllerAccount, into buf: inout [UInt8]) {
         writeInt(&buf, lower(value))
     }
 }
@@ -743,15 +743,15 @@ public struct FfiConverterTypeController: FfiConverter {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
-public func FfiConverterTypeController_lift(_ handle: UInt64) throws -> Controller {
-    return try FfiConverterTypeController.lift(handle)
+public func FfiConverterTypeControllerAccount_lift(_ handle: UInt64) throws -> ControllerAccount {
+    return try FfiConverterTypeControllerAccount.lift(handle)
 }
 
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
-public func FfiConverterTypeController_lower(_ value: Controller) -> UInt64 {
-    return FfiConverterTypeController.lower(value)
+public func FfiConverterTypeControllerAccount_lower(_ value: ControllerAccount) -> UInt64 {
+    return FfiConverterTypeControllerAccount.lower(value)
 }
 
 
@@ -1780,40 +1780,40 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_func_validate_felt() != 45886) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_address() != 58142) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_address() != 46399) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_app_id() != 56550) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_app_id() != 16856) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_chain_id() != 39031) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_chain_id() != 12609) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_clear_last_error() != 47063) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_clear_last_error() != 4396) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_delegate_account() != 31461) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_delegate_account() != 15835) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_disconnect() != 25464) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_disconnect() != 22110) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_error_message() != 27332) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_error_message() != 10095) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_execute() != 41685) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_execute() != 20246) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_signup() != 53849) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_signup() != 15081) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_switch_chain() != 37555) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_switch_chain() != 38838) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_transfer() != 64142) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_transfer() != 17115) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_method_controller_username() != 5497) {
+    if (uniffi_controller_uniffi_checksum_method_controlleraccount_username() != 61539) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_address() != 14778) {
@@ -1849,13 +1849,13 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_method_sessionaccount_username() != 22367) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_constructor_controller_from_storage() != 39320) {
+    if (uniffi_controller_uniffi_checksum_constructor_controlleraccount_from_storage() != 53452) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_constructor_controller_new() != 18866) {
+    if (uniffi_controller_uniffi_checksum_constructor_controlleraccount_new() != 38192) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_constructor_controller_new_headless() != 44171) {
+    if (uniffi_controller_uniffi_checksum_constructor_controlleraccount_new_headless() != 47820) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_controller_uniffi_checksum_constructor_owner_new() != 62973) {
