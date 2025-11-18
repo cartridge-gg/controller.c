@@ -1,0 +1,14 @@
+{
+  "name": "arcade-native",
+  "version": "0.0.1",
+  "description": "Arcade Native - Dojo + Controller",
+  "main": "src/index",
+  "author": "Nasr <larko236@outlook.com>",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/nasr/arcade-native",
+  "codegenConfig": {
+    "name": "ArcadeNativeSpec",
+    "type": "modules",
+    "jsSrcsDir": "js"
+  }
+}

@@ -1,0 +1,3 @@
+[submodule "packages/ui-native"]
+	path = packages/ui-native
+	url = https://github.com/cartridge-gg/ui-native.git
