@@ -2,22 +2,13 @@ const path = require('path');
 
 module.exports = {
   dependencies: {
-    'arcade-native-controller': {
-      root: path.resolve(__dirname, 'modules/arcade'),
+    'controller-native': {
+      root: path.resolve(__dirname, 'modules/controller'),
       platforms: {
         ios: {
-          podspecPath: path.resolve(__dirname, 'modules/arcade/Controller.podspec'),
-        },
-      },
-    },
-    'arcade-native-dojo': {
-      root: path.resolve(__dirname, 'modules/arcade'),
-      platforms: {
-        ios: {
-          podspecPath: path.resolve(__dirname, 'modules/arcade/Dojo.podspec'),
+          podspecPath: path.resolve(__dirname, 'modules/controller/Controller.podspec'),
         },
       },
     },
   },
 };
-

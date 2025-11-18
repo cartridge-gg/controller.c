@@ -1,14 +1,14 @@
 {
-  "name": "arcade-native",
-  "version": "0.0.1",
-  "description": "Arcade Native - Dojo + Controller",
+  "name": "controller-native",
+  "version": "0.1.0",
+  "description": "Controller Native Module for React Native",
   "main": "src/index",
-  "author": "Nasr <larko236@outlook.com>",
-  "license": "UNLICENSED",
-  "homepage": "https://github.com/nasr/arcade-native",
+  "author": "Cartridge",
+  "license": "MIT",
+  "homepage": "https://github.com/cartridge-gg/controller.c",
   "codegenConfig": {
-    "name": "ArcadeNativeSpec",
+    "name": "ControllerSpec",
     "type": "modules",
-    "jsSrcsDir": "js"
+    "jsSrcsDir": "src"
   }
 }
