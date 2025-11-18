@@ -1,0 +1,14 @@
+{
+  "name": "controller-native",
+  "version": "0.1.0",
+  "description": "Controller Native Module for React Native",
+  "main": "src/index",
+  "author": "Cartridge",
+  "license": "MIT",
+  "codegenConfig": {
+    "name": "ControllerSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  }
+}
+

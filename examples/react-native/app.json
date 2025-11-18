@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Controller Example",
+    "slug": "controller-react-native-example",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cartridge.controllerexample",
+      "newArchEnabled": true
+    },
+    "android": {
+      "package": "com.cartridge.controllerexample"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "controller-example"
+  }
+}
+
