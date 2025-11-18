@@ -1,15 +1,24 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "strict": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "#utils/*": ["./utils/*", "./packages/ui-native/src/utils/*"],
+      "#hooks/*": ["./hooks/*", "./packages/ui-native/src/hooks/*"],
+      "#contexts/*": ["./contexts/*", "./packages/ui-native/src/contexts/*"],
+      "#components/*": ["./components/*", "./packages/ui-native/src/components/*"],
+      "#context/*": ["./packages/ui-native/src/context/*"],
+      "#clone/*": ["./packages/ui-native/src/clone/*"],
+      "#assets/*": ["./packages/ui-native/assets/*"]
     }
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/Pods"
   ]
 }

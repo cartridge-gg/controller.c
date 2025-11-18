@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	/* Set default color to white for currentColor */
+	:root {
+		color: white;
+	}
+	
+	body {
+		color: white;
+	}
+	
+	/* Make SVG elements use white as default fill */
+	svg {
+		fill: currentColor;
+	}
+	
+	svg path,
+	svg circle,
+	svg rect,
+	svg polygon,
+	svg line,
+	svg polyline {
+		fill: inherit;
+	}
+}
+

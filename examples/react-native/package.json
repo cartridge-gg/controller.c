@@ -1,26 +1,26 @@
 {
   "name": "controller-react-native-example",
   "version": "0.1.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "start": "pnpm exec expo start --dev-client",
-    "android": "pnpm exec expo run:android",
-    "ios": "pnpm exec expo run:ios",
-    "prebuild": "pnpm exec expo prebuild",
-    "prebuild:clean": "pnpm exec expo prebuild --clean",
-    "lint": "eslint ."
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "start": "expo start --dev-client",
+    "lint": "eslint .",
+    "prebuild": "expo prebuild",
+    "prebuild:clean": "expo prebuild --clean"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "expo": "~54.0.8",
     "expo-constants": "^18.0.10",
-    "expo-dev-client": "~6.0.17",
     "expo-linking": "^8.0.8",
     "expo-router": "^6.0.14",
-    "expo-secure-store": "^15.0.7",
     "expo-status-bar": "~3.0.8",
     "expo-web-browser": "^15.0.9",
     "react": "19.1.0",
     "react-native": "0.81.4",
+    "react-native-gesture-handler": "^2.29.1",
     "react-native-get-random-values": "^1.11.0",
     "react-native-reanimated": "~4.1.0",
     "react-native-safe-area-context": "^5.6.2",
@@ -28,11 +28,12 @@
     "uniffi-bindgen-react-native": "file:../../../uniffi-bindgen-react-native"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
+    "@babel/core": "^7.25.2",
     "@types/react": "~19.1.1",
     "babel-preset-expo": "~54.0.6",
     "typescript": "~5.9.2"
   },
-  "private": true
+  "engines": {
+    "node": ">=20"
+  }
 }
-

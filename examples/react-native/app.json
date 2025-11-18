@@ -4,7 +4,7 @@
     "slug": "controller-react-native-example",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -14,12 +14,12 @@
       "newArchEnabled": true
     },
     "android": {
-      "package": "com.cartridge.controllerexample"
+      "package": "com.cartridge.controllerexample",
+      "newArchEnabled": true
     },
-    "plugins": [
-      "expo-router"
-    ],
-    "scheme": "controller-example"
+    "plugins": [],
+    "experiments": {
+      "tsconfigPaths": true
+    }
   }
 }
-
