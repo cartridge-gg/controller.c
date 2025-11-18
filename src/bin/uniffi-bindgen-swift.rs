@@ -102,10 +102,8 @@ fn main() {
     let has_xcframework = args.contains(&"--xcframework".to_string());
 
     // Default to generating Swift sources and headers if no specific flags are provided
-    let generate_swift_sources =
-        has_swift_sources || (!has_headers && !has_modulemap) || (has_headers);
-    let generate_headers =
-        has_headers || (!has_swift_sources && !has_modulemap) || has_swift_sources;
+    let generate_swift_sources = has_swift_sources || has_headers || !has_modulemap;
+    let generate_headers = has_headers || has_swift_sources || !has_modulemap;
 
     println!("Generating Swift bindings...");
     println!("Library: {}", library_path);
