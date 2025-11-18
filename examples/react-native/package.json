@@ -25,7 +25,7 @@
     "react-native-reanimated": "~4.1.0",
     "react-native-safe-area-context": "^5.6.2",
     "react-native-screens": "^4.18.0",
-    "uniffi-bindgen-react-native": "file:../../../uniffi-bindgen-react-native"
+    "uniffi-bindgen-react-native": "github:Larkooo/uniffi-bindgen-react-native#update-uniffi-0.30"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
