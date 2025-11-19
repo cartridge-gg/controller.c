@@ -4,7 +4,7 @@
 #endif
 
 #ifdef RCT_NEW_ARCH_ENABLED
-#import <ArcadeNativeSpec/ArcadeNativeSpec.h>
+#import <ControllerSpec/ControllerSpec.h>
 
 @interface Controller : NSObject <NativeControllerSpec>
 #else
