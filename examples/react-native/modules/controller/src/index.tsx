@@ -12,7 +12,7 @@ const controllerAvailable = installer && typeof installer.installRustCrate === '
 console.log('Controller available:', controllerAvailable);
 
 if (!controllerAvailable) {
-  throw new Error('❌ CRITICAL: Controller native module not found! Make sure the iOS build completed successfully.');
+  throw new Error('❌ CRITICAL: Controller native module not found! Make sure the native build completed successfully (iOS: pod install, Android: gradle build).');
 }
 
 try {

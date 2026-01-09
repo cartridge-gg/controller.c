@@ -19,7 +19,7 @@ A minimal React Native example demonstrating how to use the Controller.c library
 - Android Studio with NDK (for Android)
 - Rust with Android targets (for building Android native libs)
 
-## Setup
+## Quick Start
 
 1. Install dependencies:
 ```bash
@@ -31,20 +31,20 @@ pnpm install
 pnpm exec expo prebuild
 ```
 
-3. (iOS only) Install CocoaPods:
+3. Run:
 ```bash
-cd ios && pod install && cd ..
+# iOS
+pnpm run ios
+
+# Android
+pnpm run android
 ```
 
-4. (Android only) Build native libraries:
-```bash
-# From the repository root
-./scripts/build_android.sh
-```
+> **Note:** Pre-built native libraries are included in the repository for both iOS (`Controller.xcframework`) and Android (`jniLibs/*.so`).
 
-## Building Android Native Libraries
+## Rebuilding Android Native Libraries (Optional)
 
-The Android build requires cross-compiling the Rust library for Android targets:
+If you need to rebuild the Android native libraries (e.g., after Rust code changes):
 
 ### Prerequisites
 
@@ -104,34 +104,57 @@ react-native/
 ├── modules/
 │   └── controller/         # Controller native module
 │       ├── ios/            # iOS native code (Obj-C++)
-│       ├── cpp/            # C++ bindings
+│       ├── android/        # Android native code (Kotlin)
+│       ├── cpp/            # Shared C++ bindings
 │       ├── src/            # JS/TS module code
-│       ├── Controller.podspec
+│       ├── Controller.podspec      # iOS CocoaPods config
+│       ├── Controller.xcframework/ # iOS pre-built libs
 │       └── package.json
 ├── ios/                    # iOS native project
+├── android/                # Android native project
 ├── package.json
 └── app.json               # Expo config
 ```
 
 ## How It Works
 
+### iOS
 1. The native Controller module is built as a CocoaPod
-2. It uses TurboModules (React Native New Architecture) for performance
-3. The Rust FFI is exposed via uniffi-bindgen-react-native
-4. JSI (JavaScript Interface) provides direct JS <-> Native communication
+2. Pre-built static libraries are in `Controller.xcframework`
+3. TurboModules via `ios/Controller.mm`
+
+### Android
+1. The native Controller module is built via Gradle/CMake
+2. Pre-built shared libraries are in `android/src/main/jniLibs/`
+3. TurboModules via Kotlin (`ControllerModule.kt`)
+
+### Both Platforms
+1. Uses TurboModules (React Native New Architecture) for performance
+2. The Rust FFI is exposed via uniffi-bindgen-react-native
+3. JSI (JavaScript Interface) provides direct JS <-> Native communication
 
 ## Troubleshooting
 
-### Clean Build
+### iOS: Clean Build
 ```bash
 # Clean everything
 pnpm prebuild:clean
 cd ios && rm -rf Pods Podfile.lock && pod install && cd ..
 ```
 
-### Clean Xcode Cache
+### iOS: Clean Xcode Cache
 ```bash
 rm -rf ~/Library/Developer/Xcode/DerivedData
+```
+
+### Android: Clean Build
+```bash
+cd android && ./gradlew clean && cd ..
+```
+
+### Android: Clear Gradle Cache
+```bash
+rm -rf ~/.gradle/caches
 ```
 
 ## Example Code
