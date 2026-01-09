@@ -8,13 +8,16 @@ A minimal React Native example demonstrating how to use the Controller.c library
 - ✅ React Native New Architecture (TurboModules/JSI)
 - ✅ Simple session account example
 - ✅ Key generation and felt validation
+- ✅ iOS and Android support
 
 ## Prerequisites
 
 - Node.js >= 20
 - pnpm
 - Xcode (for iOS)
-- CocoaPods
+- CocoaPods (for iOS)
+- Android Studio with NDK (for Android)
+- Rust with Android targets (for building Android native libs)
 
 ## Setup
 
@@ -32,6 +35,47 @@ pnpm exec expo prebuild
 ```bash
 cd ios && pod install && cd ..
 ```
+
+4. (Android only) Build native libraries:
+```bash
+# From the repository root
+./scripts/build_android.sh
+```
+
+## Building Android Native Libraries
+
+The Android build requires cross-compiling the Rust library for Android targets:
+
+### Prerequisites
+
+1. Install `cargo-ndk`:
+```bash
+cargo install cargo-ndk
+```
+
+2. Install Android targets:
+```bash
+rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+```
+
+3. Set up Android NDK (Android Studio > SDK Manager > SDK Tools > NDK):
+```bash
+export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/<version>
+# or
+export NDK_HOME=$HOME/Library/Android/sdk/ndk/<version>
+```
+
+### Build
+
+```bash
+./scripts/build_android.sh
+```
+
+This will build `libcontroller_uniffi.so` for all Android ABIs and place them in:
+- `modules/controller/android/src/main/jniLibs/arm64-v8a/`
+- `modules/controller/android/src/main/jniLibs/armeabi-v7a/`
+- `modules/controller/android/src/main/jniLibs/x86/`
+- `modules/controller/android/src/main/jniLibs/x86_64/`
 
 ## Running
 

@@ -9,6 +9,9 @@
   "codegenConfig": {
     "name": "ControllerSpec",
     "type": "modules",
-    "jsSrcsDir": "src"
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.cartridge.controller"
+    }
   }
 }

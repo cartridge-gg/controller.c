@@ -1,0 +1,10 @@
+# This directory contains pre-built native libraries for Android.
+# 
+# To build the libraries, run from the repository root:
+#   ./scripts/build_android.sh
+#
+# Required libraries:
+#   - arm64-v8a/libcontroller_uniffi.so
+#   - armeabi-v7a/libcontroller_uniffi.so
+#   - x86/libcontroller_uniffi.so
+#   - x86_64/libcontroller_uniffi.so
