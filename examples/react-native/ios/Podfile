@@ -22,9 +22,6 @@ prepare_react_native_project!
 
 target 'ControllerExample' do
   use_expo_modules!
-  
-  # Manually add Controller native module
-  pod 'Controller', :path => '../modules/controller'
 
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
     config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];

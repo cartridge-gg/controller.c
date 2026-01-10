@@ -26,7 +26,8 @@ echo "Building for Android targets..."
 echo "Output directory: $OUTPUT_DIR"
 
 # Build for all Android ABIs
-cargo ndk \
+# Set SONAME so the library can be found at runtime
+RUSTFLAGS="-C link-arg=-Wl,-soname,libcontroller_uniffi.so" cargo ndk \
     -t arm64-v8a \
     -t armeabi-v7a \
     -t x86 \

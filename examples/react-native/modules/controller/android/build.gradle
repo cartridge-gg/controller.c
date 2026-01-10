@@ -27,10 +27,6 @@ android {
                 abiFilters (*reactNativeArchitectures())
             }
         }
-
-        ndk {
-            abiFilters (*reactNativeArchitectures())
-        }
     }
 
     externalNativeBuild {
@@ -41,26 +37,18 @@ android {
 
     buildFeatures {
         prefab true
-    }
-
-    packagingOptions {
-        excludes = [
-            "META-INF",
-            "META-INF/**",
-            "**/libc++_shared.so",
-            "**/libfbjni.so",
-            "**/libjsi.so",
-            "**/libfolly_runtime.so",
-            "**/libglog.so",
-            "**/libreact_nativemodule_core.so",
-            "**/libturbomodulejsijni.so",
-        ]
+        buildConfig true
     }
 
     sourceSets {
         main {
             jniLibs.srcDirs = ['src/main/jniLibs']
         }
+    }
+
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/libfbjni.so'
     }
 }
 

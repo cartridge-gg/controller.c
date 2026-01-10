@@ -36,4 +36,7 @@ rootProject.name = 'Controller Example'
 expoAutolinking.useExpoVersionCatalog()
 
 include ':app'
+include ':controller-native'
+project(':controller-native').projectDir = new File(rootProject.projectDir, '../modules/controller/android')
+
 includeBuild(expoAutolinking.reactNativeGradlePlugin)

@@ -1,35 +1,77 @@
-// Generated cpp-adapter for uniffi-bindgen-react-native Android support
 #include <jni.h>
 #include <jsi/jsi.h>
-#include <ReactCommon/CallInvokerHolder.h>
-#include <fbjni/fbjni.h>
+#include <ReactCommon/CallInvoker.h>
+#include <android/log.h>
 #include "controller.h"
+
+#define LOG_TAG "ControllerNative"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 using namespace facebook;
 
-extern "C" JNIEXPORT void JNICALL
-Java_com_cartridge_controller_ControllerModule_nativeInstall(
-    JNIEnv *env,
-    jobject thiz,
-    jlong jsiPtr,
-    jobject callInvokerHolder
-) {
-    auto runtime = reinterpret_cast<jsi::Runtime *>(jsiPtr);
-    if (runtime == nullptr) {
-        return;
-    }
-
-    // Get the CallInvoker from the holder
-    auto callInvokerHolderClass = env->GetObjectClass(callInvokerHolder);
-    auto getCallInvokerMethod = env->GetMethodID(callInvokerHolderClass, "getCallInvoker", "()Lcom/facebook/react/turbomodule/core/CallInvokerHolderImpl;");
+// Simple CallInvoker that executes synchronously
+class SyncCallInvoker : public react::CallInvoker {
+private:
+    jsi::Runtime* runtime_;
+public:
+    explicit SyncCallInvoker(jsi::Runtime* rt) : runtime_(rt) {}
     
-    // Use fbjni to get the CallInvoker
-    auto jCallInvokerHolder = jni::adopt_local(env->NewLocalRef(callInvokerHolder));
-    auto callInvoker = std::dynamic_pointer_cast<react::CallInvoker>(
-        jni::static_ref_cast<react::CallInvokerHolder::javaobject>(jCallInvokerHolder)->cthis()->getCallInvoker()
-    );
-
-    if (callInvoker) {
-        controller::installRustCrate(*runtime, callInvoker);
+    void invokeAsync(react::CallFunc&& func) noexcept override {
+        if (runtime_) func(*runtime_);
     }
+    void invokeSync(react::CallFunc&& func) override {
+        if (runtime_) func(*runtime_);
+    }
+    void invokeAsync(react::SchedulerPriority, react::CallFunc&& func) noexcept override {
+        if (runtime_) func(*runtime_);
+    }
+};
+
+extern "C" {
+
+JNIEXPORT jboolean JNICALL
+Java_com_cartridge_controller_ControllerModule_nativeInstallRustCrate(
+    JNIEnv* env,
+    jobject thiz,
+    jlong jsiPtr
+) {
+    LOGD("nativeInstallRustCrate called with jsiPtr: %ld", (long)jsiPtr);
+    
+    auto* runtime = reinterpret_cast<jsi::Runtime*>(jsiPtr);
+    if (runtime == nullptr) {
+        LOGE("Runtime pointer is null!");
+        return JNI_FALSE;
+    }
+
+    LOGD("Creating SyncCallInvoker...");
+    auto callInvoker = std::make_shared<SyncCallInvoker>(runtime);
+    
+    LOGD("Calling controller::installRustCrate...");
+    uint8_t result = controller::installRustCrate(*runtime, callInvoker);
+    LOGD("installRustCrate returned: %d", result);
+    
+    return result ? JNI_TRUE : JNI_FALSE;
 }
+
+JNIEXPORT jboolean JNICALL
+Java_com_cartridge_controller_ControllerModule_nativeCleanupRustCrate(
+    JNIEnv* env,
+    jobject thiz,
+    jlong jsiPtr
+) {
+    LOGD("nativeCleanupRustCrate called");
+    
+    auto* runtime = reinterpret_cast<jsi::Runtime*>(jsiPtr);
+    if (runtime == nullptr) {
+        LOGE("Runtime pointer is null!");
+        return JNI_FALSE;
+    }
+
+    uint8_t result = controller::cleanupRustCrate(*runtime);
+    LOGD("cleanupRustCrate returned: %d", result);
+    
+    return result ? JNI_TRUE : JNI_FALSE;
+}
+
+} // extern "C"
