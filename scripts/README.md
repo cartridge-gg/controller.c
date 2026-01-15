@@ -129,6 +129,22 @@ Generate C++ bindings.
 ./scripts/build_cpp.sh
 ```
 
+#### `./scripts/build_android.sh`
+Build native libraries for Android (React Native).
+
+```bash
+# Build for all ABIs
+./scripts/build_android.sh
+
+# Specify custom output directory
+./scripts/build_android.sh path/to/jniLibs
+```
+
+Requires:
+- `cargo-ndk` (`cargo install cargo-ndk`)
+- Android NDK (via Android Studio)
+- Rust Android targets (`rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android`)
+
 ## 🔄 Typical Workflow
 
 ### Before Committing
@@ -173,6 +189,7 @@ Generate C++ bindings.
 | `test.sh` | Run tests |
 | `check.sh` | Run all CI checks |
 | `build_ios.sh` | Build iOS framework |
+| `build_android.sh` | Build Android native libs |
 | `release.sh <version>` | Create a new release |
 | `download-release.sh` | Download release artifacts |
 
@@ -182,6 +199,7 @@ Generate C++ bindings.
 2. **Auto-fix lints:** Use `./scripts/clippy.sh --fix` then review changes
 3. **Fast iteration:** Use `./scripts/fmt.sh && ./scripts/test.sh`
 4. **iOS development:** Run `./scripts/build_ios.sh` after Rust changes
+5. **Android development:** Run `./scripts/build_android.sh` after Rust changes
 
 ## 🚨 CI Will Fail If...
 

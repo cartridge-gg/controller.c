@@ -8,6 +8,11 @@ module.exports = {
         ios: {
           podspecPath: path.resolve(__dirname, 'modules/controller/Controller.podspec'),
         },
+        android: {
+          sourceDir: path.resolve(__dirname, 'modules/controller/android'),
+          packageImportPath: 'import com.cartridge.controller.ControllerPackage;',
+          packageInstance: 'new ControllerPackage()',
+        },
       },
     },
   },
