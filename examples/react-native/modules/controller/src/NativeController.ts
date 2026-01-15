@@ -19,7 +19,7 @@ if (turboModule) {
   console.log('TurboModule.installRustCrate:', turboModule.installRustCrate);
 }
 
-console.log('NativeModules:', Object.keys(NativeModules));
+console.log('NativeModules keys:', Object.keys(NativeModules));
 const bridgeModule = NativeModules.Controller;
 console.log('NativeModules.Controller:', bridgeModule);
 if (bridgeModule) {
@@ -28,29 +28,34 @@ if (bridgeModule) {
   console.log('BridgeModule.installRustCrate:', bridgeModule.installRustCrate);
 }
 
-// On iOS, TurboModuleRegistry works perfectly
-// On Android with New Architecture, we need to handle it differently
+// Determine which module to use
 let ControllerModule: Spec | null = null;
 
 if (Platform.OS === 'ios') {
+  // iOS uses TurboModule
   ControllerModule = TurboModuleRegistry.getEnforcing<Spec>('Controller');
-} else {
-  // Android: The module might be returned as a proxy object
-  // Try TurboModuleRegistry first
+} else if (Platform.OS === 'android') {
+  // Android: Try TurboModule first, then fallback to bridge
   if (turboModule && typeof turboModule.installRustCrate === 'function') {
-    console.log('Using TurboModule');
+    console.log('Using TurboModule on Android');
     ControllerModule = turboModule;
   } else if (bridgeModule && typeof bridgeModule.installRustCrate === 'function') {
-    console.log('Using NativeModules bridge');
+    console.log('Using NativeModules bridge on Android');
+    ControllerModule = bridgeModule as Spec;
+  } else if (bridgeModule) {
+    // The module exists but methods might be accessed differently
+    console.log('Bridge module exists, attempting to use it');
     ControllerModule = bridgeModule as Spec;
   }
 }
 
 if (!ControllerModule) {
   console.error('=== Controller module NOT found! ===');
+  console.error('Available NativeModules:', Object.keys(NativeModules));
   throw new Error(
     `Controller native module is not available. ` +
     `Platform: ${Platform.OS}. ` +
+    `Available modules: ${Object.keys(NativeModules).join(', ')}. ` +
     `Make sure the native code is properly linked.`
   );
 }

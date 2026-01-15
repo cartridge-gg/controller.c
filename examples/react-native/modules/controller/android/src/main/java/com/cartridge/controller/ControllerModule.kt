@@ -12,6 +12,7 @@ class ControllerModule(reactContext: ReactApplicationContext) : NativeController
         const val NAME = "Controller"
         private const val TAG = "ControllerModule"
         private var librariesLoaded = false
+        private var jsiInstalled = false
 
         init {
             loadLibraries()
@@ -41,11 +42,43 @@ class ControllerModule(reactContext: ReactApplicationContext) : NativeController
     override fun initialize() {
         super.initialize()
         Log.d(TAG, "initialize() called")
+        
+        // Auto-install JSI bindings during initialization
+        if (!jsiInstalled) {
+            installJSIBindings()
+        }
+    }
+
+    private fun installJSIBindings() {
+        val jsContext = reactApplicationContext.javaScriptContextHolder?.get() ?: 0L
+        Log.d(TAG, "Installing JSI bindings, jsContext: $jsContext")
+        
+        if (jsContext == 0L) {
+            Log.e(TAG, "jsContext is null or 0, cannot install JSI bindings yet")
+            return
+        }
+        
+        try {
+            Log.d(TAG, "Calling nativeInstallRustCrate...")
+            val result = nativeInstallRustCrate(jsContext)
+            Log.d(TAG, "nativeInstallRustCrate returned: $result")
+            if (result) {
+                jsiInstalled = true
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "nativeInstallRustCrate failed", e)
+        }
     }
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     override fun installRustCrate(): Boolean {
         Log.d(TAG, "installRustCrate() called from JS")
+        
+        if (jsiInstalled) {
+            Log.d(TAG, "JSI bindings already installed")
+            return true
+        }
+        
         val jsContext = reactApplicationContext.javaScriptContextHolder?.get() ?: 0L
         Log.d(TAG, "jsContext: $jsContext")
         
@@ -58,6 +91,9 @@ class ControllerModule(reactContext: ReactApplicationContext) : NativeController
             Log.d(TAG, "Calling nativeInstallRustCrate...")
             val result = nativeInstallRustCrate(jsContext)
             Log.d(TAG, "nativeInstallRustCrate returned: $result")
+            if (result) {
+                jsiInstalled = true
+            }
             result
         } catch (e: Exception) {
             Log.e(TAG, "nativeInstallRustCrate failed", e)
@@ -78,6 +114,9 @@ class ControllerModule(reactContext: ReactApplicationContext) : NativeController
         return try {
             val result = nativeCleanupRustCrate(jsContext)
             Log.d(TAG, "nativeCleanupRustCrate returned: $result")
+            if (result) {
+                jsiInstalled = false
+            }
             result
         } catch (e: Exception) {
             Log.e(TAG, "nativeCleanupRustCrate failed", e)

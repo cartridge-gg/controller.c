@@ -28,6 +28,8 @@ public:
     }
 };
 
+static bool isInstalled = false;
+
 extern "C" {
 
 JNIEXPORT jboolean JNICALL
@@ -37,6 +39,11 @@ Java_com_cartridge_controller_ControllerModule_nativeInstallRustCrate(
     jlong jsiPtr
 ) {
     LOGD("nativeInstallRustCrate called with jsiPtr: %ld", (long)jsiPtr);
+    
+    if (isInstalled) {
+        LOGD("Already installed, skipping");
+        return JNI_TRUE;
+    }
     
     auto* runtime = reinterpret_cast<jsi::Runtime*>(jsiPtr);
     if (runtime == nullptr) {
@@ -50,6 +57,10 @@ Java_com_cartridge_controller_ControllerModule_nativeInstallRustCrate(
     LOGD("Calling controller::installRustCrate...");
     uint8_t result = controller::installRustCrate(*runtime, callInvoker);
     LOGD("installRustCrate returned: %d", result);
+    
+    if (result) {
+        isInstalled = true;
+    }
     
     return result ? JNI_TRUE : JNI_FALSE;
 }
@@ -70,6 +81,10 @@ Java_com_cartridge_controller_ControllerModule_nativeCleanupRustCrate(
 
     uint8_t result = controller::cleanupRustCrate(*runtime);
     LOGD("cleanupRustCrate returned: %d", result);
+    
+    if (result) {
+        isInstalled = false;
+    }
     
     return result ? JNI_TRUE : JNI_FALSE;
 }

@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find packages from React Native
 find_package(ReactAndroid REQUIRED CONFIG)
+find_package(fbjni REQUIRED CONFIG)
 
 # Pre-built Rust library - use IMPORTED and set SONAME explicitly
 add_library(controller_uniffi SHARED IMPORTED)
@@ -33,6 +34,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     controller_uniffi
     ReactAndroid::jsi
     ReactAndroid::reactnative
+    fbjni::fbjni
     android
     log
 )

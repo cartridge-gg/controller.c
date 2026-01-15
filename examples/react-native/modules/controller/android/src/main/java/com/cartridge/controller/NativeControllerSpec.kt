@@ -3,14 +3,14 @@ package com.cartridge.controller
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.turbomodule.core.interfaces.TurboModule
 
 /**
- * Base spec class for the Controller TurboModule.
- * This matches the interface defined in NativeController.ts
+ * Base spec class for the Controller module.
+ * This is NOT a TurboModule - it's a traditional bridge module
+ * that works with both old and new architecture.
  */
 abstract class NativeControllerSpec(reactContext: ReactApplicationContext) : 
-    ReactContextBaseJavaModule(reactContext), TurboModule {
+    ReactContextBaseJavaModule(reactContext) {
 
     @ReactMethod(isBlockingSynchronousMethod = true)
     abstract fun installRustCrate(): Boolean
