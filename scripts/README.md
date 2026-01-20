@@ -145,6 +145,34 @@ Requires:
 - Android NDK (via Android Studio)
 - Rust Android targets (`rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android`)
 
+#### `./scripts/build_react_native.sh`
+Complete build script for React Native bindings (TypeScript, C++, and Android).
+
+```bash
+# Full build (bindings + Android + copy to example)
+./scripts/build_react_native.sh
+
+# Generate bindings only (no Android build)
+./scripts/build_react_native.sh --bindings-only
+
+# Build Android libraries only
+./scripts/build_react_native.sh --android-only
+
+# Skip Android (when NDK not available)
+./scripts/build_react_native.sh --skip-android
+```
+
+Requires:
+- `uniffi-bindgen-react-native` (see installation below)
+- `cargo-ndk` (for Android builds)
+- Android NDK (for Android builds)
+
+Install `uniffi-bindgen-react-native`:
+```bash
+cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \
+    --branch update-uniffi-0.30 uniffi-bindgen-react-native
+```
+
 ## 🔄 Typical Workflow
 
 ### Before Committing
@@ -178,6 +206,18 @@ Requires:
 # Build and run (Cmd+R)
 ```
 
+### After React Native Changes
+
+```bash
+# Regenerate bindings and build Android libs
+./scripts/build_react_native.sh
+
+# Then rebuild the example
+cd examples/react-native
+pnpm exec expo prebuild --clean
+pnpm ios    # or pnpm android
+```
+
 ## 🎯 Quick Reference
 
 | Command | What it does |
@@ -190,6 +230,7 @@ Requires:
 | `check.sh` | Run all CI checks |
 | `build_ios.sh` | Build iOS framework |
 | `build_android.sh` | Build Android native libs |
+| `build_react_native.sh` | Build React Native bindings |
 | `release.sh <version>` | Create a new release |
 | `download-release.sh` | Download release artifacts |
 
@@ -200,6 +241,7 @@ Requires:
 3. **Fast iteration:** Use `./scripts/fmt.sh && ./scripts/test.sh`
 4. **iOS development:** Run `./scripts/build_ios.sh` after Rust changes
 5. **Android development:** Run `./scripts/build_android.sh` after Rust changes
+6. **React Native development:** Run `./scripts/build_react_native.sh` after Rust changes
 
 ## 🚨 CI Will Fail If...
 
@@ -209,4 +251,3 @@ Requires:
 - ❌ Build fails
 
 Run `./scripts/check.sh` to catch these locally!
-

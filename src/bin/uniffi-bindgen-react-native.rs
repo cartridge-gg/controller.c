@@ -2,35 +2,84 @@ use std::{env, process};
 
 use camino::Utf8PathBuf;
 
+const HELP_TEXT: &str = r#"
+UniFFI React Native Binding Generator for controller.c
+
+DESCRIPTION:
+    This tool generates React Native (TypeScript + C++) bindings from the
+    controller-uniffi Rust library using uniffi-bindgen-react-native.
+
+    The generated bindings enable direct JSI (JavaScript Interface) communication
+    between React Native and the Rust core, providing high-performance native
+    access without the traditional bridge overhead.
+
+USAGE:
+    cargo run --bin uniffi-bindgen-react-native [library_path] [output_dir]
+
+ARGUMENTS:
+    library_path    Path to the compiled Rust library
+                    Default: target/release/libcontroller_uniffi.{dylib,so,dll}
+
+    output_dir      Output directory for generated bindings
+                    Default: bindings/react-native
+
+PREREQUISITES:
+    1. Install uniffi-bindgen-react-native:
+
+       cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \
+           --branch update-uniffi-0.30 uniffi-bindgen-react-native
+
+    2. Build the Rust library first:
+
+       cargo build --release -p controller-uniffi
+
+EXAMPLES:
+    # Use default paths (recommended)
+    cargo run --bin uniffi-bindgen-react-native
+
+    # Specify custom paths
+    cargo run --bin uniffi-bindgen-react-native \
+        target/release/libcontroller_uniffi.dylib \
+        bindings/react-native
+
+    # Or use the convenience script (recommended):
+    ./scripts/build_react_native.sh
+
+OUTPUT STRUCTURE:
+    bindings/react-native/
+    ├── src/                  # TypeScript bindings
+    │   ├── controller.ts     # Main API
+    │   └── ...
+    └── cpp/                  # C++ bindings
+        ├── controller.hpp
+        ├── controller.cpp
+        └── ...
+
+WORKFLOW:
+    After generating bindings, copy them to your React Native project:
+
+    # TypeScript bindings
+    cp -r bindings/react-native/src/* your-app/modules/controller/src/generated/
+
+    # C++ bindings
+    cp -r bindings/react-native/cpp/* your-app/modules/controller/cpp/generated/
+
+    Or use the convenience script which handles everything:
+
+    ./scripts/build_react_native.sh
+
+SEE ALSO:
+    - ./scripts/build_react_native.sh    Full build script with Android support
+    - ./scripts/build_android.sh         Build Android native libraries only
+    - examples/react-native/README.md    React Native example documentation
+"#;
+
 fn main() {
     let args: Vec<String> = env::args().collect();
 
     // Show help if requested
     if args.len() > 1 && (args[1] == "--help" || args[1] == "-h") {
-        eprintln!("UniFFI React Native Binding Generator");
-        eprintln!();
-        eprintln!("Usage: {} [library_path] [output_dir] [OPTIONS]", args[0]);
-        eprintln!();
-        eprintln!("Arguments:");
-        eprintln!(
-            "  library_path          Path to the compiled library (default: \
-             target/release/libcontroller_uniffi.dylib)"
-        );
-        eprintln!(
-            "  output_dir            Output directory for bindings (default: bindings/react-native)"
-        );
-        eprintln!();
-        eprintln!("Requirements:");
-        eprintln!("  This tool requires uniffi-bindgen-react-native to be installed:");
-        eprintln!("  cargo install --git https://github.com/jhugman/uniffi-bindgen-react-native --branch update-uniffi-0.30 uniffi-bindgen-react-native");
-        eprintln!();
-        eprintln!("Examples:");
-        eprintln!("  {}                    # Use defaults", args[0]);
-        eprintln!(
-            "  {} target/release/libcontroller_uniffi.dylib bindings/react-native",
-            args[0]
-        );
-        eprintln!();
+        eprintln!("{}", HELP_TEXT);
         process::exit(0);
     }
 
@@ -39,9 +88,12 @@ fn main() {
         eprintln!("Error: uniffi-bindgen-react-native is not installed or not in PATH");
         eprintln!();
         eprintln!("Please install it with:");
-        eprintln!("  cargo install --git https://github.com/jhugman/uniffi-bindgen-react-native --branch update-uniffi-0.30 uniffi-bindgen-react-native");
+        eprintln!("  cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \\");
+        eprintln!("      --branch update-uniffi-0.30 uniffi-bindgen-react-native");
         eprintln!();
-        eprintln!("Or add it to your PATH if already installed");
+        eprintln!("Or add it to your PATH if already installed.");
+        eprintln!();
+        eprintln!("Run with --help for more information.");
         process::exit(1);
     }
 
