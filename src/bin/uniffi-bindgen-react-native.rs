@@ -48,12 +48,13 @@ EXAMPLES:
 OUTPUT STRUCTURE:
     bindings/react-native/
     ├── src/                  # TypeScript bindings
-    │   ├── controller.ts     # Main API
+    │   ├── controller.ts     # Main generated API
+    │   ├── controller-ffi.ts # FFI layer
     │   └── ...
-    └── cpp/                  # C++ bindings
-        ├── controller.hpp
-        ├── controller.cpp
-        └── ...
+    └── cpp/                  # C++ bindings  
+        ├── controller.hpp    # Header file
+        ├── controller.cpp    # Implementation
+        └── generated/        # Additional generated files
 
 WORKFLOW:
     After generating bindings, copy them to your React Native project:
@@ -147,14 +148,32 @@ fn main() {
         process::exit(1);
     }
 
+    // Create ts and cpp subdirectories
+    let ts_dir = out_dir.join("src");
+    let cpp_dir = out_dir.join("cpp");
+
+    if let Err(e) = std::fs::create_dir_all(&ts_dir) {
+        eprintln!("Error: Failed to create TypeScript directory {}: {}", ts_dir, e);
+        process::exit(1);
+    }
+    if let Err(e) = std::fs::create_dir_all(&cpp_dir) {
+        eprintln!("Error: Failed to create C++ directory {}: {}", cpp_dir, e);
+        process::exit(1);
+    }
+
     println!("Generating React Native bindings...");
-    println!("Library: {}", library_path);
-    println!("Output:  {}", out_dir);
+    println!("Library:    {}", library_path);
+    println!("TypeScript: {}", ts_dir);
+    println!("C++:        {}", cpp_dir);
 
     // Build command for uniffi-bindgen-react-native
+    // New CLI: uniffi-bindgen-react-native generate jsi bindings --library --ts-dir <DIR> --cpp-dir <DIR> <SOURCE>
     let mut cmd = process::Command::new("uniffi-bindgen-react-native");
-    cmd.arg("--library").arg(&library_path);
-    cmd.arg("--out-dir").arg(&out_dir);
+    cmd.args(["generate", "jsi", "bindings"]);
+    cmd.arg("--library");
+    cmd.arg("--ts-dir").arg(&ts_dir);
+    cmd.arg("--cpp-dir").arg(&cpp_dir);
+    cmd.arg(&library_path);
 
     // Execute the command
     match cmd.output() {

@@ -263,11 +263,17 @@ fi
 if [[ "$SKIP_BINDINGS" != true && "$ANDROID_ONLY" != true ]]; then
     print_header "Generating React Native Bindings"
     
-    print_step "Creating output directory..."
-    mkdir -p "${BINDINGS_OUT_DIR}"
+    print_step "Creating output directories..."
+    mkdir -p "${BINDINGS_OUT_DIR}/src"
+    mkdir -p "${BINDINGS_OUT_DIR}/cpp"
     
     print_step "Running uniffi-bindgen-react-native..."
-    uniffi-bindgen-react-native --library "${LIB_PATH}" --out-dir "${BINDINGS_OUT_DIR}"
+    # New CLI: uniffi-bindgen-react-native generate jsi bindings --library --ts-dir <DIR> --cpp-dir <DIR> <SOURCE>
+    uniffi-bindgen-react-native generate jsi bindings \
+        --library \
+        --ts-dir "${BINDINGS_OUT_DIR}/src" \
+        --cpp-dir "${BINDINGS_OUT_DIR}/cpp" \
+        "${LIB_PATH}"
     
     print_success "Bindings generated in: ${BINDINGS_OUT_DIR}"
     
