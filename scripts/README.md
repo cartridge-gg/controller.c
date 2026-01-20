@@ -169,7 +169,7 @@ Requires:
 
 Install `uniffi-bindgen-react-native`:
 ```bash
-cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \
+cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \
     --branch update-uniffi-0.30 uniffi-bindgen-react-native
 ```
 

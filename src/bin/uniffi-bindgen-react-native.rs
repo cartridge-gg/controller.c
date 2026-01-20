@@ -26,7 +26,7 @@ ARGUMENTS:
 PREREQUISITES:
     1. Install uniffi-bindgen-react-native:
 
-       cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \
+       cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \
            --branch update-uniffi-0.30 uniffi-bindgen-react-native
 
     2. Build the Rust library first:
@@ -88,7 +88,7 @@ fn main() {
         eprintln!("Error: uniffi-bindgen-react-native is not installed or not in PATH");
         eprintln!();
         eprintln!("Please install it with:");
-        eprintln!("  cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \\");
+        eprintln!("  cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \\");
         eprintln!("      --branch update-uniffi-0.30 uniffi-bindgen-react-native");
         eprintln!();
         eprintln!("Or add it to your PATH if already installed.");

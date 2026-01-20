@@ -25,7 +25,7 @@
 #   - Android NDK (for Android builds)
 #
 # Installation:
-#   cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native --branch update-uniffi-0.30 uniffi-bindgen-react-native
+#   cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native --branch update-uniffi-0.30 uniffi-bindgen-react-native
 #   cargo install cargo-ndk
 #   rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
 
@@ -100,7 +100,7 @@ REQUIREMENTS:
 INSTALLATION:
 
     1. Install uniffi-bindgen-react-native:
-       cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \\
+       cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \\
            --branch update-uniffi-0.30 uniffi-bindgen-react-native
 
     2. For Android support, install cargo-ndk:
@@ -210,7 +210,7 @@ if [[ "$ANDROID_ONLY" != true ]]; then
         print_error "uniffi-bindgen-react-native not found"
         echo ""
         echo "Install it with:"
-        echo "  cargo install --git https://github.com/ArcaneAssemblers/uniffi-bindgen-react-native \\"
+        echo "  cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \\"
         echo "      --branch update-uniffi-0.30 uniffi-bindgen-react-native"
         echo ""
         exit 1
