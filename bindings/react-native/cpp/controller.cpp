@@ -718,6 +718,18 @@ template <> struct Bridging<RustCallStatus> {
     }
   }
 
+  static jsi::Value toJs(jsi::Runtime &rt,
+                         std::shared_ptr<CallInvoker> callInvoker,
+                         const RustCallStatus &status) {
+    auto statusObject = jsi::Object(rt);
+    if (status.error_buf.data != nullptr) {
+      auto rbuf = Bridging<RustBuffer>::toJs(rt, callInvoker, status.error_buf);
+      statusObject.setProperty(rt, "errorBuf", rbuf);
+    }
+    statusObject.setProperty(rt, "code", uniffi_jsi::Bridging<uint8_t>::toJs(rt, callInvoker, status.code));
+    return statusObject;
+  }
+
   static RustCallStatus fromJs(jsi::Runtime &rt,
                                std::shared_ptr<CallInvoker> invoker,
                                const jsi::Value &jsStatus) {
@@ -803,8 +815,763 @@ namespace uniffi::controller::registry {
 } // namespace uniffi::controller::registry
 
 // This calls into Rust.
-    // Implementation of callback function calling from Rust to JS RustFutureContinuationCallback
 
+// Generate Bridging for ForeignFutureResult structs (needed if module doesn't have async fns)
+// Generate Bridging templates for internal UniffiForeignFutureResult structs
+// These are used by async callbacks but not exposed in ffi_definitions()
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+#ifndef BRIDGING_UniffiForeignFutureResultU8_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU8_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultU8> {
+  static UniffiForeignFutureResultU8 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultU8");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultU8 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU8 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultU8_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultI8_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI8_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultI8> {
+  static UniffiForeignFutureResultI8 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultI8");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultI8 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI8 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultI8_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultU16_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU16_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultU16> {
+  static UniffiForeignFutureResultU16 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultU16");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultU16 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU16 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultU16_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultI16_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI16_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultI16> {
+  static UniffiForeignFutureResultI16 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultI16");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultI16 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI16 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultI16_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultU32_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU32_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultU32> {
+  static UniffiForeignFutureResultU32 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultU32");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultU32 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU32 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultU32_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultI32_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI32_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultI32> {
+  static UniffiForeignFutureResultI32 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultI32");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultI32 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI32 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultI32_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultU64_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU64_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultU64> {
+  static UniffiForeignFutureResultU64 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultU64");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultU64 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU64 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultU64_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultI64_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI64_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultI64> {
+  static UniffiForeignFutureResultI64 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultI64");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultI64 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI64 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultI64_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultF32_DEFINED
+#define BRIDGING_UniffiForeignFutureResultF32_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultF32> {
+  static UniffiForeignFutureResultF32 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultF32");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultF32 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultF32 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultF32_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureResultF64_DEFINED
+#define BRIDGING_UniffiForeignFutureResultF64_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultF64> {
+  static UniffiForeignFutureResultF64 fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultF64");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultF64 rsObject;
+    
+    // Convert return_value field
+    rsObject.return_value = uniffi_jsi::Bridging<decltype(rsObject.return_value)>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultF64 &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      uniffi_jsi::Bridging<decltype(rsValue.return_value)>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultF64_DEFINED
+
+// Special case for Void - no return_value field
+#ifndef BRIDGING_UniffiForeignFutureResultVoid_DEFINED
+#define BRIDGING_UniffiForeignFutureResultVoid_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultVoid> {
+  static UniffiForeignFutureResultVoid fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultVoid");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultVoid rsObject;
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultVoid &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultVoid_DEFINED
+
+// Special case for RustBuffer - uses module namespace Bridging, not uniffi_jsi
+#ifndef BRIDGING_UniffiForeignFutureResultRustBuffer_DEFINED
+#define BRIDGING_UniffiForeignFutureResultRustBuffer_DEFINED
+template <> struct Bridging<UniffiForeignFutureResultRustBuffer> {
+  static UniffiForeignFutureResultRustBuffer fromJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const jsi::Value &jsValue
+  ) {
+    if (!jsValue.isObject()) {
+      throw jsi::JSError(rt, "Expected an object for UniffiForeignFutureResultRustBuffer");
+    }
+    auto jsObject = jsValue.getObject(rt);
+    UniffiForeignFutureResultRustBuffer rsObject;
+    
+    // Convert return_value field - RustBuffer uses module namespace Bridging
+    rsObject.return_value = Bridging<RustBuffer>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "return_value")
+    );
+    
+    // Convert call_status field 
+    rsObject.call_status = Bridging<RustCallStatus>::fromJs(
+        rt, callInvoker, jsObject.getProperty(rt, "call_status")
+    );
+    
+    return rsObject;
+  }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultRustBuffer &rsValue
+  ) {
+    auto jsObject = jsi::Object(rt);
+    
+    jsObject.setProperty(rt, "return_value",
+      Bridging<RustBuffer>::toJs(rt, callInvoker, rsValue.return_value)
+    );
+    
+    jsObject.setProperty(rt, "call_status",
+      Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
+    
+    return jsObject;
+  }
+};
+#endif // BRIDGING_UniffiForeignFutureResultRustBuffer_DEFINED
+
+} // namespace uniffi::controller
+
+
+// FIRST: Declare all callback wrapper structs
+#ifndef WRAPPER_DECL_UniffiRustFutureContinuationCallback_DEFINED
+#define WRAPPER_DECL_UniffiRustFutureContinuationCallback_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiRustFutureContinuationCallbackWrapper {
+    UniffiRustFutureContinuationCallback callback;
+    explicit UniffiRustFutureContinuationCallbackWrapper(UniffiRustFutureContinuationCallback cb) : callback(cb) {}
+    operator UniffiRustFutureContinuationCallback() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiRustFutureContinuationCallback_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureDroppedCallback_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureDroppedCallback_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureDroppedCallbackWrapper {
+    UniffiForeignFutureDroppedCallback callback;
+    explicit UniffiForeignFutureDroppedCallbackWrapper(UniffiForeignFutureDroppedCallback cb) : callback(cb) {}
+    operator UniffiForeignFutureDroppedCallback() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureDroppedCallback_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiCallbackInterfaceFree_DEFINED
+#define WRAPPER_DECL_UniffiCallbackInterfaceFree_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiCallbackInterfaceFreeWrapper {
+    UniffiCallbackInterfaceFree callback;
+    explicit UniffiCallbackInterfaceFreeWrapper(UniffiCallbackInterfaceFree cb) : callback(cb) {}
+    operator UniffiCallbackInterfaceFree() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiCallbackInterfaceFree_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiCallbackInterfaceClone_DEFINED
+#define WRAPPER_DECL_UniffiCallbackInterfaceClone_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiCallbackInterfaceCloneWrapper {
+    UniffiCallbackInterfaceClone callback;
+    explicit UniffiCallbackInterfaceCloneWrapper(UniffiCallbackInterfaceClone cb) : callback(cb) {}
+    operator UniffiCallbackInterfaceClone() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiCallbackInterfaceClone_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteU8_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteU8_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteU8Wrapper {
+    UniffiForeignFutureCompleteU8 callback;
+    explicit UniffiForeignFutureCompleteU8Wrapper(UniffiForeignFutureCompleteU8 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteU8() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteU8_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteI8_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteI8_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteI8Wrapper {
+    UniffiForeignFutureCompleteI8 callback;
+    explicit UniffiForeignFutureCompleteI8Wrapper(UniffiForeignFutureCompleteI8 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteI8() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteI8_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteU16_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteU16_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteU16Wrapper {
+    UniffiForeignFutureCompleteU16 callback;
+    explicit UniffiForeignFutureCompleteU16Wrapper(UniffiForeignFutureCompleteU16 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteU16() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteU16_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteI16_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteI16_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteI16Wrapper {
+    UniffiForeignFutureCompleteI16 callback;
+    explicit UniffiForeignFutureCompleteI16Wrapper(UniffiForeignFutureCompleteI16 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteI16() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteI16_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteU32_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteU32_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteU32Wrapper {
+    UniffiForeignFutureCompleteU32 callback;
+    explicit UniffiForeignFutureCompleteU32Wrapper(UniffiForeignFutureCompleteU32 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteU32() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteU32_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteI32_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteI32_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteI32Wrapper {
+    UniffiForeignFutureCompleteI32 callback;
+    explicit UniffiForeignFutureCompleteI32Wrapper(UniffiForeignFutureCompleteI32 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteI32() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteI32_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteU64_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteU64_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteU64Wrapper {
+    UniffiForeignFutureCompleteU64 callback;
+    explicit UniffiForeignFutureCompleteU64Wrapper(UniffiForeignFutureCompleteU64 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteU64() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteU64_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteI64_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteI64_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteI64Wrapper {
+    UniffiForeignFutureCompleteI64 callback;
+    explicit UniffiForeignFutureCompleteI64Wrapper(UniffiForeignFutureCompleteI64 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteI64() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteI64_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteF32_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteF32_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteF32Wrapper {
+    UniffiForeignFutureCompleteF32 callback;
+    explicit UniffiForeignFutureCompleteF32Wrapper(UniffiForeignFutureCompleteF32 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteF32() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteF32_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteF64_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteF64_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteF64Wrapper {
+    UniffiForeignFutureCompleteF64 callback;
+    explicit UniffiForeignFutureCompleteF64Wrapper(UniffiForeignFutureCompleteF64 cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteF64() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteF64_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteRustBuffer_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteRustBuffer_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteRustBufferWrapper {
+    UniffiForeignFutureCompleteRustBuffer callback;
+    explicit UniffiForeignFutureCompleteRustBufferWrapper(UniffiForeignFutureCompleteRustBuffer cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteRustBuffer() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteRustBuffer_DEFINED
+
+
+#ifndef WRAPPER_DECL_UniffiForeignFutureCompleteVoid_DEFINED
+#define WRAPPER_DECL_UniffiForeignFutureCompleteVoid_DEFINED
+namespace uniffi::controller {
+// Forward declaration of wrapper struct
+struct UniffiForeignFutureCompleteVoidWrapper {
+    UniffiForeignFutureCompleteVoid callback;
+    explicit UniffiForeignFutureCompleteVoidWrapper(UniffiForeignFutureCompleteVoid cb) : callback(cb) {}
+    operator UniffiForeignFutureCompleteVoid() const { return callback; }
+};
+} // namespace uniffi::controller
+#endif // WRAPPER_DECL_UniffiForeignFutureCompleteVoid_DEFINED
+
+
+
+// SECOND: Generate callback implementations (makeCallbackFunction, etc.)
+// Structs need these for their fromJs methods
+#ifndef CALLBACK_uniffi_controller_cb_rustfuturecontinuationcallback_UniffiRustFutureContinuationCallback_DEFINED
+#define CALLBACK_uniffi_controller_cb_rustfuturecontinuationcallback_UniffiRustFutureContinuationCallback_DEFINED
 // Callback function: uniffi::controller::cb::rustfuturecontinuationcallback::UniffiRustFutureContinuationCallback
 //
 // We have the following constraints:
@@ -822,11 +1589,11 @@ namespace uniffi::controller::cb::rustfuturecontinuationcallback {
 
     // We need to store a lambda in a global so we can call it from
     // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, int8_t)> rsLambda = nullptr;
+    static std::function<void(uint64_t, int8_t)> rsLambda_UniffiRustFutureContinuationCallback = nullptr;
 
     // This is the main body of the callback. It's called from the lambda,
     // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
+    static void body_UniffiRustFutureContinuationCallback(jsi::Runtime &rt,
                      std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
                      std::shared_ptr<jsi::Value> callbackValue
             ,uint64_t rs_data
@@ -856,15 +1623,15 @@ namespace uniffi::controller::cb::rustfuturecontinuationcallback {
         }
     }
 
-    static void callback(uint64_t rs_data, int8_t rs_pollResult) {
+    static void callback_UniffiRustFutureContinuationCallback(uint64_t rs_data, int8_t rs_pollResult) {
         // If the runtime has shutdown, then there is no point in trying to
         // call into Javascript. BUT how do we tell if the runtime has shutdown?
         //
         // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
+        // which nulls out the rsLamda_UniffiRustFutureContinuationCallback.
         //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
+        // If rsLamda_UniffiRustFutureContinuationCallback is null, then there is no runtime to call into.
+        if (rsLambda_UniffiRustFutureContinuationCallback == nullptr) {
             // This only occurs when destructors are calling into Rust free/drop,
             // which causes the JS callback to be dropped.
             return;
@@ -872,17 +1639,17 @@ namespace uniffi::controller::cb::rustfuturecontinuationcallback {
 
         // The runtime, the actual callback jsi::funtion, and the callInvoker
         // are all in the lambda.
-        rsLambda(
+        rsLambda_UniffiRustFutureContinuationCallback(
             rs_data, 
             rs_pollResult);
     }
 
-    static UniffiRustFutureContinuationCallback
+    [[maybe_unused]] static UniffiRustFutureContinuationCallback
     makeCallbackFunction( // uniffi::controller::cb::rustfuturecontinuationcallback
                     jsi::Runtime &rt,
                      std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
                      const jsi::Value &value) {
-        if (rsLambda != nullptr) {
+        if (rsLambda_UniffiRustFutureContinuationCallback != nullptr) {
             // `makeCallbackFunction` is called in two circumstances:
             //
             // 1. at startup, when initializing callback interface vtables.
@@ -892,11 +1659,15 @@ namespace uniffi::controller::cb::rustfuturecontinuationcallback {
             //
             // We can therefore return the callback function without making anything
             // new if we've been initialized already.
-            return callback;
+            return callback_UniffiRustFutureContinuationCallback;
         }
         auto callbackFunction = value.asObject(rt).asFunction(rt);
         auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_data, int8_t rs_pollResult) {
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiRustFutureContinuationCallback = [rtPtr, callInvoker, callbackValue](uint64_t rs_data, int8_t rs_pollResult) {
                 // We immediately make a lambda which will do the work of transforming the
                 // arguments into JSI values and calling the callback.
                 uniffi_runtime::UniffiCallFunc jsLambda = [
@@ -904,33 +1675,1841 @@ namespace uniffi::controller::cb::rustfuturecontinuationcallback {
                     callbackValue
                     , rs_data
                     , rs_pollResult](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
+                    body_UniffiRustFutureContinuationCallback(rt, callInvoker, callbackValue
                         , rs_data
                         , rs_pollResult);
                 };
                 // We'll then call that lambda from the callInvoker which will
                 // look after calling it on the correct thread.
                 
-                callInvoker->invokeNonBlocking(rt, jsLambda);
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
         };
-        return callback;
+        return callback_UniffiRustFutureContinuationCallback;
     }
 
     // This method is called from the destructor of NativeController, which only happens
     // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
+    [[maybe_unused]] static void cleanup() {
         // The lambda holds a reference to the the Runtime, so when this is nulled out,
         // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
+        rsLambda_UniffiRustFutureContinuationCallback = nullptr;
     }
 } // namespace uniffi::controller::cb::rustfuturecontinuationcallback
-    // Implementation of callback function calling from JS to Rust ForeignFutureDroppedCallback,
-    // passed from Rust to JS as part of async callbacks.
+#endif // CALLBACK_uniffi_controller_cb_rustfuturecontinuationcallback_UniffiRustFutureContinuationCallback_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturedroppedcallback_UniffiForeignFutureDroppedCallback_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturedroppedcallback_UniffiForeignFutureDroppedCallback_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturedroppedcallback::UniffiForeignFutureDroppedCallback
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturedroppedcallback {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t)> rsLambda_UniffiForeignFutureDroppedCallback = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureDroppedCallback(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_handle) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_handle = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_handle);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_handle
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureDroppedCallback: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureDroppedCallback(uint64_t rs_handle) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureDroppedCallback.
+        //
+        // If rsLamda_UniffiForeignFutureDroppedCallback is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureDroppedCallback == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureDroppedCallback(
+            rs_handle);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureDroppedCallback
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturedroppedcallback
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureDroppedCallback != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureDroppedCallback;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureDroppedCallback = [rtPtr, callInvoker, callbackValue](uint64_t rs_handle) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_handle](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureDroppedCallback(rt, callInvoker, callbackValue
+                        , rs_handle);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureDroppedCallback;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureDroppedCallback = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturedroppedcallback
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturedroppedcallback_UniffiForeignFutureDroppedCallback_DEFINED
+
+#ifndef CALLBACK_uniffi_controller_cb_callbackinterfaceclone_UniffiCallbackInterfaceClone_DEFINED
+#define CALLBACK_uniffi_controller_cb_callbackinterfaceclone_UniffiCallbackInterfaceClone_DEFINED
+// Callback function: uniffi::controller::cb::callbackinterfaceclone::UniffiCallbackInterfaceClone
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::callbackinterfaceclone {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<uint64_t(uint64_t)> rsLambda_UniffiCallbackInterfaceClone = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiCallbackInterfaceClone(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_handle) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_handle = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_handle);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_handle
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiCallbackInterfaceClone: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static uint64_t callback_UniffiCallbackInterfaceClone(uint64_t rs_handle) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiCallbackInterfaceClone.
+        //
+        // If rsLamda_UniffiCallbackInterfaceClone is null, then there is no runtime to call into.
+        if (rsLambda_UniffiCallbackInterfaceClone == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return 0;  // Return zero for handle/uint64_t return types
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        return rsLambda_UniffiCallbackInterfaceClone(
+            rs_handle);
+    }
+
+    [[maybe_unused]] static UniffiCallbackInterfaceClone
+    makeCallbackFunction( // uniffi::controller::cb::callbackinterfaceclone
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiCallbackInterfaceClone != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiCallbackInterfaceClone;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiCallbackInterfaceClone = [rtPtr, callInvoker, callbackValue](uint64_t rs_handle) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_handle](jsi::Runtime &rt) mutable {
+                    body_UniffiCallbackInterfaceClone(rt, callInvoker, callbackValue
+                        , rs_handle);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+                return 0;  // Async callback, return immediately
+        };
+        return callback_UniffiCallbackInterfaceClone;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiCallbackInterfaceClone = nullptr;
+    }
+} // namespace uniffi::controller::cb::callbackinterfaceclone
+#endif // CALLBACK_uniffi_controller_cb_callbackinterfaceclone_UniffiCallbackInterfaceClone_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompleteu8_UniffiForeignFutureCompleteU8_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompleteu8_UniffiForeignFutureCompleteU8_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu8::UniffiForeignFutureCompleteU8
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu8 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU8)> rsLambda_UniffiForeignFutureCompleteU8 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteU8(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU8 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU8>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU8: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteU8(uint64_t rs_callbackData, UniffiForeignFutureResultU8 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteU8.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteU8 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteU8 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteU8(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteU8
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu8
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteU8 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteU8;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteU8 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU8 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteU8(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteU8;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteU8 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu8
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompleteu8_UniffiForeignFutureCompleteU8_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletei8_UniffiForeignFutureCompleteI8_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletei8_UniffiForeignFutureCompleteI8_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletei8::UniffiForeignFutureCompleteI8
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei8 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI8)> rsLambda_UniffiForeignFutureCompleteI8 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteI8(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI8 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI8>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI8: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteI8(uint64_t rs_callbackData, UniffiForeignFutureResultI8 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteI8.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteI8 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteI8 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteI8(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteI8
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei8
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteI8 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteI8;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteI8 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI8 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteI8(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteI8;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteI8 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei8
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletei8_UniffiForeignFutureCompleteI8_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompleteu16_UniffiForeignFutureCompleteU16_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompleteu16_UniffiForeignFutureCompleteU16_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu16::UniffiForeignFutureCompleteU16
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu16 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU16)> rsLambda_UniffiForeignFutureCompleteU16 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteU16(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU16 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU16>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU16: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteU16(uint64_t rs_callbackData, UniffiForeignFutureResultU16 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteU16.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteU16 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteU16 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteU16(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteU16
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu16
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteU16 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteU16;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteU16 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU16 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteU16(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteU16;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteU16 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu16
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompleteu16_UniffiForeignFutureCompleteU16_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletei16_UniffiForeignFutureCompleteI16_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletei16_UniffiForeignFutureCompleteI16_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletei16::UniffiForeignFutureCompleteI16
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei16 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI16)> rsLambda_UniffiForeignFutureCompleteI16 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteI16(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI16 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI16>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI16: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteI16(uint64_t rs_callbackData, UniffiForeignFutureResultI16 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteI16.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteI16 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteI16 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteI16(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteI16
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei16
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteI16 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteI16;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteI16 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI16 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteI16(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteI16;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteI16 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei16
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletei16_UniffiForeignFutureCompleteI16_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompleteu32_UniffiForeignFutureCompleteU32_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompleteu32_UniffiForeignFutureCompleteU32_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu32::UniffiForeignFutureCompleteU32
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu32 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU32)> rsLambda_UniffiForeignFutureCompleteU32 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteU32(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU32 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU32>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU32: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteU32(uint64_t rs_callbackData, UniffiForeignFutureResultU32 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteU32.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteU32 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteU32 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteU32(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteU32
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu32
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteU32 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteU32;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteU32 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU32 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteU32(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteU32;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteU32 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu32
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompleteu32_UniffiForeignFutureCompleteU32_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletei32_UniffiForeignFutureCompleteI32_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletei32_UniffiForeignFutureCompleteI32_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletei32::UniffiForeignFutureCompleteI32
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei32 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI32)> rsLambda_UniffiForeignFutureCompleteI32 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteI32(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI32 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI32>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI32: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteI32(uint64_t rs_callbackData, UniffiForeignFutureResultI32 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteI32.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteI32 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteI32 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteI32(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteI32
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei32
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteI32 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteI32;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteI32 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI32 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteI32(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteI32;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteI32 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei32
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletei32_UniffiForeignFutureCompleteI32_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompleteu64_UniffiForeignFutureCompleteU64_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompleteu64_UniffiForeignFutureCompleteU64_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompleteu64::UniffiForeignFutureCompleteU64
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleteu64 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultU64)> rsLambda_UniffiForeignFutureCompleteU64 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteU64(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultU64 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU64>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteU64: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteU64(uint64_t rs_callbackData, UniffiForeignFutureResultU64 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteU64.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteU64 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteU64 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteU64(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteU64
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu64
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteU64 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteU64;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteU64 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU64 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteU64(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteU64;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteU64 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleteu64
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompleteu64_UniffiForeignFutureCompleteU64_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletei64_UniffiForeignFutureCompleteI64_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletei64_UniffiForeignFutureCompleteI64_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletei64::UniffiForeignFutureCompleteI64
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletei64 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultI64)> rsLambda_UniffiForeignFutureCompleteI64 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteI64(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultI64 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI64>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteI64: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteI64(uint64_t rs_callbackData, UniffiForeignFutureResultI64 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteI64.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteI64 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteI64 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteI64(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteI64
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei64
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteI64 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteI64;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteI64 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI64 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteI64(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteI64;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteI64 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletei64
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletei64_UniffiForeignFutureCompleteI64_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletef32_UniffiForeignFutureCompleteF32_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletef32_UniffiForeignFutureCompleteF32_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletef32::UniffiForeignFutureCompleteF32
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletef32 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultF32)> rsLambda_UniffiForeignFutureCompleteF32 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteF32(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultF32 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultF32>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteF32: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteF32(uint64_t rs_callbackData, UniffiForeignFutureResultF32 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteF32.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteF32 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteF32 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteF32(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteF32
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletef32
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteF32 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteF32;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteF32 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultF32 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteF32(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteF32;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteF32 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletef32
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletef32_UniffiForeignFutureCompleteF32_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletef64_UniffiForeignFutureCompleteF64_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletef64_UniffiForeignFutureCompleteF64_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletef64::UniffiForeignFutureCompleteF64
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletef64 {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultF64)> rsLambda_UniffiForeignFutureCompleteF64 = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteF64(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultF64 rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultF64>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteF64: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteF64(uint64_t rs_callbackData, UniffiForeignFutureResultF64 rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteF64.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteF64 is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteF64 == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteF64(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteF64
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletef64
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteF64 != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteF64;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteF64 = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultF64 rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteF64(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteF64;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteF64 = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletef64
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletef64_UniffiForeignFutureCompleteF64_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompleterustbuffer_UniffiForeignFutureCompleteRustBuffer_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompleterustbuffer_UniffiForeignFutureCompleteRustBuffer_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompleterustbuffer::UniffiForeignFutureCompleteRustBuffer
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompleterustbuffer {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultRustBuffer)> rsLambda_UniffiForeignFutureCompleteRustBuffer = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteRustBuffer(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultRustBuffer rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultRustBuffer>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteRustBuffer: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteRustBuffer(uint64_t rs_callbackData, UniffiForeignFutureResultRustBuffer rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteRustBuffer.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteRustBuffer is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteRustBuffer == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteRustBuffer(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteRustBuffer
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleterustbuffer
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteRustBuffer != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteRustBuffer;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteRustBuffer = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultRustBuffer rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteRustBuffer(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteRustBuffer;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteRustBuffer = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompleterustbuffer
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompleterustbuffer_UniffiForeignFutureCompleteRustBuffer_DEFINED
+#ifndef CALLBACK_uniffi_controller_cb_foreignfuturecompletevoid_UniffiForeignFutureCompleteVoid_DEFINED
+#define CALLBACK_uniffi_controller_cb_foreignfuturecompletevoid_UniffiForeignFutureCompleteVoid_DEFINED
+// Callback function: uniffi::controller::cb::foreignfuturecompletevoid::UniffiForeignFutureCompleteVoid
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::foreignfuturecompletevoid {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<void(uint64_t, UniffiForeignFutureResultVoid)> rsLambda_UniffiForeignFutureCompleteVoid = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiForeignFutureCompleteVoid(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_callbackData
+            ,UniffiForeignFutureResultVoid rs_result) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
+        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultVoid>::toJs(rt, callInvoker, rs_result);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiForeignFutureCompleteVoid: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static void callback_UniffiForeignFutureCompleteVoid(uint64_t rs_callbackData, UniffiForeignFutureResultVoid rs_result) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiForeignFutureCompleteVoid.
+        //
+        // If rsLamda_UniffiForeignFutureCompleteVoid is null, then there is no runtime to call into.
+        if (rsLambda_UniffiForeignFutureCompleteVoid == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return;
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        rsLambda_UniffiForeignFutureCompleteVoid(
+            rs_callbackData, 
+            rs_result);
+    }
+
+    [[maybe_unused]] static UniffiForeignFutureCompleteVoid
+    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletevoid
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiForeignFutureCompleteVoid != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiForeignFutureCompleteVoid;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiForeignFutureCompleteVoid = [rtPtr, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultVoid rs_result) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_callbackData
+                    , rs_result](jsi::Runtime &rt) mutable {
+                    body_UniffiForeignFutureCompleteVoid(rt, callInvoker, callbackValue
+                        , rs_callbackData
+                        , rs_result);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+        };
+        return callback_UniffiForeignFutureCompleteVoid;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiForeignFutureCompleteVoid = nullptr;
+    }
+} // namespace uniffi::controller::cb::foreignfuturecompletevoid
+#endif // CALLBACK_uniffi_controller_cb_foreignfuturecompletevoid_UniffiForeignFutureCompleteVoid_DEFINED
+
+// THIRD: Generate Bridging templates for ALL callbacks FIRST
+// Structs will need these
+#ifndef BRIDGING_UniffiRustFutureContinuationCallback_DEFINED
+#define BRIDGING_UniffiRustFutureContinuationCallback_DEFINED
 namespace uniffi::controller {
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
 
-template <> struct Bridging<UniffiForeignFutureDroppedCallback> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureDroppedCallback rsCallback) {
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiRustFutureContinuationCallbackWrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiRustFutureContinuationCallbackWrapper rsCallbackWrapper) {
+    UniffiRustFutureContinuationCallback rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--RustFutureContinuationCallback"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiRustFutureContinuationCallback func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi_jsi::Bridging<int8_t>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiRustFutureContinuationCallback_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureDroppedCallback_DEFINED
+#define BRIDGING_UniffiForeignFutureDroppedCallback_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureDroppedCallbackWrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureDroppedCallbackWrapper rsCallbackWrapper) {
+    UniffiForeignFutureDroppedCallback rsCallback = rsCallbackWrapper.callback;
     return jsi::Function::createFromHostFunction(
         rt,
         jsi::PropNameID::forAscii(rt, "--ForeignFutureDroppedCallback"),
@@ -962,244 +3541,658 @@ template <> struct Bridging<UniffiForeignFutureDroppedCallback> {
         return jsi::Value::undefined();
   }
 };
+
 } // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureDroppedCallback_DEFINED
 
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiCallbackInterfaceFree_DEFINED
+#define BRIDGING_UniffiCallbackInterfaceFree_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
 
-// Callback function: uniffi::controller::cb::foreignfuturedroppedcallback::UniffiForeignFutureDroppedCallback
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturedroppedcallback {
-    using namespace facebook;
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
 
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_handle) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_handle = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_handle);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_handle
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureDroppedCallback: "
-                    << error.what() << std::endl;
-            throw error;
+template <> struct Bridging<UniffiCallbackInterfaceFreeWrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiCallbackInterfaceFreeWrapper rsCallbackWrapper) {
+    UniffiCallbackInterfaceFree rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--CallbackInterfaceFree"),
+        1,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
         }
-    }
+    );
+  }
 
-    static void callback(uint64_t rs_handle) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiCallbackInterfaceFree func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiCallbackInterfaceFree_DEFINED
+
+#ifndef BRIDGING_UniffiCallbackInterfaceClone_DEFINED
+#define BRIDGING_UniffiCallbackInterfaceClone_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiCallbackInterfaceCloneWrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiCallbackInterfaceCloneWrapper rsCallbackWrapper) {
+    UniffiCallbackInterfaceClone rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--CallbackInterfaceClone"),
+        1,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
         }
+    );
+  }
 
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_handle);
-    }
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiCallbackInterfaceClone func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        auto value = func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0])
+        );
 
-    static UniffiForeignFutureDroppedCallback
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturedroppedcallback
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
+        
+        return uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, value);
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiCallbackInterfaceClone_DEFINED
+
+#ifndef BRIDGING_UniffiForeignFutureCompleteU8_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteU8_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteU8Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU8Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteU8 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU8"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
         }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_handle) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_handle](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_handle);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
+    );
+  }
 
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturedroppedcallback
-    // Implementation of free callback function CallbackInterfaceFree
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteU8 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU8>::fromJs(rt, callInvoker, args[1])
+        );
 
-    // Implementation of callback function calling from Rust to JS CallbackInterfaceClone
+        
+        return jsi::Value::undefined();
+  }
+};
 
-// Callback function: uniffi::controller::cb::callbackinterfaceclone::UniffiCallbackInterfaceClone
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::callbackinterfaceclone {
-    using namespace facebook;
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteU8_DEFINED
 
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<uint64_t(uint64_t)> rsLambda = nullptr;
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteI8_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteI8_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
 
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_handle) {
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
 
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_handle = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_handle);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_handle
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiCallbackInterfaceClone: "
-                    << error.what() << std::endl;
-            throw error;
+template <> struct Bridging<UniffiForeignFutureCompleteI8Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI8Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteI8 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI8"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
         }
-    }
+    );
+  }
 
-    static uint64_t callback(uint64_t rs_handle) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return 0;  // Return zero for handle/uint64_t return types
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteI8 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI8>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteI8_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteU16_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteU16_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteU16Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU16Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteU16 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU16"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
         }
+    );
+  }
 
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        return rsLambda(
-            rs_handle);
-    }
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteU16 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU16>::fromJs(rt, callInvoker, args[1])
+        );
 
-    static UniffiCallbackInterfaceClone
-    makeCallbackFunction( // uniffi::controller::cb::callbackinterfaceclone
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteU16_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteI16_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteI16_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteI16Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI16Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteI16 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI16"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
         }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_handle) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_handle](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_handle);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
+    );
+  }
 
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::callbackinterfaceclone
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteI16 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI16>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteI16_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteU32_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteU32_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteU32Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU32Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteU32 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU32"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteU32 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU32>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteU32_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteI32_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteI32_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteI32Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI32Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteI32 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI32"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteI32 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI32>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteI32_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteU64_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteU64_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteU64Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU64Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteU64 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU64"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteU64 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU64>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteU64_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteI64_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteI64_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteI64Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI64Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteI64 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI64"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteI64 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI64>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteI64_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteF32_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteF32_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteF32Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteF32Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteF32 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteF32"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteF32 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultF32>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteF32_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteF64_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteF64_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteF64Wrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteF64Wrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteF64 rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteF64"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteF64 func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultF64>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteF64_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteRustBuffer_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteRustBuffer_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteRustBufferWrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteRustBufferWrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteRustBuffer rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteRustBuffer"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteRustBuffer func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultRustBuffer>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteRustBuffer_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+#ifndef BRIDGING_UniffiForeignFutureCompleteVoid_DEFINED
+#define BRIDGING_UniffiForeignFutureCompleteVoid_DEFINED
+namespace uniffi::controller {
+using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+
+// Wrapper struct already declared in CallbackWrapperDecl.cpp
+
+template <> struct Bridging<UniffiForeignFutureCompleteVoidWrapper> {
+  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteVoidWrapper rsCallbackWrapper) {
+    UniffiForeignFutureCompleteVoid rsCallback = rsCallbackWrapper.callback;
+    return jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteVoid"),
+        2,
+        [rsCallback, callInvoker](
+            jsi::Runtime &rt,
+            const jsi::Value &thisValue,
+            const jsi::Value *arguments,
+            size_t count) -> jsi::Value
+        {
+            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
+        }
+    );
+  }
+
+  static jsi::Value intoRust(
+      jsi::Runtime &rt,
+      std::shared_ptr<CallInvoker> callInvoker,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count,
+      UniffiForeignFutureCompleteVoid func) {
+    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
+    // then call the rs_callback with those arguments.
+        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultVoid>::fromJs(rt, callInvoker, args[1])
+        );
+
+        
+        return jsi::Value::undefined();
+  }
+};
+
+} // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureCompleteVoid_DEFINED
+
+// CallbackFunction.cpp already generated in second loop
+
+// FOURTH: Generate Bridging templates for ALL structs
+// These can now use both callback makeCallbackFunction AND callback Bridging templates
+#ifndef BRIDGING_UniffiForeignFutureDroppedCallbackStruct_DEFINED
+#define BRIDGING_UniffiForeignFutureDroppedCallbackStruct_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1231,9 +4224,30 @@ template <> struct Bridging<UniffiForeignFutureDroppedCallbackStruct> {
 
     return rsObject;
   }
+
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureDroppedCallbackStruct &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
+
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "handle",
+      uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rsValue.handle)
+    );
+    jsObject.setProperty(rt, "free",
+      uniffi::controller::Bridging<UniffiForeignFutureDroppedCallbackWrapper>::toJs(rt, callInvoker, UniffiForeignFutureDroppedCallbackWrapper(rsValue.free))
+    );
+
+    return jsObject;
+  }
 };
 
 } // namespace uniffi::controller
+#endif // BRIDGING_UniffiForeignFutureDroppedCallbackStruct_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultU8_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU8_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1266,172 +4280,30 @@ template <> struct Bridging<UniffiForeignFutureResultU8> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteU8,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU8 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteU8> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU8 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU8"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<uint8_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteU8 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU8>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompleteu8::UniffiForeignFutureCompleteU8
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompleteu8 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultU8)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultU8 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU8>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteU8: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU8 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteU8
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu8
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU8 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompleteu8
+#endif // BRIDGING_UniffiForeignFutureResultU8_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultI8_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI8_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1464,172 +4336,30 @@ template <> struct Bridging<UniffiForeignFutureResultI8> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteI8,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI8 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteI8> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI8 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI8"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<int8_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteI8 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI8>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletei8::UniffiForeignFutureCompleteI8
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompletei8 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultI8)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultI8 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI8>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteI8: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI8 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteI8
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei8
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI8 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompletei8
+#endif // BRIDGING_UniffiForeignFutureResultI8_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultU16_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU16_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1662,172 +4392,30 @@ template <> struct Bridging<UniffiForeignFutureResultU16> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteU16,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU16 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteU16> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU16 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU16"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteU16 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU16>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompleteu16::UniffiForeignFutureCompleteU16
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompleteu16 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultU16)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultU16 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU16>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteU16: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU16 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteU16
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu16
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU16 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompleteu16
+#endif // BRIDGING_UniffiForeignFutureResultU16_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultI16_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI16_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -1860,172 +4448,30 @@ template <> struct Bridging<UniffiForeignFutureResultI16> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteI16,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI16 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteI16> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI16 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI16"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<int16_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteI16 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI16>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletei16::UniffiForeignFutureCompleteI16
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompletei16 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultI16)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultI16 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI16>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteI16: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI16 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteI16
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei16
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI16 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompletei16
+#endif // BRIDGING_UniffiForeignFutureResultI16_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultU32_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU32_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -2058,172 +4504,30 @@ template <> struct Bridging<UniffiForeignFutureResultU32> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteU32,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU32 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteU32> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU32 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU32"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<uint32_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteU32 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU32>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompleteu32::UniffiForeignFutureCompleteU32
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompleteu32 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultU32)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultU32 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU32>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteU32: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU32 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteU32
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu32
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU32 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompleteu32
+#endif // BRIDGING_UniffiForeignFutureResultU32_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultI32_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI32_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -2256,172 +4560,30 @@ template <> struct Bridging<UniffiForeignFutureResultI32> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteI32,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI32 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteI32> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI32 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI32"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<int32_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteI32 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI32>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletei32::UniffiForeignFutureCompleteI32
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompletei32 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultI32)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultI32 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI32>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteI32: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI32 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteI32
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei32
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI32 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompletei32
+#endif // BRIDGING_UniffiForeignFutureResultI32_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultU64_DEFINED
+#define BRIDGING_UniffiForeignFutureResultU64_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -2454,172 +4616,30 @@ template <> struct Bridging<UniffiForeignFutureResultU64> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteU64,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultU64 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteU64> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteU64 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteU64"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteU64 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultU64>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompleteu64::UniffiForeignFutureCompleteU64
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompleteu64 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultU64)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultU64 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultU64>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteU64: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultU64 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteU64
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleteu64
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultU64 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompleteu64
+#endif // BRIDGING_UniffiForeignFutureResultU64_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultI64_DEFINED
+#define BRIDGING_UniffiForeignFutureResultI64_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -2652,172 +4672,30 @@ template <> struct Bridging<UniffiForeignFutureResultI64> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteI64,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultI64 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteI64> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteI64 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteI64"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<int64_t>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteI64 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultI64>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletei64::UniffiForeignFutureCompleteI64
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompletei64 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultI64)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultI64 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultI64>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteI64: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultI64 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteI64
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletei64
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultI64 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompletei64
+#endif // BRIDGING_UniffiForeignFutureResultI64_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultF32_DEFINED
+#define BRIDGING_UniffiForeignFutureResultF32_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -2850,172 +4728,30 @@ template <> struct Bridging<UniffiForeignFutureResultF32> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteF32,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultF32 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteF32> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteF32 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteF32"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<float>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteF32 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultF32>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletef32::UniffiForeignFutureCompleteF32
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompletef32 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultF32)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultF32 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultF32>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteF32: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultF32 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteF32
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletef32
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultF32 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompletef32
+#endif // BRIDGING_UniffiForeignFutureResultF32_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultF64_DEFINED
+#define BRIDGING_UniffiForeignFutureResultF64_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -3048,172 +4784,30 @@ template <> struct Bridging<UniffiForeignFutureResultF64> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteF64,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultF64 &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteF64> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteF64 rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteF64"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi_jsi::Bridging<double>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteF64 func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultF64>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletef64::UniffiForeignFutureCompleteF64
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompletef64 {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultF64)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultF64 rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultF64>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteF64: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultF64 rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteF64
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletef64
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultF64 rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompletef64
+#endif // BRIDGING_UniffiForeignFutureResultF64_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultRustBuffer_DEFINED
+#define BRIDGING_UniffiForeignFutureResultRustBuffer_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -3246,172 +4840,30 @@ template <> struct Bridging<UniffiForeignFutureResultRustBuffer> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteRustBuffer,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultRustBuffer &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteRustBuffer> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteRustBuffer rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteRustBuffer"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "returnValue",
+      uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, rsValue.return_value)
     );
-  }
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
+    );
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteRustBuffer func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultRustBuffer>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompleterustbuffer::UniffiForeignFutureCompleteRustBuffer
-//
-// We have the following constraints:
-// - we need to pass a function pointer to Rust.
-// - we need a jsi::Runtime and jsi::Function to call into JS.
-// - function pointers can't store state, so we can't use a lamda.
-//
-// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
-// the lambda, which itself calls the `body` which then calls into JS.
-//
-// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
-// future.
-namespace uniffi::controller::cb::foreignfuturecompleterustbuffer {
-    using namespace facebook;
-
-    // We need to store a lambda in a global so we can call it from
-    // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultRustBuffer)> rsLambda = nullptr;
-
-    // This is the main body of the callback. It's called from the lambda,
-    // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultRustBuffer rs_result) {
-
-        // Convert the arguments from Rust, into jsi::Values.
-        // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultRustBuffer>::toJs(rt, callInvoker, rs_result);
-
-        // Now we are ready to call the callback.
-        // We are already on the JS thread, because this `body` function was
-        // invoked from the CallInvoker.
-        try {
-            // Getting the callback function
-            auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
-            );
-
-            
-
-            
-        } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteRustBuffer: "
-                    << error.what() << std::endl;
-            throw error;
-        }
-    }
-
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultRustBuffer rs_result) {
-        // If the runtime has shutdown, then there is no point in trying to
-        // call into Javascript. BUT how do we tell if the runtime has shutdown?
-        //
-        // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
-        //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
-            // This only occurs when destructors are calling into Rust free/drop,
-            // which causes the JS callback to be dropped.
-            return;
-        }
-
-        // The runtime, the actual callback jsi::funtion, and the callInvoker
-        // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
-    }
-
-    static UniffiForeignFutureCompleteRustBuffer
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompleterustbuffer
-                    jsi::Runtime &rt,
-                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
-                     const jsi::Value &value) {
-        if (rsLambda != nullptr) {
-            // `makeCallbackFunction` is called in two circumstances:
-            //
-            // 1. at startup, when initializing callback interface vtables.
-            // 2. when polling futures. This happens at least once per future that is
-            //    exposed to Javascript. We know that this is always the same function,
-            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
-            //
-            // We can therefore return the callback function without making anything
-            // new if we've been initialized already.
-            return callback;
-        }
-        auto callbackFunction = value.asObject(rt).asFunction(rt);
-        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultRustBuffer rs_result) {
-                // We immediately make a lambda which will do the work of transforming the
-                // arguments into JSI values and calling the callback.
-                uniffi_runtime::UniffiCallFunc jsLambda = [
-                    callInvoker,
-                    callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
-                };
-                // We'll then call that lambda from the callInvoker which will
-                // look after calling it on the correct thread.
-                
-                callInvoker->invokeNonBlocking(rt, jsLambda);
-        };
-        return callback;
-    }
-
-    // This method is called from the destructor of NativeController, which only happens
-    // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
-        // The lambda holds a reference to the the Runtime, so when this is nulled out,
-        // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
-    }
-} // namespace uniffi::controller::cb::foreignfuturecompleterustbuffer
+#endif // BRIDGING_UniffiForeignFutureResultRustBuffer_DEFINED
+#ifndef BRIDGING_UniffiForeignFutureResultVoid_DEFINED
+#define BRIDGING_UniffiForeignFutureResultVoid_DEFINED
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
@@ -3440,54 +4892,29 @@ template <> struct Bridging<UniffiForeignFutureResultVoid> {
 
     return rsObject;
   }
-};
 
-} // namespace uniffi::controller
-    // Implementation of callback function calling from JS to Rust ForeignFutureCompleteVoid,
-    // passed from Rust to JS as part of async callbacks.
-namespace uniffi::controller {
-using CallInvoker = uniffi_runtime::UniffiCallInvoker;
+  static jsi::Value toJs(jsi::Runtime &rt,
+    std::shared_ptr<CallInvoker> callInvoker,
+    const UniffiForeignFutureResultVoid &rsValue
+  ) {
+    // Create a JS object
+    auto jsObject = jsi::Object(rt);
 
-template <> struct Bridging<UniffiForeignFutureCompleteVoid> {
-  static jsi::Value toJs(jsi::Runtime &rt, std::shared_ptr<CallInvoker> callInvoker, UniffiForeignFutureCompleteVoid rsCallback) {
-    return jsi::Function::createFromHostFunction(
-        rt,
-        jsi::PropNameID::forAscii(rt, "--ForeignFutureCompleteVoid"),
-        2,
-        [rsCallback, callInvoker](
-            jsi::Runtime &rt,
-            const jsi::Value &thisValue,
-            const jsi::Value *arguments,
-            size_t count) -> jsi::Value
-        {
-            return intoRust(rt, callInvoker, thisValue, arguments, count, rsCallback);
-        }
+    // Convert each field from Rust to JS
+    jsObject.setProperty(rt, "callStatus",
+      uniffi::controller::Bridging<RustCallStatus>::toJs(rt, callInvoker, rsValue.call_status)
     );
-  }
 
-  static jsi::Value intoRust(
-      jsi::Runtime &rt,
-      std::shared_ptr<CallInvoker> callInvoker,
-      const jsi::Value &thisValue,
-      const jsi::Value *args,
-      size_t count,
-      UniffiForeignFutureCompleteVoid func) {
-    // Convert the arguments into the Rust, with Bridging<T>::fromJs,
-    // then call the rs_callback with those arguments.
-        func(uniffi_jsi::Bridging<uint64_t>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<UniffiForeignFutureResultVoid>::fromJs(rt, callInvoker, args[1])
-        );
-
-        
-        return jsi::Value::undefined();
+    return jsObject;
   }
 };
+
 } // namespace uniffi::controller
-
-// Namespace for makeCallbackFunction compatibility
-// For JS-to-Rust callbacks (like future dropped callbacks),
-// we generate the CallbackFunction implementation
-
-// Callback function: uniffi::controller::cb::foreignfuturecompletevoid::UniffiForeignFutureCompleteVoid
+#endif // BRIDGING_UniffiForeignFutureResultVoid_DEFINED
+    // Implementation of callback function calling from Rust to JS RustFutureContinuationCallback
+#ifndef CALLBACK_uniffi_controller_cb_rustfuturecontinuationcallback_UniffiRustFutureContinuationCallback_DEFINED
+#define CALLBACK_uniffi_controller_cb_rustfuturecontinuationcallback_UniffiRustFutureContinuationCallback_DEFINED
+// Callback function: uniffi::controller::cb::rustfuturecontinuationcallback::UniffiRustFutureContinuationCallback
 //
 // We have the following constraints:
 // - we need to pass a function pointer to Rust.
@@ -3499,25 +4926,25 @@ template <> struct Bridging<UniffiForeignFutureCompleteVoid> {
 //
 // We then give the `callback` function pointer to Rust which will call the lambda sometime in the
 // future.
-namespace uniffi::controller::cb::foreignfuturecompletevoid {
+namespace uniffi::controller::cb::rustfuturecontinuationcallback {
     using namespace facebook;
 
     // We need to store a lambda in a global so we can call it from
     // a function pointer. The function pointer is passed to Rust.
-    static std::function<void(uint64_t, UniffiForeignFutureResultVoid)> rsLambda = nullptr;
+    static std::function<void(uint64_t, int8_t)> rsLambda_UniffiRustFutureContinuationCallback = nullptr;
 
     // This is the main body of the callback. It's called from the lambda,
     // which itself is called from the callback function which is passed to Rust.
-    static void body(jsi::Runtime &rt,
+    static void body_UniffiRustFutureContinuationCallback(jsi::Runtime &rt,
                      std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
                      std::shared_ptr<jsi::Value> callbackValue
-            ,uint64_t rs_callbackData
-            ,UniffiForeignFutureResultVoid rs_result) {
+            ,uint64_t rs_data
+            ,int8_t rs_pollResult) {
 
         // Convert the arguments from Rust, into jsi::Values.
         // We'll use the Bridging class to do this…
-        auto js_callbackData = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_callbackData);
-        auto js_result = uniffi::controller::Bridging<UniffiForeignFutureResultVoid>::toJs(rt, callInvoker, rs_result);
+        auto js_data = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_data);
+        auto js_pollResult = uniffi_jsi::Bridging<int8_t>::toJs(rt, callInvoker, rs_pollResult);
 
         // Now we are ready to call the callback.
         // We are already on the JS thread, because this `body` function was
@@ -3525,28 +4952,28 @@ namespace uniffi::controller::cb::foreignfuturecompletevoid {
         try {
             // Getting the callback function
             auto cb = callbackValue->asObject(rt).asFunction(rt);
-            auto uniffiResult = cb.call(rt, js_callbackData, js_result
+            auto uniffiResult = cb.call(rt, js_data, js_pollResult
             );
 
             
 
             
         } catch (const jsi::JSError &error) {
-            std::cout << "Error in callback UniffiForeignFutureCompleteVoid: "
+            std::cout << "Error in callback UniffiRustFutureContinuationCallback: "
                     << error.what() << std::endl;
             throw error;
         }
     }
 
-    static void callback(uint64_t rs_callbackData, UniffiForeignFutureResultVoid rs_result) {
+    static void callback_UniffiRustFutureContinuationCallback(uint64_t rs_data, int8_t rs_pollResult) {
         // If the runtime has shutdown, then there is no point in trying to
         // call into Javascript. BUT how do we tell if the runtime has shutdown?
         //
         // Answer: the module destructor calls into callback `cleanup` method,
-        // which nulls out the rsLamda.
+        // which nulls out the rsLamda_UniffiRustFutureContinuationCallback.
         //
-        // If rsLamda is null, then there is no runtime to call into.
-        if (rsLambda == nullptr) {
+        // If rsLamda_UniffiRustFutureContinuationCallback is null, then there is no runtime to call into.
+        if (rsLambda_UniffiRustFutureContinuationCallback == nullptr) {
             // This only occurs when destructors are calling into Rust free/drop,
             // which causes the JS callback to be dropped.
             return;
@@ -3554,17 +4981,17 @@ namespace uniffi::controller::cb::foreignfuturecompletevoid {
 
         // The runtime, the actual callback jsi::funtion, and the callInvoker
         // are all in the lambda.
-        rsLambda(
-            rs_callbackData, 
-            rs_result);
+        rsLambda_UniffiRustFutureContinuationCallback(
+            rs_data, 
+            rs_pollResult);
     }
 
-    static UniffiForeignFutureCompleteVoid
-    makeCallbackFunction( // uniffi::controller::cb::foreignfuturecompletevoid
+    [[maybe_unused]] static UniffiRustFutureContinuationCallback
+    makeCallbackFunction( // uniffi::controller::cb::rustfuturecontinuationcallback
                     jsi::Runtime &rt,
                      std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
                      const jsi::Value &value) {
-        if (rsLambda != nullptr) {
+        if (rsLambda_UniffiRustFutureContinuationCallback != nullptr) {
             // `makeCallbackFunction` is called in two circumstances:
             //
             // 1. at startup, when initializing callback interface vtables.
@@ -3574,55 +5001,220 @@ namespace uniffi::controller::cb::foreignfuturecompletevoid {
             //
             // We can therefore return the callback function without making anything
             // new if we've been initialized already.
-            return callback;
+            return callback_UniffiRustFutureContinuationCallback;
         }
         auto callbackFunction = value.asObject(rt).asFunction(rt);
         auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
-        rsLambda = [&rt, callInvoker, callbackValue](uint64_t rs_callbackData, UniffiForeignFutureResultVoid rs_result) {
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiRustFutureContinuationCallback = [rtPtr, callInvoker, callbackValue](uint64_t rs_data, int8_t rs_pollResult) {
                 // We immediately make a lambda which will do the work of transforming the
                 // arguments into JSI values and calling the callback.
                 uniffi_runtime::UniffiCallFunc jsLambda = [
                     callInvoker,
                     callbackValue
-                    , rs_callbackData
-                    , rs_result](jsi::Runtime &rt) mutable {
-                    body(rt, callInvoker, callbackValue
-                        , rs_callbackData
-                        , rs_result);
+                    , rs_data
+                    , rs_pollResult](jsi::Runtime &rt) mutable {
+                    body_UniffiRustFutureContinuationCallback(rt, callInvoker, callbackValue
+                        , rs_data
+                        , rs_pollResult);
                 };
                 // We'll then call that lambda from the callInvoker which will
                 // look after calling it on the correct thread.
                 
-                callInvoker->invokeNonBlocking(rt, jsLambda);
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
         };
-        return callback;
+        return callback_UniffiRustFutureContinuationCallback;
     }
 
     // This method is called from the destructor of NativeController, which only happens
     // when the jsi::Runtime is being destroyed.
-    static void cleanup() {
+    [[maybe_unused]] static void cleanup() {
         // The lambda holds a reference to the the Runtime, so when this is nulled out,
         // then the pointer will no longer be left dangling.
-        rsLambda = nullptr;
+        rsLambda_UniffiRustFutureContinuationCallback = nullptr;
     }
-} // namespace uniffi::controller::cb::foreignfuturecompletevoid
+} // namespace uniffi::controller::cb::rustfuturecontinuationcallback
+#endif // CALLBACK_uniffi_controller_cb_rustfuturecontinuationcallback_UniffiRustFutureContinuationCallback_DEFINED
+    // JS-to-Rust callbacks already generated in first loop
+    // Implementation of free callback function CallbackInterfaceFree
+
+    // Implementation of callback function calling from Rust to JS CallbackInterfaceClone
+#ifndef CALLBACK_uniffi_controller_cb_callbackinterfaceclone_UniffiCallbackInterfaceClone_DEFINED
+#define CALLBACK_uniffi_controller_cb_callbackinterfaceclone_UniffiCallbackInterfaceClone_DEFINED
+// Callback function: uniffi::controller::cb::callbackinterfaceclone::UniffiCallbackInterfaceClone
+//
+// We have the following constraints:
+// - we need to pass a function pointer to Rust.
+// - we need a jsi::Runtime and jsi::Function to call into JS.
+// - function pointers can't store state, so we can't use a lamda.
+//
+// For this, we store a lambda as a global, as `rsLambda`. The `callback` function calls
+// the lambda, which itself calls the `body` which then calls into JS.
+//
+// We then give the `callback` function pointer to Rust which will call the lambda sometime in the
+// future.
+namespace uniffi::controller::cb::callbackinterfaceclone {
+    using namespace facebook;
+
+    // We need to store a lambda in a global so we can call it from
+    // a function pointer. The function pointer is passed to Rust.
+    static std::function<uint64_t(uint64_t)> rsLambda_UniffiCallbackInterfaceClone = nullptr;
+
+    // This is the main body of the callback. It's called from the lambda,
+    // which itself is called from the callback function which is passed to Rust.
+    static void body_UniffiCallbackInterfaceClone(jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     std::shared_ptr<jsi::Value> callbackValue
+            ,uint64_t rs_handle) {
+
+        // Convert the arguments from Rust, into jsi::Values.
+        // We'll use the Bridging class to do this…
+        auto js_handle = uniffi_jsi::Bridging<uint64_t>::toJs(rt, callInvoker, rs_handle);
+
+        // Now we are ready to call the callback.
+        // We are already on the JS thread, because this `body` function was
+        // invoked from the CallInvoker.
+        try {
+            // Getting the callback function
+            auto cb = callbackValue->asObject(rt).asFunction(rt);
+            auto uniffiResult = cb.call(rt, js_handle
+            );
+
+            
+
+            
+        } catch (const jsi::JSError &error) {
+            std::cout << "Error in callback UniffiCallbackInterfaceClone: "
+                    << error.what() << std::endl;
+            throw error;
+        }
+    }
+
+    static uint64_t callback_UniffiCallbackInterfaceClone(uint64_t rs_handle) {
+        // If the runtime has shutdown, then there is no point in trying to
+        // call into Javascript. BUT how do we tell if the runtime has shutdown?
+        //
+        // Answer: the module destructor calls into callback `cleanup` method,
+        // which nulls out the rsLamda_UniffiCallbackInterfaceClone.
+        //
+        // If rsLamda_UniffiCallbackInterfaceClone is null, then there is no runtime to call into.
+        if (rsLambda_UniffiCallbackInterfaceClone == nullptr) {
+            // This only occurs when destructors are calling into Rust free/drop,
+            // which causes the JS callback to be dropped.
+            return 0;  // Return zero for handle/uint64_t return types
+        }
+
+        // The runtime, the actual callback jsi::funtion, and the callInvoker
+        // are all in the lambda.
+        return rsLambda_UniffiCallbackInterfaceClone(
+            rs_handle);
+    }
+
+    [[maybe_unused]] static UniffiCallbackInterfaceClone
+    makeCallbackFunction( // uniffi::controller::cb::callbackinterfaceclone
+                    jsi::Runtime &rt,
+                     std::shared_ptr<uniffi_runtime::UniffiCallInvoker> callInvoker,
+                     const jsi::Value &value) {
+        if (rsLambda_UniffiCallbackInterfaceClone != nullptr) {
+            // `makeCallbackFunction` is called in two circumstances:
+            //
+            // 1. at startup, when initializing callback interface vtables.
+            // 2. when polling futures. This happens at least once per future that is
+            //    exposed to Javascript. We know that this is always the same function,
+            //    `uniffiFutureContinuationCallback` in `async-rust-calls.ts`.
+            //
+            // We can therefore return the callback function without making anything
+            // new if we've been initialized already.
+            return callback_UniffiCallbackInterfaceClone;
+        }
+        auto callbackFunction = value.asObject(rt).asFunction(rt);
+        auto callbackValue = std::make_shared<jsi::Value>(rt, callbackFunction);
+        // Store a raw pointer to the runtime. This is safe because:
+        // 1. The runtime is owned by React Native and persists for the app lifetime
+        // 2. The cleanup() method is called when the runtime is destroyed, which nulls out rsLambda
+        jsi::Runtime *rtPtr = &rt;
+        rsLambda_UniffiCallbackInterfaceClone = [rtPtr, callInvoker, callbackValue](uint64_t rs_handle) {
+                // We immediately make a lambda which will do the work of transforming the
+                // arguments into JSI values and calling the callback.
+                uniffi_runtime::UniffiCallFunc jsLambda = [
+                    callInvoker,
+                    callbackValue
+                    , rs_handle](jsi::Runtime &rt) mutable {
+                    body_UniffiCallbackInterfaceClone(rt, callInvoker, callbackValue
+                        , rs_handle);
+                };
+                // We'll then call that lambda from the callInvoker which will
+                // look after calling it on the correct thread.
+                
+                callInvoker->invokeNonBlocking(*rtPtr, jsLambda);
+                return 0;  // Async callback, return immediately
+        };
+        return callback_UniffiCallbackInterfaceClone;
+    }
+
+    // This method is called from the destructor of NativeController, which only happens
+    // when the jsi::Runtime is being destroyed.
+    [[maybe_unused]] static void cleanup() {
+        // The lambda holds a reference to the the Runtime, so when this is nulled out,
+        // then the pointer will no longer be left dangling.
+        rsLambda_UniffiCallbackInterfaceClone = nullptr;
+    }
+} // namespace uniffi::controller::cb::callbackinterfaceclone
+#endif // CALLBACK_uniffi_controller_cb_callbackinterfaceclone_UniffiCallbackInterfaceClone_DEFINED
+    // Structs already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
+    // Structs already generated in first loop
+    // JS-to-Rust callbacks already generated in first loop
 
 
 namespace uniffi::controller {
 using namespace facebook;
 using CallInvoker = uniffi_runtime::UniffiCallInvoker;
 
-template <> struct Bridging<UniffiRustFutureContinuationCallback> {
-  static UniffiRustFutureContinuationCallback fromJs(
+// Wrapper to make this callback unique per module  
+struct UniffiRustFutureContinuationCallbackControllerWrapper {
+    UniffiRustFutureContinuationCallback callback;
+    explicit UniffiRustFutureContinuationCallbackControllerWrapper(UniffiRustFutureContinuationCallback cb) : callback(cb) {}
+    operator UniffiRustFutureContinuationCallback() const { return callback; }
+};
+
+template <> struct Bridging<UniffiRustFutureContinuationCallbackControllerWrapper> {
+  static UniffiRustFutureContinuationCallbackControllerWrapper fromJs(
     jsi::Runtime &rt,
     std::shared_ptr<CallInvoker> callInvoker,
     const jsi::Value &value
   ) {
     try {
-      return uniffi::controller::cb::rustfuturecontinuationcallback::makeCallbackFunction(
-        rt,
-        callInvoker,
-        value
+      return UniffiRustFutureContinuationCallbackControllerWrapper(
+        uniffi::controller::cb::rustfuturecontinuationcallback::makeCallbackFunction(
+          rt,
+          callInvoker,
+          value
+        )
       );
     } catch (const std::logic_error &e) {
       throw jsi::JSError(rt, e.what());

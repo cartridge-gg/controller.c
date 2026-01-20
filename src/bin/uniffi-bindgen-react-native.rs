@@ -89,7 +89,9 @@ fn main() {
         eprintln!("Error: uniffi-bindgen-react-native is not installed or not in PATH");
         eprintln!();
         eprintln!("Please install it with:");
-        eprintln!("  cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \\");
+        eprintln!(
+            "  cargo install --git https://github.com/Larkooo/uniffi-bindgen-react-native \\"
+        );
         eprintln!("      --branch update-uniffi-0.30 uniffi-bindgen-react-native");
         eprintln!();
         eprintln!("Or add it to your PATH if already installed.");
@@ -153,7 +155,10 @@ fn main() {
     let cpp_dir = out_dir.join("cpp");
 
     if let Err(e) = std::fs::create_dir_all(&ts_dir) {
-        eprintln!("Error: Failed to create TypeScript directory {}: {}", ts_dir, e);
+        eprintln!(
+            "Error: Failed to create TypeScript directory {}: {}",
+            ts_dir, e
+        );
         process::exit(1);
     }
     if let Err(e) = std::fs::create_dir_all(&cpp_dir) {
