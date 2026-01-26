@@ -109,11 +109,11 @@ struct StatusView: View {
                         }
                         
                         Button {
-                            if let url = URL(string: "https://sepolia.starkscan.co/tx/\(txHash)") {
+                            if let url = URL(string: "https://sepolia.voyager.online/tx/\(txHash)") {
                                 UIApplication.shared.open(url)
                             }
                         } label: {
-                            Label("View on Starkscan", systemImage: "safari")
+                            Label("View on Voyager", systemImage: "safari")
                         }
                     } header: {
                         Text("Last Transaction")

@@ -41,7 +41,7 @@ A complete iOS app demonstrating how to create and use Cartridge Controller Sess
 ### Status Tab
 - Session status and info
 - Active policies list
-- Last transaction details with Starkscan link
+- Last transaction details with Voyager link
 - Configuration details
 
 ## How It Works
@@ -69,7 +69,7 @@ A complete iOS app demonstrating how to create and use Cartridge Controller Sess
 - View session status
 - Check active policies
 - Copy transaction hashes
-- Open transactions in Starkscan
+- Open transactions in Voyager
 
 ## Building the App
 
@@ -149,7 +149,7 @@ SessionAccountApp/
 3. **Verify**:
    - Go to Status tab
    - See transaction hash
-   - Click "View on Starkscan"
+   - Click "View on Voyager"
 
 ### Adding Custom Policies
 
@@ -241,7 +241,7 @@ Currently configured for **Sepolia testnet**. To switch networks:
 - [Cartridge Controller Docs](https://docs.cartridge.gg/controller/overview)
 - [Session Management](https://docs.cartridge.gg/controller/sessions)
 - [Starknet Docs](https://docs.starknet.io)
-- [Starkscan Explorer](https://starkscan.co)
+- [Voyager Explorer](https://voyager.online)
 
 ## License
 
