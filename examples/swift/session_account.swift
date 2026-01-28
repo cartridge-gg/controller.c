@@ -168,7 +168,7 @@ func sessionAccountExample() {
         let txHash = try session.execute(calls: [call])
         printSuccess("Transaction executed successfully!")
         printInfo("📝 Transaction hash: \(txHash)")
-        printInfo("🔍 View on Starkscan: https://sepolia.starkscan.co/tx/\(txHash)")
+        printInfo("🔍 View on Voyager: https://sepolia.voyager.online/tx/\(txHash)")
         
     } catch {
         printError("Transaction execution failed: \(error)")

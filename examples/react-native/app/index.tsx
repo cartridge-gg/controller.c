@@ -169,10 +169,10 @@ export default function App() {
             <TouchableOpacity
               style={styles.linkButton}
               onPress={() =>
-                Linking.openURL(`https://sepolia.starkscan.co/tx/${currentTransaction.hash}`)
+                Linking.openURL(`https://sepolia.voyager.online/tx/${currentTransaction.hash}`)
               }
             >
-              <Text style={styles.linkButtonText}>View on Starkscan</Text>
+              <Text style={styles.linkButtonText}>View on Voyager</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.dismissButton}
