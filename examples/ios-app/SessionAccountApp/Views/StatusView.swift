@@ -124,9 +124,8 @@ struct StatusView: View {
                 Section {
                     if sessionManager.sessionAccount == nil {
                         Button {
-                            if let url = URL(string: sessionManager.generateSessionURL()) {
-                                UIPasteboard.general.string = url.absoluteString
-                                sessionManager.successMessage = "URL copied to clipboard"
+                            Task {
+                                await sessionManager.copySessionURLToClipboard()
                             }
                         } label: {
                             Label("Copy Session URL", systemImage: "link")
@@ -179,5 +178,4 @@ struct InfoRow: View {
     StatusView()
         .environmentObject(SessionManager())
 }
-
 

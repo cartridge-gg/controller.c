@@ -32,7 +32,6 @@ func printInfo(_ message: String) {
 // Configuration
 let RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet"
 let CARTRIDGE_API_URL = "https://api.cartridge.gg"
-let KEYCHAIN_URL = "https://x.cartridge.gg"
 
 // Generate random private key for testing
 func generateStarkPrivateKey() -> String {
@@ -94,20 +93,17 @@ func sessionAccountExample() {
     // Step 4: Create session URL
     printSection("Step 4: Create Session Link")
     
-    // URL encode the policies
-    let policiesJson = """
-    [{"target":"\(ethContractAddress)","method":"transfer"},{"target":"\(ethContractAddress)","method":"approve"}]
-    """
-    let encodedPolicies = policiesJson.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-    
-    let sessionUrl = """
-    \(KEYCHAIN_URL)/session\
-    ?public_key=\(publicKey)\
-    &policies=\(encodedPolicies)\
-    &rpc_url=\(RPC_URL)\
-    &redirect_uri=https://docs.cartridge.gg/controller/overview\
-    &redirect_query_name=startapp
-    """
+    let sessionUrl: String
+    do {
+        sessionUrl = try createSessionRegistrationUrl(
+            privateKey: privateKey,
+            policies: policies,
+            rpcUrl: RPC_URL
+        )
+    } catch {
+        printError("Failed to create session URL: \(error)")
+        return
+    }
     
     print("\n" + String(repeating: "─", count: 70))
     print("\(YELLOW)📱 Please open a browser to this URL and create a session:\(NC)")
@@ -212,4 +208,3 @@ struct SessionAccountExampleApp {
         exit(0)
     }
 }
-

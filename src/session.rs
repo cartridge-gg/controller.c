@@ -33,6 +33,9 @@ struct ShortenResponse {
     url: String,
 }
 
+const CARTRIDGE_API_BASE_URL: &str = "https://api.cartridge.gg";
+const KEYCHAIN_BASE_URL: &str = "https://x.cartridge.gg";
+
 fn build_session_registration_long_url(
     public_key: &str,
     policies: &SessionPolicies,
@@ -77,13 +80,16 @@ fn shortener_endpoint(cartridge_api_url: &str) -> Result<String, ControllerError
     Ok(endpoint)
 }
 
-fn validate_shortened_session_url(short_url: &str) -> Result<(), ControllerError> {
+fn validate_shortened_session_url(
+    short_url: &str,
+    expected_host: &str,
+) -> Result<(), ControllerError> {
     let parsed = Url::parse(short_url)
         .map_err(|e| ControllerError::NetworkError(format!("Invalid short URL: {}", e)))?;
 
     let is_expected_host = parsed
         .host_str()
-        .map(|host| host.eq_ignore_ascii_case("api.cartridge.gg"))
+        .map(|host| host.eq_ignore_ascii_case(expected_host))
         .unwrap_or(false);
     if parsed.scheme() != "https" || !is_expected_host {
         return Err(ControllerError::NetworkError(
@@ -101,7 +107,11 @@ fn validate_shortened_session_url(short_url: &str) -> Result<(), ControllerError
     Ok(())
 }
 
-fn parse_shorten_response(status: StatusCode, body: &[u8]) -> Result<String, ControllerError> {
+fn parse_shorten_response(
+    status: StatusCode,
+    body: &[u8],
+    expected_host: &str,
+) -> Result<String, ControllerError> {
     if !status.is_success() {
         return Err(ControllerError::NetworkError(format!(
             "URL shortener returned status {}",
@@ -113,11 +123,11 @@ fn parse_shorten_response(status: StatusCode, body: &[u8]) -> Result<String, Con
         ControllerError::NetworkError(format!("Failed to parse shortener response: {}", e))
     })?;
 
-    validate_shortened_session_url(&response.url)?;
+    validate_shortened_session_url(&response.url, expected_host)?;
     Ok(response.url)
 }
 
-pub fn create_session_registration_url(
+fn create_session_registration_url_inner(
     private_key: String,
     policies: SessionPolicies,
     rpc_url: String,
@@ -132,6 +142,14 @@ pub fn create_session_registration_url(
     let long_url =
         build_session_registration_long_url(&public_key_hex, &policies, &rpc_url, &keychain_url)?;
     let endpoint = shortener_endpoint(&cartridge_api_url)?;
+    let endpoint_url = Url::parse(&endpoint)
+        .map_err(|e| ControllerError::InvalidInput(format!("Invalid shortener endpoint: {}", e)))?;
+    let expected_host = endpoint_url
+        .host_str()
+        .ok_or_else(|| {
+            ControllerError::InvalidInput("Shortener endpoint must have a host".to_string())
+        })?
+        .to_string();
 
     RUNTIME.block_on(async move {
         let client = reqwest::Client::builder()
@@ -153,8 +171,38 @@ pub fn create_session_registration_url(
             ControllerError::NetworkError(format!("Failed to read shortener response: {}", e))
         })?;
 
-        parse_shorten_response(status, &bytes)
+        parse_shorten_response(status, &bytes, &expected_host)
     })
+}
+
+pub fn create_session_registration_url(
+    private_key: String,
+    policies: SessionPolicies,
+    rpc_url: String,
+) -> Result<String, ControllerError> {
+    create_session_registration_url_inner(
+        private_key,
+        policies,
+        rpc_url,
+        KEYCHAIN_BASE_URL.to_string(),
+        CARTRIDGE_API_BASE_URL.to_string(),
+    )
+}
+
+pub fn create_session_registration_url_with_urls(
+    private_key: String,
+    policies: SessionPolicies,
+    rpc_url: String,
+    keychain_url: String,
+    cartridge_api_url: String,
+) -> Result<String, ControllerError> {
+    create_session_registration_url_inner(
+        private_key,
+        policies,
+        rpc_url,
+        keychain_url,
+        cartridge_api_url,
+    )
 }
 
 // Session Account implementation
@@ -526,15 +574,28 @@ mod tests {
 
     #[test]
     fn validates_shortened_url_shape() {
-        assert!(validate_shortened_session_url("https://api.cartridge.gg/s/AbC123dEf9").is_ok());
-        assert!(validate_shortened_session_url("https://api.cartridge.gg/s/short").is_err());
-        assert!(validate_shortened_session_url("https://evil.com/s/AbC123dEf9").is_err());
+        assert!(validate_shortened_session_url(
+            "https://api.cartridge.gg/s/AbC123dEf9",
+            "api.cartridge.gg"
+        )
+        .is_ok());
+        assert!(validate_shortened_session_url(
+            "https://api.cartridge.gg/s/short",
+            "api.cartridge.gg"
+        )
+        .is_err());
+        assert!(validate_shortened_session_url(
+            "https://evil.com/s/AbC123dEf9",
+            "api.cartridge.gg"
+        )
+        .is_err());
     }
 
     #[test]
     fn parses_shortener_response() {
         let body = br#"{"url":"https://api.cartridge.gg/s/a1B2c3D4e5"}"#;
-        let parsed = parse_shorten_response(StatusCode::OK, body).expect("parse response");
+        let parsed = parse_shorten_response(StatusCode::OK, body, "api.cartridge.gg")
+            .expect("parse response");
         assert_eq!(parsed, "https://api.cartridge.gg/s/a1B2c3D4e5");
     }
 }

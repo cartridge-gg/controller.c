@@ -146,8 +146,6 @@ class SessionManager: ObservableObject {
         let privateKey = self.privateKey
         let sessionPolicies = enabledSessionPolicies()
         let rpcUrl = self.rpcUrl
-        let keychainUrl = self.keychainUrl
-        let cartridgeApiUrl = self.cartridgeApiUrl
 
         let urlString = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<String, Error>) in
             DispatchQueue.global(qos: .userInitiated).async {
@@ -155,9 +153,7 @@ class SessionManager: ObservableObject {
                     let url = try createSessionRegistrationUrl(
                         privateKey: privateKey,
                         policies: sessionPolicies,
-                        rpcUrl: rpcUrl,
-                        keychainUrl: keychainUrl,
-                        cartridgeApiUrl: cartridgeApiUrl
+                        rpcUrl: rpcUrl
                     )
                     continuation.resume(returning: url)
                 } catch {

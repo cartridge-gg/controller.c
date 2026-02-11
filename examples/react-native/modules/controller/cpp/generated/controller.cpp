@@ -302,6 +302,20 @@ extern "C" {
         RustBuffer app_id, 
         RustCallStatus *uniffi_out_err
     );
+    RustBuffer uniffi_controller_uniffi_fn_func_create_session_registration_url(
+        RustBuffer private_key, 
+        RustBuffer policies, 
+        RustBuffer rpc_url, 
+        RustCallStatus *uniffi_out_err
+    );
+    RustBuffer uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(
+        RustBuffer private_key, 
+        RustBuffer policies, 
+        RustBuffer rpc_url, 
+        RustBuffer keychain_url, 
+        RustBuffer cartridge_api_url, 
+        RustCallStatus *uniffi_out_err
+    );
     RustBuffer uniffi_controller_uniffi_fn_func_get_controller_class_hash(
         RustBuffer version, 
         RustCallStatus *uniffi_out_err
@@ -516,6 +530,10 @@ extern "C" {
         RustCallStatus *uniffi_out_err
     );
     uint16_t uniffi_controller_uniffi_checksum_func_controller_has_storage(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_func_create_session_registration_url(
+    );
+    uint16_t uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls(
     );
     uint16_t uniffi_controller_uniffi_checksum_func_get_controller_class_hash(
     );
@@ -5541,6 +5559,22 @@ NativeController::NativeController(
             return this->cpp_uniffi_controller_uniffi_fn_func_controller_has_storage(rt, thisVal, args, count);
         }
     );
+    props["ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url"),
+        3,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls"),
+        5,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(rt, thisVal, args, count);
+        }
+    );
     props["ubrn_uniffi_controller_uniffi_fn_func_get_controller_class_hash"] = jsi::Function::createFromHostFunction(
         rt,
         jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_func_get_controller_class_hash"),
@@ -5579,6 +5613,22 @@ NativeController::NativeController(
         0,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
             return this->cpp_uniffi_controller_uniffi_checksum_func_controller_has_storage(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_func_create_session_registration_url"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_func_create_session_registration_url"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_func_create_session_registration_url(rt, thisVal, args, count);
+        }
+    );
+    props["ubrn_uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls"] = jsi::Function::createFromHostFunction(
+        rt,
+        jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls"),
+        0,
+        [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
+            return this->cpp_uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls(rt, thisVal, args, count);
         }
     );
     props["ubrn_uniffi_controller_uniffi_checksum_func_get_controller_class_hash"] = jsi::Function::createFromHostFunction(
@@ -6321,6 +6371,26 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_controller_has
         
         return uniffi_jsi::Bridging<int8_t>::toJs(rt, callInvoker, value);
 }
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_func_create_session_registration_url(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
+        auto value = uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[4]), 
+            &status
+        );
+        uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
+
+        
+        return uniffi::controller::Bridging<RustBuffer>::toJs(rt, callInvoker, value);
+}
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_get_controller_class_hash(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
         auto value = uniffi_controller_uniffi_fn_func_get_controller_class_hash(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), 
@@ -6363,6 +6433,20 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_validate_felt(
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_func_controller_has_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         auto value = uniffi_controller_uniffi_checksum_func_controller_has_storage(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_func_create_session_registration_url(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_func_create_session_registration_url(
+        );
+
+        
+        return uniffi_jsi::Bridging<uint16_t>::toJs(rt, callInvoker, value);
+}
+jsi::Value NativeController::cpp_uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
+        auto value = uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls(
         );
 
         

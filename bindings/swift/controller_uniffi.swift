@@ -1721,9 +1721,18 @@ public func controllerHasStorage(appId: String)throws  -> Bool  {
     )
 })
 }
-public func createSessionRegistrationUrl(privateKey: String, policies: SessionPolicies, rpcUrl: String, keychainUrl: String, cartridgeApiUrl: String)throws  -> String  {
+public func createSessionRegistrationUrl(privateKey: String, policies: SessionPolicies, rpcUrl: String)throws  -> String  {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
     uniffi_controller_uniffi_fn_func_create_session_registration_url(
+        FfiConverterString.lower(privateKey),
+        FfiConverterTypeSessionPolicies_lower(policies),
+        FfiConverterString.lower(rpcUrl),$0
+    )
+})
+}
+public func createSessionRegistrationUrlWithUrls(privateKey: String, policies: SessionPolicies, rpcUrl: String, keychainUrl: String, cartridgeApiUrl: String)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(
         FfiConverterString.lower(privateKey),
         FfiConverterTypeSessionPolicies_lower(policies),
         FfiConverterString.lower(rpcUrl),
@@ -1779,7 +1788,10 @@ private let initializationResult: InitializationResult = {
     if (uniffi_controller_uniffi_checksum_func_controller_has_storage() != 40864) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_controller_uniffi_checksum_func_create_session_registration_url() != 61824) {
+    if (uniffi_controller_uniffi_checksum_func_create_session_registration_url() != 16540) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls() != 27539) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_controller_uniffi_checksum_func_get_controller_class_hash() != 53006) {

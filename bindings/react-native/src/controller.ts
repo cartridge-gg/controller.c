@@ -81,6 +81,36 @@ export function controllerHasStorage(appId: string): boolean /*throws*/ {
             /*liftString:*/ FfiConverterString.lift,
     ));
     }
+export function createSessionRegistrationUrl(privateKey: string, policies: SessionPolicies, rpcUrl: string): string /*throws*/ {
+    return FfiConverterString.lift(
+        uniffiCaller.rustCallWithError(
+            /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url(
+        FfiConverterString.lower(privateKey),
+        FfiConverterTypeSessionPolicies.lower(policies),
+        FfiConverterString.lower(rpcUrl),
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
+export function createSessionRegistrationUrlWithUrls(privateKey: string, policies: SessionPolicies, rpcUrl: string, keychainUrl: string, cartridgeApiUrl: string): string /*throws*/ {
+    return FfiConverterString.lift(
+        uniffiCaller.rustCallWithError(
+            /*liftError:*/ FfiConverterTypeControllerError.lift.bind(FfiConverterTypeControllerError),
+            /*caller:*/ (callStatus) => {
+                return nativeModule().ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(
+        FfiConverterString.lower(privateKey),
+        FfiConverterTypeSessionPolicies.lower(policies),
+        FfiConverterString.lower(rpcUrl),
+        FfiConverterString.lower(keychainUrl),
+        FfiConverterString.lower(cartridgeApiUrl),
+                callStatus);
+            },
+            /*liftString:*/ FfiConverterString.lift,
+    ));
+    }
 export function getControllerClassHash(version: Version): ControllerFieldElement /*throws*/ {
     return FfiConverterTypeControllerFieldElement.lift(
         uniffiCaller.rustCallWithError(
@@ -1353,6 +1383,12 @@ function uniffiEnsureInitialized() {
     }
     if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_controller_has_storage() !== 40864) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_controller_has_storage");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_create_session_registration_url() !== 16540) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_create_session_registration_url");
+    }
+    if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls() !== 27539) {
+        throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls");
     }
     if (nativeModule().ubrn_uniffi_controller_uniffi_checksum_func_get_controller_class_hash() !== 53006) {
         throw new UniffiInternalError.ApiChecksumMismatch("uniffi_controller_uniffi_checksum_func_get_controller_class_hash");
