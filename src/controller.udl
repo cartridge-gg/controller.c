@@ -22,7 +22,8 @@ namespace controller {
     string create_session_registration_url(
         string private_key,
         SessionPolicies policies,
-        string rpc_url
+        string rpc_url,
+        string? preset
     );
 
     [Throws=ControllerError]
@@ -31,7 +32,8 @@ namespace controller {
         SessionPolicies policies,
         string rpc_url,
         string keychain_url,
-        string cartridge_api_url
+        string cartridge_api_url,
+        string? preset
     );
 };
 

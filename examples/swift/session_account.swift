@@ -98,7 +98,8 @@ func sessionAccountExample() {
         sessionUrl = try createSessionRegistrationUrl(
             privateKey: privateKey,
             policies: policies,
-            rpcUrl: RPC_URL
+            rpcUrl: RPC_URL,
+            preset: nil
         )
     } catch {
         printError("Failed to create session URL: \(error)")

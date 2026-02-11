@@ -87,7 +87,8 @@ Generate the registration URL (shortened through `https://api.cartridge.gg/s`) a
 let sessionUrl = try createSessionRegistrationUrl(
     privateKey: privateKey,
     policies: policies,
-    rpcUrl: RPC_URL
+    rpcUrl: RPC_URL,
+    preset: nil
 )
 ```
 
@@ -131,7 +132,8 @@ let sessionUrl = try createSessionRegistrationUrlWithUrls(
     policies: policies,
     rpcUrl: RPC_URL,
     keychainUrl: "https://x.cartridge.gg",
-    cartridgeApiUrl: "https://api.cartridge.gg"
+    cartridgeApiUrl: "https://api.cartridge.gg",
+    preset: "quick"
 )
 ```
 

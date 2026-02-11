@@ -41,6 +41,7 @@ fn build_session_registration_long_url(
     policies: &SessionPolicies,
     rpc_url: &str,
     keychain_url: &str,
+    preset: Option<&str>,
 ) -> Result<String, ControllerError> {
     let policy_payload: Vec<SessionRegistrationPolicyPayload> = policies
         .policies
@@ -59,11 +60,16 @@ fn build_session_registration_long_url(
     let mut registration_url = Url::parse(&format!("{}/session", keychain_base))
         .map_err(|e| ControllerError::InvalidInput(format!("Invalid keychain_url: {}", e)))?;
 
-    registration_url
-        .query_pairs_mut()
+    let mut query = registration_url.query_pairs_mut();
+    query
         .append_pair("public_key", public_key)
         .append_pair("policies", &policies_json)
         .append_pair("rpc_url", rpc_url);
+
+    if let Some(preset) = preset.filter(|p| !p.is_empty()) {
+        query.append_pair("preset", preset);
+    }
+    drop(query);
 
     Ok(registration_url.to_string())
 }
@@ -133,14 +139,20 @@ fn create_session_registration_url_inner(
     rpc_url: String,
     keychain_url: String,
     cartridge_api_url: String,
+    preset: Option<String>,
 ) -> Result<String, ControllerError> {
     let private_key_felt =
         Felt::from_hex(&private_key).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
     let public_key = starknet_crypto::get_public_key(&private_key_felt);
     let public_key_hex = format!("{:#x}", public_key);
 
-    let long_url =
-        build_session_registration_long_url(&public_key_hex, &policies, &rpc_url, &keychain_url)?;
+    let long_url = build_session_registration_long_url(
+        &public_key_hex,
+        &policies,
+        &rpc_url,
+        &keychain_url,
+        preset.as_deref(),
+    )?;
     let endpoint = shortener_endpoint(&cartridge_api_url)?;
     let endpoint_url = Url::parse(&endpoint)
         .map_err(|e| ControllerError::InvalidInput(format!("Invalid shortener endpoint: {}", e)))?;
@@ -179,6 +191,7 @@ pub fn create_session_registration_url(
     private_key: String,
     policies: SessionPolicies,
     rpc_url: String,
+    preset: Option<String>,
 ) -> Result<String, ControllerError> {
     create_session_registration_url_inner(
         private_key,
@@ -186,6 +199,7 @@ pub fn create_session_registration_url(
         rpc_url,
         KEYCHAIN_BASE_URL.to_string(),
         CARTRIDGE_API_BASE_URL.to_string(),
+        preset,
     )
 }
 
@@ -195,6 +209,7 @@ pub fn create_session_registration_url_with_urls(
     rpc_url: String,
     keychain_url: String,
     cartridge_api_url: String,
+    preset: Option<String>,
 ) -> Result<String, ControllerError> {
     create_session_registration_url_inner(
         private_key,
@@ -202,6 +217,7 @@ pub fn create_session_registration_url_with_urls(
         rpc_url,
         keychain_url,
         cartridge_api_url,
+        preset,
     )
 }
 
@@ -542,6 +558,7 @@ mod tests {
             &policies,
             "https://api.cartridge.gg/x/starknet/sepolia",
             "https://x.cartridge.gg",
+            None,
         )
         .expect("build URL");
 
@@ -564,6 +581,35 @@ mod tests {
             params.get("policies"),
             Some(&r#"[{"target":"0xabc","method":"transfer"}]"#.to_string())
         );
+        assert_eq!(params.get("preset"), None);
+    }
+
+    #[test]
+    fn includes_preset_when_provided() {
+        let policies = SessionPolicies {
+            policies: vec![crate::types::SessionPolicy {
+                contract_address: ControllerFieldElement("0xabc".to_string()),
+                entrypoint: "transfer".to_string(),
+            }],
+            max_fee: ControllerFieldElement("0x1".to_string()),
+        };
+
+        let url = build_session_registration_long_url(
+            "0x123",
+            &policies,
+            "https://api.cartridge.gg/x/starknet/sepolia",
+            "https://x.cartridge.gg",
+            Some("quick"),
+        )
+        .expect("build URL");
+
+        let parsed = Url::parse(&url).expect("parse url");
+        let params: HashMap<String, String> = parsed
+            .query_pairs()
+            .map(|(k, v)| (k.into_owned(), v.into_owned()))
+            .collect();
+
+        assert_eq!(params.get("preset"), Some(&"quick".to_string()));
     }
 
     #[test]

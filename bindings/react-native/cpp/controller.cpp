@@ -306,6 +306,7 @@ extern "C" {
         RustBuffer private_key, 
         RustBuffer policies, 
         RustBuffer rpc_url, 
+        RustBuffer preset, 
         RustCallStatus *uniffi_out_err
     );
     RustBuffer uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(
@@ -314,6 +315,7 @@ extern "C" {
         RustBuffer rpc_url, 
         RustBuffer keychain_url, 
         RustBuffer cartridge_api_url, 
+        RustBuffer preset, 
         RustCallStatus *uniffi_out_err
     );
     RustBuffer uniffi_controller_uniffi_fn_func_get_controller_class_hash(
@@ -5562,7 +5564,7 @@ NativeController::NativeController(
     props["ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url"] = jsi::Function::createFromHostFunction(
         rt,
         jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url"),
-        3,
+        4,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
             return this->cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url(rt, thisVal, args, count);
         }
@@ -5570,7 +5572,7 @@ NativeController::NativeController(
     props["ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls"] = jsi::Function::createFromHostFunction(
         rt,
         jsi::PropNameID::forAscii(rt, "ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls"),
-        5,
+        6,
         [this](jsi::Runtime &rt, const jsi::Value &thisVal, const jsi::Value *args, size_t count) -> jsi::Value {
             return this->cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(rt, thisVal, args, count);
         }
@@ -6373,7 +6375,7 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_controller_has
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_func_create_session_registration_url(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), 
+        auto value = uniffi_controller_uniffi_fn_func_create_session_registration_url(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);
@@ -6383,7 +6385,7 @@ jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_create_session
 }
 jsi::Value NativeController::cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count) {
         RustCallStatus status = uniffi::controller::Bridging<RustCallStatus>::rustSuccess(rt);
-        auto value = uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[4]), 
+        auto value = uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[0]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[1]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[2]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[3]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[4]), uniffi::controller::Bridging<RustBuffer>::fromJs(rt, callInvoker, args[5]), 
             &status
         );
         uniffi::controller::Bridging<RustCallStatus>::copyIntoJs(rt, callInvoker, status, args[count - 1]);

@@ -54,8 +54,8 @@ interface NativeModuleInterface {
     ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_session_id(ptr: bigint, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
     ubrn_uniffi_controller_uniffi_fn_method_sessionaccount_username(ptr: bigint, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
     ubrn_uniffi_controller_uniffi_fn_func_controller_has_storage(appId: Uint8Array, uniffi_out_err: UniffiRustCallStatus): number;
-    ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url(privateKey: Uint8Array, policies: Uint8Array, rpcUrl: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
-    ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(privateKey: Uint8Array, policies: Uint8Array, rpcUrl: Uint8Array, keychainUrl: Uint8Array, cartridgeApiUrl: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
+    ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url(privateKey: Uint8Array, policies: Uint8Array, rpcUrl: Uint8Array, preset: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
+    ubrn_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(privateKey: Uint8Array, policies: Uint8Array, rpcUrl: Uint8Array, keychainUrl: Uint8Array, cartridgeApiUrl: Uint8Array, preset: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
     ubrn_uniffi_controller_uniffi_fn_func_get_controller_class_hash(version: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
     ubrn_uniffi_controller_uniffi_fn_func_get_public_key(privateKey: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;
     ubrn_uniffi_controller_uniffi_fn_func_signer_to_guid(privateKey: Uint8Array, uniffi_out_err: UniffiRustCallStatus): Uint8Array;

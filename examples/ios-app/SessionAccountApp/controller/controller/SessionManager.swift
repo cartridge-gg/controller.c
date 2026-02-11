@@ -153,7 +153,8 @@ class SessionManager: ObservableObject {
                     let url = try createSessionRegistrationUrl(
                         privateKey: privateKey,
                         policies: sessionPolicies,
-                        rpcUrl: rpcUrl
+                        rpcUrl: rpcUrl,
+                        preset: nil
                     )
                     continuation.resume(returning: url)
                 } catch {

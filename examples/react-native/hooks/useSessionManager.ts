@@ -144,7 +144,8 @@ export const useSessionManager = () => {
     return Controller.controller.createSessionRegistrationUrl(
       privateKey,
       sessionPolicies,
-      RPC_URL
+      RPC_URL,
+      undefined
     );
   }, [privateKey, createSessionPolicies]);
 
