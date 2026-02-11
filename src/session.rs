@@ -15,7 +15,7 @@ use url::Url;
 
 use crate::error::ControllerError;
 use crate::runtime::RUNTIME;
-use crate::types::{Call, ControllerFieldElement, SessionPolicies};
+use crate::types::{canonicalize_session_policies, Call, ControllerFieldElement, SessionPolicies};
 
 #[derive(Serialize)]
 struct SessionRegistrationPolicyPayload {
@@ -43,14 +43,14 @@ fn build_session_registration_long_url(
     keychain_url: &str,
     preset: Option<&str>,
 ) -> Result<String, ControllerError> {
-    let policy_payload: Vec<SessionRegistrationPolicyPayload> = policies
-        .policies
-        .iter()
-        .map(|policy| SessionRegistrationPolicyPayload {
-            target: policy.contract_address.0.clone(),
-            method: policy.entrypoint.clone(),
-        })
-        .collect();
+    let policy_payload: Vec<SessionRegistrationPolicyPayload> =
+        canonicalize_session_policies(policies)?
+            .iter()
+            .map(|policy| SessionRegistrationPolicyPayload {
+                target: policy.contract_address_hex.clone(),
+                method: policy.entrypoint.clone(),
+            })
+            .collect();
 
     let policies_json = serde_json::to_string(&policy_payload).map_err(|e| {
         ControllerError::InvalidInput(format!("Failed to serialize session policies: {}", e))
@@ -579,7 +579,10 @@ mod tests {
         );
         assert_eq!(
             params.get("policies"),
-            Some(&r#"[{"target":"0xabc","method":"transfer"}]"#.to_string())
+            Some(
+                &r#"[{"target":"0x0000000000000000000000000000000000000000000000000000000000000abc","method":"transfer"}]"#
+                    .to_string()
+            )
         );
         assert_eq!(params.get("preset"), None);
     }
@@ -643,5 +646,49 @@ mod tests {
         let parsed = parse_shorten_response(StatusCode::OK, body, "api.cartridge.gg")
             .expect("parse response");
         assert_eq!(parsed, "https://api.cartridge.gg/s/a1B2c3D4e5");
+    }
+
+    #[test]
+    fn canonicalizes_policy_order_in_registration_url() {
+        let policies = SessionPolicies {
+            policies: vec![
+                crate::types::SessionPolicy {
+                    contract_address: ControllerFieldElement("0x10".to_string()),
+                    entrypoint: "zeta".to_string(),
+                },
+                crate::types::SessionPolicy {
+                    contract_address: ControllerFieldElement("0x2".to_string()),
+                    entrypoint: "beta".to_string(),
+                },
+                crate::types::SessionPolicy {
+                    contract_address: ControllerFieldElement("0x2".to_string()),
+                    entrypoint: "alpha".to_string(),
+                },
+            ],
+            max_fee: ControllerFieldElement("0x1".to_string()),
+        };
+
+        let url = build_session_registration_long_url(
+            "0x123",
+            &policies,
+            "https://api.cartridge.gg/x/starknet/sepolia",
+            "https://x.cartridge.gg",
+            None,
+        )
+        .expect("build URL");
+
+        let parsed = Url::parse(&url).expect("parse url");
+        let params: HashMap<String, String> = parsed
+            .query_pairs()
+            .map(|(k, v)| (k.into_owned(), v.into_owned()))
+            .collect();
+
+        assert_eq!(
+            params.get("policies"),
+            Some(
+                &r#"[{"target":"0x0000000000000000000000000000000000000000000000000000000000000002","method":"alpha"},{"target":"0x0000000000000000000000000000000000000000000000000000000000000002","method":"beta"},{"target":"0x0000000000000000000000000000000000000000000000000000000000000010","method":"zeta"}]"#
+                    .to_string()
+            )
+        );
     }
 }
