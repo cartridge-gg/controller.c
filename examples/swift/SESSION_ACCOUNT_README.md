@@ -81,13 +81,15 @@ let policies = SessionPolicies(
 
 ### 3. Session Authorization
 
-The user opens a URL in their browser to authorize the session:
+Generate the registration URL (shortened through `https://api.cartridge.gg/s`) and open it in the browser:
 
-```
-https://x.cartridge.gg/session
-  ?public_key=0x...
-  &policies=[...]
-  &rpc_url=https://api.cartridge.gg/x/starknet/mainnet
+```swift
+let sessionUrl = try createSessionRegistrationUrl(
+    privateKey: privateKey,
+    policies: policies,
+    rpcUrl: RPC_URL,
+    preset: nil
+)
 ```
 
 ### 4. Session Creation
@@ -120,7 +122,19 @@ Edit these constants in `session_account.swift`:
 ```swift
 let RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet"
 let CARTRIDGE_API_URL = "https://api.cartridge.gg"
-let KEYCHAIN_URL = "https://x.cartridge.gg"
+```
+
+To override the defaults (`x.cartridge.gg` and `api.cartridge.gg`), use:
+
+```swift
+let sessionUrl = try createSessionRegistrationUrlWithUrls(
+    privateKey: privateKey,
+    policies: policies,
+    rpcUrl: RPC_URL,
+    keychainUrl: "https://x.cartridge.gg",
+    cartridgeApiUrl: "https://api.cartridge.gg",
+    preset: "quick"
+)
 ```
 
 For testing on Sepolia:
@@ -220,5 +234,3 @@ After running this example, you can:
 ## License
 
 See the main project LICENSE file.
-
-

@@ -184,7 +184,8 @@ struct SetupView: View {
                     sessionManager.cancelSubscription()
                 }
             }) {
-                if let url = URL(string: sessionManager.generateSessionURL()) {
+                if let urlString = sessionManager.sessionRegistrationUrl,
+                   let url = URL(string: urlString) {
                     InAppSafariView(
                         url: url,
                         onComplete: {
@@ -335,4 +336,3 @@ struct AddPolicySheet: View {
     SetupView()
         .environmentObject(SessionManager())
 }
-

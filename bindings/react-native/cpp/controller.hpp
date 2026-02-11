@@ -57,11 +57,15 @@ class NativeController : public jsi::HostObject {
     jsi::Value cpp_uniffi_controller_uniffi_fn_method_sessionaccount_session_id(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_fn_method_sessionaccount_username(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_fn_func_controller_has_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
+    jsi::Value cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
+    jsi::Value cpp_uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_fn_func_get_controller_class_hash(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_fn_func_get_public_key(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_fn_func_signer_to_guid(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_fn_func_validate_felt(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_checksum_func_controller_has_storage(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
+    jsi::Value cpp_uniffi_controller_uniffi_checksum_func_create_session_registration_url(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
+    jsi::Value cpp_uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_checksum_func_get_controller_class_hash(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_checksum_func_get_public_key(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);
     jsi::Value cpp_uniffi_controller_uniffi_checksum_func_signer_to_guid(jsi::Runtime& rt, const jsi::Value& thisVal, const jsi::Value* args, size_t count);

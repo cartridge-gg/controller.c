@@ -57,6 +57,7 @@ class SessionManager: ObservableObject {
     @Published var sessionPayload: String?
     @Published var showPayloadSheet = false
     @Published var isOpeningBrowser = false
+    @Published var sessionRegistrationUrl: String?
     
     // Common contracts
     let commonContracts = [
@@ -128,48 +129,79 @@ class SessionManager: ObservableObject {
     
     // MARK: - Session Creation
     
-    func generateSessionURL() -> String {
+    func enabledSessionPolicies() -> SessionPolicies {
         let enabledPolicies = policies.filter { $0.enabled }
-        
-        let policiesJson = enabledPolicies.map { policy in
-            """
-            {"target":"\(policy.contractAddress)","method":"\(policy.entrypoint)"}
-            """
-        }.joined(separator: ",")
-        
-        let policiesArray = "[\(policiesJson)]"
-        
-        // Manually percent-encode each parameter value
-        func percentEncode(_ string: String) -> String {
-            var allowed = CharacterSet.alphanumerics
-            allowed.insert(charactersIn: "-_.~")
-            return string.addingPercentEncoding(withAllowedCharacters: allowed) ?? string
+        return SessionPolicies(
+            policies: enabledPolicies.map { policy in
+                SessionPolicy(
+                    contractAddress: policy.contractAddress,
+                    entrypoint: policy.entrypoint
+                )
+            },
+            maxFee: "0x2386f26fc10000"
+        )
+    }
+
+    func resolveSessionRegistrationURL() async throws -> URL {
+        let privateKey = self.privateKey
+        let sessionPolicies = enabledSessionPolicies()
+        let rpcUrl = self.rpcUrl
+
+        let urlString = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<String, Error>) in
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    let url = try createSessionRegistrationUrl(
+                        privateKey: privateKey,
+                        policies: sessionPolicies,
+                        rpcUrl: rpcUrl,
+                        preset: nil
+                    )
+                    continuation.resume(returning: url)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
         }
-        
-        let encodedPublicKey = percentEncode(publicKey)
-        let encodedPolicies = percentEncode(policiesArray)
-        let encodedRpcUrl = percentEncode(rpcUrl)
-        
-        // Build URL manually with properly encoded parameters
-        return """
-        \(keychainUrl)/session?\
-        public_key=\(encodedPublicKey)&\
-        policies=\(encodedPolicies)&\
-        rpc_url=\(encodedRpcUrl)
-        """
+
+        guard let resolvedURL = URL(string: urlString) else {
+            throw NSError(domain: "SessionManager", code: 1, userInfo: [
+                NSLocalizedDescriptionKey: "Invalid session registration URL"
+            ])
+        }
+
+        return resolvedURL
+    }
+
+    func copySessionURLToClipboard() async {
+        do {
+            let resolvedURL = try await resolveSessionRegistrationURL()
+            UIPasteboard.general.string = resolvedURL.absoluteString
+            successMessage = "URL copied to clipboard"
+        } catch {
+            errorMessage = "Failed to prepare session URL: \(error.localizedDescription)"
+        }
     }
     
     func openSessionInWebView() {
-        // Open web view and start subscription
-        print("📱 Opening web view...")
-        showWebView = true
-        
-        // Start subscription on a true background thread
-        // Even with multi-threaded Rust runtime, the FFI call is synchronous
-        // So we need to ensure it runs on a background dispatch queue
-        DispatchQueue.global(qos: .userInitiated).async {
-            Task {
-                await self.startBackgroundSubscriptionDetached()
+        Task {
+            do {
+                let resolvedURL = try await resolveSessionRegistrationURL()
+                sessionRegistrationUrl = resolvedURL.absoluteString
+
+                // Open web view and start subscription
+                print("📱 Opening web view...")
+                showWebView = true
+                
+                // Start subscription on a true background thread
+                // Even with multi-threaded Rust runtime, the FFI call is synchronous
+                // So we need to ensure it runs on a background dispatch queue
+                DispatchQueue.global(qos: .userInitiated).async {
+                    Task {
+                        await self.startBackgroundSubscriptionDetached()
+                    }
+                }
+            } catch {
+                errorMessage = "Failed to prepare session URL: \(error.localizedDescription)"
             }
         }
     }
@@ -192,23 +224,13 @@ class SessionManager: ObservableObject {
         let privateKey = self.privateKey
         let rpcUrl = self.rpcUrl
         let cartridgeApiUrl = self.cartridgeApiUrl
-        let enabledPolicies = self.policies.filter { $0.enabled }
+        let sessionPolicies = self.enabledSessionPolicies()
         
         // Create a strongly-typed reference for the closure
         subscriptionTask = Task.detached(priority: .userInitiated) { [weak self] in
             guard let self = self else { return }
             
             do {
-                let sessionPolicies = SessionPolicies(
-                    policies: enabledPolicies.map { policy in
-                        SessionPolicy(
-                            contractAddress: policy.contractAddress,
-                            entrypoint: policy.entrypoint
-                        )
-                    },
-                    maxFee: "0x2386f26fc10000"
-                )
-                
                 // Call blocking Rust FFI on a background dispatch queue
                 // This ensures it never touches the main thread
                 let session = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<SessionAccount, Error>) in
@@ -289,10 +311,12 @@ class SessionManager: ObservableObject {
         Task {
             try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
             
-            let urlString = generateSessionURL()
-            guard let url = URL(string: urlString) else {
+            let resolvedURL: URL
+            do {
+                resolvedURL = try await resolveSessionRegistrationURL()
+            } catch {
                 await MainActor.run {
-                    errorMessage = "Invalid URL"
+                    errorMessage = "Failed to prepare session URL: \(error.localizedDescription)"
                     isOpeningBrowser = false
                 }
                 return
@@ -303,7 +327,7 @@ class SessionManager: ObservableObject {
                 isOpeningBrowser = false
             }
             
-            UIApplication.shared.open(url) { success in
+            UIApplication.shared.open(resolvedURL) { success in
                 if !success {
                     Task { @MainActor in
                         self.errorMessage = "Failed to open browser"
@@ -319,17 +343,7 @@ class SessionManager: ObservableObject {
         errorMessage = nil
         
         do {
-            let enabledPolicies = policies.filter { $0.enabled }
-            
-            let sessionPolicies = SessionPolicies(
-                policies: enabledPolicies.map { policy in
-                    SessionPolicy(
-                        contractAddress: policy.contractAddress,
-                        entrypoint: policy.entrypoint
-                    )
-                },
-                maxFee: "0x2386f26fc10000" // ~0.01 ETH - much higher for safety
-            )
+            let sessionPolicies = enabledSessionPolicies()
             
             sessionAccount = try SessionAccount.createFromSubscribe(
                 privateKey: privateKey,
@@ -550,6 +564,7 @@ class SessionManager: ObservableObject {
         isRevoked = false
         isWaitingForBrowser = false
         connectedUsername = ""
+        sessionRegistrationUrl = nil
         showAccountConnectedCard = false
         setupDefaultPolicies()
     }
@@ -559,4 +574,3 @@ class SessionManager: ObservableObject {
         transactionPollingTask?.cancel()
     }
 }
-

@@ -1721,6 +1721,28 @@ public func controllerHasStorage(appId: String)throws  -> Bool  {
     )
 })
 }
+public func createSessionRegistrationUrl(privateKey: String, policies: SessionPolicies, rpcUrl: String, preset: String?)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_create_session_registration_url(
+        FfiConverterString.lower(privateKey),
+        FfiConverterTypeSessionPolicies_lower(policies),
+        FfiConverterString.lower(rpcUrl),
+        FfiConverterOptionString.lower(preset),$0
+    )
+})
+}
+public func createSessionRegistrationUrlWithUrls(privateKey: String, policies: SessionPolicies, rpcUrl: String, keychainUrl: String, cartridgeApiUrl: String, preset: String?)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
+    uniffi_controller_uniffi_fn_func_create_session_registration_url_with_urls(
+        FfiConverterString.lower(privateKey),
+        FfiConverterTypeSessionPolicies_lower(policies),
+        FfiConverterString.lower(rpcUrl),
+        FfiConverterString.lower(keychainUrl),
+        FfiConverterString.lower(cartridgeApiUrl),
+        FfiConverterOptionString.lower(preset),$0
+    )
+})
+}
 public func getControllerClassHash(version: Version)throws  -> ControllerFieldElement  {
     return try  FfiConverterTypeControllerFieldElement_lift(try rustCallWithError(FfiConverterTypeControllerError_lift) {
     uniffi_controller_uniffi_fn_func_get_controller_class_hash(
@@ -1766,6 +1788,12 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.contractVersionMismatch
     }
     if (uniffi_controller_uniffi_checksum_func_controller_has_storage() != 40864) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_func_create_session_registration_url() != 21227) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_controller_uniffi_checksum_func_create_session_registration_url_with_urls() != 50030) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_controller_uniffi_checksum_func_get_controller_class_hash() != 53006) {

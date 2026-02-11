@@ -30,7 +30,6 @@ export interface TransactionStatus {
 const STORAGE_KEY = 'session_private_key';
 const RPC_URL = 'https://api.cartridge.gg/x/starknet/sepolia';
 const CARTRIDGE_API_URL = 'https://api.cartridge.gg';
-const KEYCHAIN_URL = 'https://x.cartridge.gg';
 
 // Common contracts
 export const COMMON_CONTRACTS = [
@@ -127,26 +126,38 @@ export const useSessionManager = () => {
     ]);
   }, []);
 
-  const generateSessionURL = useCallback((): string => {
+  const createSessionPolicies = useCallback(() => {
     const enabledPolicies = policies.filter(p => p.enabled);
-    
-    const policiesJson = enabledPolicies.map(policy => ({
-      target: policy.contractAddress,
-      method: policy.entrypoint,
+    const nativePolicies: SessionPolicy[] = enabledPolicies.map(p => ({
+      contractAddress: p.contractAddress,
+      entrypoint: p.entrypoint,
     }));
-    
-    const params = new URLSearchParams({
-      public_key: publicKey,
-      policies: JSON.stringify(policiesJson),
-      rpc_url: RPC_URL,
-    });
-    
-    return `${KEYCHAIN_URL}/session?${params.toString()}`;
-  }, [publicKey, policies]);
+
+    return {
+      policies: nativePolicies,
+      maxFee: '0x2386f26fc10000',
+    };
+  }, [policies]);
+
+  const resolveSessionRegistrationURL = useCallback((): string => {
+    const sessionPolicies = createSessionPolicies();
+    return Controller.controller.createSessionRegistrationUrl(
+      privateKey,
+      sessionPolicies,
+      RPC_URL,
+      undefined
+    );
+  }, [privateKey, createSessionPolicies]);
 
   const openSessionInWebView = useCallback(async () => {
     console.log('📱 Opening Safari auth session...');
-    const urlString = generateSessionURL();
+    let urlString: string;
+    try {
+      urlString = resolveSessionRegistrationURL();
+    } catch (error) {
+      setErrorMessage(`Failed to prepare session URL: ${error}`);
+      return;
+    }
     
     // Start subscription in the background FIRST
     startBackgroundSubscription();
@@ -176,7 +187,7 @@ export const useSessionManager = () => {
       }
       setIsLoading(false);
     }
-  }, [generateSessionURL, sessionAccount]);
+  }, [resolveSessionRegistrationURL, sessionAccount]);
 
   const startBackgroundSubscription = useCallback(async () => {
     if (!privateKey || privateKey.length < 10) {
@@ -197,15 +208,7 @@ export const useSessionManager = () => {
     // Run in background
     subscriptionTaskRef.current = setTimeout(async () => {
       try {
-        const nativePolicies: SessionPolicy[] = enabledPolicies.map(p => ({
-          contractAddress: p.contractAddress,
-          entrypoint: p.entrypoint,
-        }));
-        
-        const sessionPolicies = {
-          policies: nativePolicies,
-          maxFee: '0x2386f26fc10000', // ~0.01 ETH
-        };
+        const sessionPolicies = createSessionPolicies();
         
         console.log('📱 Creating session account in background...');
         
@@ -251,7 +254,7 @@ export const useSessionManager = () => {
         setIsLoading(false);
       }
     }, 0);
-  }, [privateKey, policies]);
+  }, [privateKey, policies, createSessionPolicies]);
 
   const executeTransaction = useCallback(async (
     contractAddress: string,
@@ -387,4 +390,3 @@ export const useSessionManager = () => {
     reset,
   };
 };
-
