@@ -2,17 +2,160 @@ use account_sdk::account::outside_execution::OutsideExecutionAccount;
 use account_sdk::account::session::account::SessionAccount as SdkSessionAccount;
 use account_sdk::provider::{CartridgeJsonRpcProvider, CartridgeProvider};
 use chrono::Utc;
+use reqwest::StatusCode;
+use serde::{Deserialize, Serialize};
 use starknet::accounts::{Account, ConnectedAccount};
 use starknet::core::types::Felt;
 use starknet::core::utils::cairo_short_string_to_felt;
 use starknet::macros::short_string;
 use starknet_signers::SigningKey;
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 use url::Url;
 
 use crate::error::ControllerError;
 use crate::runtime::RUNTIME;
 use crate::types::{Call, ControllerFieldElement, SessionPolicies};
+
+#[derive(Serialize)]
+struct SessionRegistrationPolicyPayload {
+    target: String,
+    method: String,
+}
+
+#[derive(Serialize)]
+struct ShortenRequest<'a> {
+    url: &'a str,
+}
+
+#[derive(Deserialize)]
+struct ShortenResponse {
+    url: String,
+}
+
+fn build_session_registration_long_url(
+    public_key: &str,
+    policies: &SessionPolicies,
+    rpc_url: &str,
+    keychain_url: &str,
+) -> Result<String, ControllerError> {
+    let policy_payload: Vec<SessionRegistrationPolicyPayload> = policies
+        .policies
+        .iter()
+        .map(|policy| SessionRegistrationPolicyPayload {
+            target: policy.contract_address.0.clone(),
+            method: policy.entrypoint.clone(),
+        })
+        .collect();
+
+    let policies_json = serde_json::to_string(&policy_payload).map_err(|e| {
+        ControllerError::InvalidInput(format!("Failed to serialize session policies: {}", e))
+    })?;
+
+    let keychain_base = keychain_url.trim_end_matches('/');
+    let mut registration_url = Url::parse(&format!("{}/session", keychain_base))
+        .map_err(|e| ControllerError::InvalidInput(format!("Invalid keychain_url: {}", e)))?;
+
+    registration_url
+        .query_pairs_mut()
+        .append_pair("public_key", public_key)
+        .append_pair("policies", &policies_json)
+        .append_pair("rpc_url", rpc_url);
+
+    Ok(registration_url.to_string())
+}
+
+fn shortener_endpoint(cartridge_api_url: &str) -> Result<String, ControllerError> {
+    let api_base = cartridge_api_url
+        .trim_end_matches("/query")
+        .trim_end_matches('/');
+
+    let endpoint = format!("{}/s", api_base);
+    Url::parse(&endpoint)
+        .map_err(|e| ControllerError::InvalidInput(format!("Invalid cartridge_api_url: {}", e)))?;
+
+    Ok(endpoint)
+}
+
+fn validate_shortened_session_url(short_url: &str) -> Result<(), ControllerError> {
+    let parsed = Url::parse(short_url)
+        .map_err(|e| ControllerError::NetworkError(format!("Invalid short URL: {}", e)))?;
+
+    let is_expected_host = parsed
+        .host_str()
+        .map(|host| host.eq_ignore_ascii_case("api.cartridge.gg"))
+        .unwrap_or(false);
+    if parsed.scheme() != "https" || !is_expected_host {
+        return Err(ControllerError::NetworkError(
+            "Short URL has unexpected host or scheme".to_string(),
+        ));
+    }
+
+    let code = parsed.path().strip_prefix("/s/").unwrap_or_default();
+    if code.len() != 10 || !code.chars().all(|c| c.is_ascii_alphanumeric()) {
+        return Err(ControllerError::NetworkError(
+            "Short URL has invalid code format".to_string(),
+        ));
+    }
+
+    Ok(())
+}
+
+fn parse_shorten_response(status: StatusCode, body: &[u8]) -> Result<String, ControllerError> {
+    if !status.is_success() {
+        return Err(ControllerError::NetworkError(format!(
+            "URL shortener returned status {}",
+            status
+        )));
+    }
+
+    let response: ShortenResponse = serde_json::from_slice(body).map_err(|e| {
+        ControllerError::NetworkError(format!("Failed to parse shortener response: {}", e))
+    })?;
+
+    validate_shortened_session_url(&response.url)?;
+    Ok(response.url)
+}
+
+pub fn create_session_registration_url(
+    private_key: String,
+    policies: SessionPolicies,
+    rpc_url: String,
+    keychain_url: String,
+    cartridge_api_url: String,
+) -> Result<String, ControllerError> {
+    let private_key_felt =
+        Felt::from_hex(&private_key).map_err(|e| ControllerError::InvalidInput(e.to_string()))?;
+    let public_key = starknet_crypto::get_public_key(&private_key_felt);
+    let public_key_hex = format!("{:#x}", public_key);
+
+    let long_url =
+        build_session_registration_long_url(&public_key_hex, &policies, &rpc_url, &keychain_url)?;
+    let endpoint = shortener_endpoint(&cartridge_api_url)?;
+
+    RUNTIME.block_on(async move {
+        let client = reqwest::Client::builder()
+            .timeout(Duration::from_secs(5))
+            .build()
+            .map_err(|e| ControllerError::NetworkError(format!("Failed to build client: {}", e)))?;
+
+        let response = client
+            .post(endpoint)
+            .json(&ShortenRequest { url: &long_url })
+            .send()
+            .await
+            .map_err(|e| {
+                ControllerError::NetworkError(format!("Failed to shorten session URL: {}", e))
+            })?;
+
+        let status = response.status();
+        let bytes = response.bytes().await.map_err(|e| {
+            ControllerError::NetworkError(format!("Failed to read shortener response: {}", e))
+        })?;
+
+        parse_shorten_response(status, &bytes)
+    })
+}
 
 // Session Account implementation
 pub(crate) struct SessionAccountInner {
@@ -328,5 +471,70 @@ impl SessionAccount {
     pub fn is_revoked(&self) -> bool {
         let inner = self.inner.lock().unwrap();
         inner.is_revoked
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+
+    #[test]
+    fn builds_registration_long_url_with_expected_query() {
+        let policies = SessionPolicies {
+            policies: vec![crate::types::SessionPolicy {
+                contract_address: ControllerFieldElement("0xabc".to_string()),
+                entrypoint: "transfer".to_string(),
+            }],
+            max_fee: ControllerFieldElement("0x1".to_string()),
+        };
+
+        let url = build_session_registration_long_url(
+            "0x123",
+            &policies,
+            "https://api.cartridge.gg/x/starknet/sepolia",
+            "https://x.cartridge.gg",
+        )
+        .expect("build URL");
+
+        let parsed = Url::parse(&url).expect("parse url");
+        assert_eq!(parsed.scheme(), "https");
+        assert_eq!(parsed.host_str(), Some("x.cartridge.gg"));
+        assert_eq!(parsed.path(), "/session");
+
+        let params: HashMap<String, String> = parsed
+            .query_pairs()
+            .map(|(k, v)| (k.into_owned(), v.into_owned()))
+            .collect();
+
+        assert_eq!(params.get("public_key"), Some(&"0x123".to_string()));
+        assert_eq!(
+            params.get("rpc_url"),
+            Some(&"https://api.cartridge.gg/x/starknet/sepolia".to_string())
+        );
+        assert_eq!(
+            params.get("policies"),
+            Some(&r#"[{"target":"0xabc","method":"transfer"}]"#.to_string())
+        );
+    }
+
+    #[test]
+    fn builds_shortener_endpoint_from_query_url() {
+        let endpoint = shortener_endpoint("https://api.cartridge.gg/query").expect("endpoint");
+        assert_eq!(endpoint, "https://api.cartridge.gg/s");
+    }
+
+    #[test]
+    fn validates_shortened_url_shape() {
+        assert!(validate_shortened_session_url("https://api.cartridge.gg/s/AbC123dEf9").is_ok());
+        assert!(validate_shortened_session_url("https://api.cartridge.gg/s/short").is_err());
+        assert!(validate_shortened_session_url("https://evil.com/s/AbC123dEf9").is_err());
+    }
+
+    #[test]
+    fn parses_shortener_response() {
+        let body = br#"{"url":"https://api.cartridge.gg/s/a1B2c3D4e5"}"#;
+        let parsed = parse_shorten_response(StatusCode::OK, body).expect("parse response");
+        assert_eq!(parsed, "https://api.cartridge.gg/s/a1B2c3D4e5");
     }
 }

@@ -16,6 +16,16 @@ namespace controller {
     // Check if controller has storage
     [Throws=ControllerError]
     boolean controller_has_storage(string app_id);
+
+    // Build and shorten the session registration URL (POST /s)
+    [Throws=ControllerError]
+    string create_session_registration_url(
+        string private_key,
+        SessionPolicies policies,
+        string rpc_url,
+        string keychain_url,
+        string cartridge_api_url
+    );
 };
 
 // Type aliases
