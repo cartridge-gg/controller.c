@@ -1,0 +1,4 @@
+interface:
+  display_name: "Controller C Development"
+  short_description: "Contributor workflow for cartridge-gg/controller.c"
+  default_prompt: "Use $controller-c-development to implement and validate changes in controller.c."
